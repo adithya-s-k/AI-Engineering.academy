@@ -1,0 +1,71 @@
+base_model: mistralai/Mistral-7B-v0.1
+model_type: MistralForCausalLM
+tokenizer_type: LlamaTokenizer
+is_mistral_derived_model: true
+
+load_in_8bit: false
+load_in_4bit: false
+strict: false
+
+datasets:
+  - path: /workspace/datasets/dolphin/dolphin201.jsonl
+    type: alpaca_w_system.load_open_orca_chatml
+  - path: /workspace/datasets/WizardLM_evol_instruct_cleaned.jsonl
+    type: sharegpt
+    conversation: chatml
+  - path: /workspace/datasets/not_samantha_norefusals.jsonl
+    type: sharegpt
+    conversation: chatml
+dataset_prepared_path: last_run_prepared
+val_set_size: 0
+output_dir: /workspace/dolphin-2.2-mistral-7b
+
+sequence_len: 8192
+sample_packing: true
+pad_to_sequence_len: true
+
+wandb_project: dolphin
+wandb_entity:
+wandb_watch:
+wandb_run_id:
+wandb_log_model:
+
+gradient_accumulation_steps: 4
+micro_batch_size: 5
+num_epochs: 4
+adam_beta2: 0.95
+adam_epsilon: 0.00001
+max_grad_norm: 1.0
+lr_scheduler: cosine
+learning_rate: 0.000006
+
+train_on_inputs: false
+group_by_length: false
+bf16: true
+fp16: false
+tf32: false
+
+gradient_checkpointing: true
+early_stopping_patience:
+resume_from_checkpoint:
+local_rank:
+logging_steps: 1
+xformers_attention:
+flash_attention: true
+
+warmup_steps: 100
+eval_steps:
+eval_table_size:
+eval_table_max_new_tokens:
+eval_sample_packing: false
+save_steps: 0.25
+debug:
+deepspeed: deepspeed/zero2.json
+weight_decay: 0.1
+fsdp:
+fsdp_config:
+special_tokens:
+  eos_token: "<|im_end|>"
+tokens:
+  - "<|im_start|>"
+  - "<|im_end|>"

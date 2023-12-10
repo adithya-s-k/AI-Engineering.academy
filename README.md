@@ -22,4 +22,3 @@ This repository is no ordinary collection—it's an alchemical blend of scripts,
 ## Warning: Alchemical Unpredictability 🚧
 
 Enter with an open mind and a sense of wonder, for the LLM Alchemy Chamber is ever-changing. Unleash the magic within, and let the alchemical transformations surprise and inspire.
-https://github.com/adithya-s-k/LLM-Cookbook/blob/af7e94ce65ba3de1c98e07e530209eca7f2647d9/LLMs/Mistral-7b/Mistral_Colab_Finetune_ipynb_Colab_Final.ipynb

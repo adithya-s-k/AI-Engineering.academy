@@ -35,12 +35,11 @@ The project focuses on the following key steps:
  -->
 ## Attempt 1: Fireship Clone
 
-### Try out the Model
+### Try out the Model - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/Projects/YT_Clones/Fireship_clone.ipynb)
 
 ### Fireship (Original YouTuber)
 - Channel: [Fireship](https://www.youtube.com/c/fireship)
 - Style: Informative and fast-paced coding tutorials and tech news.
-
 
 
 ### Procedure:

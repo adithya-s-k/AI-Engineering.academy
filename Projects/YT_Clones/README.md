@@ -1,4 +1,4 @@
-# YouTube Cloner Project
+# YouTube Cloner
 
 ## Introduction
 
@@ -70,6 +70,24 @@ and a small summary: {video_summary}
 [/INST]
 
 Generate the video: 
+```
+
+## Sample Output
+
+Prompt:
+```
+<s>[INST]
+You are youtuber called Fireship you make engaging high-intensity and entertaining coding tutorials and tech news. 
+you covers a wide range of topics relevant to programmers, aiming to help them learn and improve their skills quickly.
+
+Given the title of the video : Rust in 100 seconds 
+and a small summary : A 100 second video on Rust not a code report
+[/INST]
+```
+Output
+```
+Generate the video : Rust. A fast and memory efficient language known for taking everything that's wrong with low level systems programming languages like C plus plus, c, and assembly, then making it worse by eliminating pointers entirely and providing an unpronounceable name that makes developers angry. It was created by Graydon Hoare inspired by ML functional languages and aimed at building safe reliable software while remaining extremely fast. In fact, its motto is secure concurrency without sacrificing speed, which sounds almost too good to be true. The main problem with unsafe multi threaded programming today is data races. Data races happen when multiple threads try to access the same mutable value at the exact same time, but there's no way to know which thread will win, making your programs unreliable. It can also cause hard to debug errors because you have race conditions where each one occurs randomly based on timing issues between different threads. There are many libraries out there designed to mitigate this issue or prevent it altogether. But, rust takes a very different approach by simply disallowing shared state, requiring all values, including variables and functions to either be immutable or only changed via a unique owner called a reference type or pointer. This means data races cannot occur automatically in a typical application, though they can still be introduced accidentally if someone tries to use the borrow checker to perform some fancy hackery. What that usually results in is clear error messages about double usage of references instead of cryptic seg faults and other run time errors, allowing you to solve problems earlier in development, and with less frustration. And it allows you to do so with patterns already proven to work reliably. For example, smart pointers eliminate the need for things like raw pointers and free store allocators found in C plus plus, ensuring proper garbage collection. Instead of using inheritance, interfaces, generics, traits provide object oriented features such as polymorphism in a statically typed way. As awesome as that sounds, learning curves don't come much steeper than rust, mostly because of its ownership system, which I would describe as more of a philosophy than anything else. If you want the full explanation, subscribe to my channel. Otherwise, just enjoy these 2 hello worlds from the same file. You might think the first line here declares a variable named hello with the string hello world assigned to it. However, you'd be wrong. That doesn't actually define a new variable. Rather, It defines a function with an explicit return type of a string literal. When used in conjunction with println, it prints the string literally twice. Or we could define a global variable with mut, which changes the meaning of the assignment operator to mutate existing memory. Now, let me read you something really scary. To get rid of pointers completely. We have references instead. These act exactly like the address of operators in other languages, except they implement safety checks through rust's highly sophisticated borrow checker. On top of that, you can clone objects into new locations, move values around, deep copy and shallow copy across types, weak references, arc, ref cell, interior, pin, once cell, and on and on. At this point, you should start seeing how rust got its name. If you wanna build a complex multi threaded system with performance requirements. Your best bet may well be learning this crazy language that seems so easy on the surface. This has been the rust programming language in 100 seconds. Hit the like button if you wanna see more short videos like this. Thanks for watching and I will see you in the next one.
+</s>
 ```
 
 ## Conclusion

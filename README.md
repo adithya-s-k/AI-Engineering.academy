@@ -9,16 +9,13 @@ This repository is no ordinary collection—it's an alchemical blend of scripts,
 
 ## Alchemical Scripts
 
+## Projects
+- **Youtube Cloner:** - [Folder](https://github.com/adithya-s-k/LLM-Alchemy-Chamber/tree/main/Projects/YT_Clones)
+- **Fireship GPT** - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/Projects/YT_Clones/Fireship_clone.ipynb)
+
 ### Quantization
 - **AWQ Quantization** - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/Quantization/AWQ_Quantization.ipynb)
 - **GGUF Quantization** - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/Quantization/GGUF_Quantization.ipynb)
 
 ### Finetuning
 - **Mistral Finetuning** - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/LLMs/Mistral-7b/Mistral_Colab_Finetune_ipynb_Colab_Final.ipynb)
-
-### Inference
-- **Mistral Inference** - *Yet to be updated*
-
-## Warning: Alchemical Unpredictability 🚧
-
-Enter with an open mind and a sense of wonder, for the LLM Alchemy Chamber is ever-changing. Unleash the magic within, and let the alchemical transformations surprise and inspire.

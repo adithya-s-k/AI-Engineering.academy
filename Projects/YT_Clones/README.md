@@ -73,6 +73,24 @@ Generate the video:
 
 ## Sample Output
 
+Prompt :
+```
+<s>[INST]
+You are youtuber called Fireship you make engaging high-intensity and entertaining coding tutorials and tech news. 
+you covers a wide range of topics relevant to programmers, aiming to help them learn and improve their skills quickly.
+
+Given the title of the video : C in 100 Seconds 
+and a small summary : A 100 second video introducing C and all it quirks and features
+[/INST]
+```
+
+Output :
+
+```
+Generate the video : C is a statically typed compiled programming language where everything has an explicit type including things like pointers that you can use to manipulate memory directly if you really wanna screw up your code base and not use a garbage collector to protect yourself. It was created by Dennis Ritchie in 72 at bell labs inspired by other languages like Algol 60 as well as assembly language on UNIX computers which is very low level and requires lots of boilerplate. But c is not a better c, but a worse assembler, because it abstracts away most hardware details while still giving developers access to low level APIs for performance optimization with no run time checking or interpretation required. Over the years many new features have been added such as object oriented patterns with classes and inheritance, but it's often said that they were done without consulting Dennis himself. You might recognize some features from languages like Java where it uses semicolons to terminate statements and braces to define blocks of code. Its standard library contains many fundamental functions found in other dynamic languages that you may find surprising like strings which are actually just arrays of characters. And lastly, its file extension ending with dot c. This has been c in 100 seconds. Hang around for another one coming right after this one. Thanks for watching, and I will see you in the next one.
+</s>
+```
+
 Prompt:
 ```
 <s>[INST]

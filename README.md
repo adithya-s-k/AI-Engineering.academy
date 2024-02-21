@@ -19,3 +19,5 @@ This repository is no ordinary collection—it's an alchemical blend of scripts,
 
 ### Finetuning
 - **Mistral Finetuning** - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/LLMs/Mistral-7b/Mistral_Colab_Finetune_ipynb_Colab_Final.ipynb)
+- **Gemma Finetuning** - [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/adithya-s-k/LLM-Alchemy-Chamber/blob/main/LLMs/Gemma/finetune-gemma.ipynb)
+

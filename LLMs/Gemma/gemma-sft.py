@@ -5,18 +5,24 @@ import torch
 
 from transformers import AutoTokenizer, HfArgumentParser, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments
 from datasets import load_dataset
-from peft import LoraConfig
+from peft import LoraConfig, PeftModel, prepare_model_for_kbit_training, get_peft_model
 from trl import SFTTrainer
+import logging
+
+# Set up logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 
 @dataclass
 class ScriptArguments:
     """
     These arguments vary depending on how many GPUs you have, what their capacity and features are, and what size model you want to train.
     """
-    per_device_train_batch_size: Optional[int] = field(default=1)
+    per_device_train_batch_size: Optional[int] = field(default=2)
     per_device_eval_batch_size: Optional[int] = field(default=1)
     gradient_accumulation_steps: Optional[int] = field(default=8)
-    learning_rate: Optional[float] = field(default=2e-4)
+    learning_rate: Optional[float] = field(default=0.0002)
     max_grad_norm: Optional[float] = field(default=0.3)
     weight_decay: Optional[int] = field(default=0.001)
     lora_alpha: Optional[int] = field(default=32)
@@ -62,22 +68,21 @@ class ScriptArguments:
         metadata={"help": "The optimizer to use."},
     )
     lr_scheduler_type: str = field(
-        default="constant",
+        default="cosine",
         metadata={"help": "Learning rate schedule. Constant a bit better than cosine, and has advantage for analysis"},
     )
     # max_steps: int = field(default=1000, metadata={"help": "How many optimizer update steps to take"})
     num_train_epochs: int = field(default=1, metadata={"help": "How many epochs you want to train it for"})
     warmup_ratio: float = field(default=0.03, metadata={"help": "Fraction of steps to do a warmup for"})
-    save_steps: int = field(default=50, metadata={"help": "Save checkpoint every X updates steps."})
+    save_steps: int = field(default=30, metadata={"help": "Save checkpoint every X updates steps."})
     logging_steps: int = field(default=1, metadata={"help": "Log every X updates steps."})
     output_dir: str = field(
-        default="./results",
+        default="Gemma-Hindi-Instruct",
         metadata={"help": "The output directory where the model predictions and checkpoints will be written."},
     )
 
 parser = HfArgumentParser(ScriptArguments)
 script_args = parser.parse_args_into_dataclasses()[0]
-
 
 # def formatting_func(example):
 #     text = f"### USER: {example['data'][0]}\n### ASSISTANT: {example['data'][1]}"
@@ -97,12 +102,12 @@ model = AutoModelForCausalLM.from_pretrained(
     model_id, 
     # quantization_config=quantization_config, 
     torch_dtype=torch.float32,
-    attn_implementation="sdpa" if not script_args.use_flash_attention_2 else "flash_attention_2"
+    device_map={"": 0},
 )
 
 # Load tokenizer
 tokenizer = AutoTokenizer.from_pretrained(model_id)
-tokenizer.pad_token_id = tokenizer.eos_token_id
+
 
 lora_config = LoraConfig(
     r=script_args.lora_r,
@@ -150,3 +155,35 @@ trainer = SFTTrainer(
 )
 
 trainer.train()
+
+logger.info("Training stage completed")
+peft_model = script_args.output_dir
+trainer.model.save_pretrained(peft_model)
+
+base_model = AutoModelForCausalLM.from_pretrained(
+    model_id,
+    low_cpu_mem_usage=True,
+    return_dict=True,
+    torch_dtype=torch.float16,
+    device_map={"": 0},
+)
+merged_model= PeftModel.from_pretrained(base_model, peft_model)
+merged_model= merged_model.merge_and_unload()
+logger.info("Training stage completed")
+
+
+merged_model_name = str(peft_model)+"_merged"
+# Save the merged model
+logger.info("Merging the model with the PEFT adapter")
+merged_model.save_pretrained(merged_model_name,safe_serialization=True)
+tokenizer.save_pretrained("merged_model")
+
+
+logger.info("Pushing the model to Huggingface hub")
+try:
+    merged_model.push_to_hub(script_args.output_dir, use_temp_dir=False)
+    tokenizer.push_to_hub(script_args.output_dir, use_temp_dir=False)
+except Exception as e:
+    logger.info(f"Error while pushing to huggingface Hub: {e}")
+
+logger.info("Training stage completed")

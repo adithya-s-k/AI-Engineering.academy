@@ -28,13 +28,13 @@ def download_files_from_blob_storage(connection_string, folder_name, local_folde
 
         print("Files downloaded from Azure Blob Storage.")
 
-        print("Combining all text files into a single file named corpus.txt...")
-        corpus_file_path = os.path.join(local_folder_path, "corpus.txt")
-        with open(corpus_file_path, "w") as corpus_file:
-            for text_file in glob.glob(os.path.join(local_folder_path, "*.txt")):
-                with open(text_file, "r") as file:
-                    corpus_file.write(file.read())
-        print("All text files combined into corpus.txt.")
+        # print("Combining all text files into a single file named corpus.txt...")
+        # corpus_file_path = os.path.join(local_folder_path, "corpus.txt")
+        # with open(corpus_file_path, "w") as corpus_file:
+        #     for text_file in glob.glob(os.path.join(local_folder_path, "*.txt")):
+        #         with open(text_file, "r") as file:
+        #             corpus_file.write(file.read())
+        # print("All text files combined into corpus.txt.")
 
     except Exception as e:
         print(f"An error occurred: {e}")

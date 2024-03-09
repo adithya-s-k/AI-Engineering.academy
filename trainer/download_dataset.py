@@ -44,8 +44,8 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download files from Azure Blob Storage and combine text files.')
     parser.add_argument('--connection-string', type=str, required=True, help='Azure Blob Storage connection string')
     parser.add_argument('--folder-name', type=str, required=True, help='Folder name in Azure Blob Storage to download files from')
-    parser.add_argument('--local-folder_path', default="corpus", type=str, required=True, help='Local folder path to download files to')
-    parser.add_argument('--container-name', default="data-corpus", type=str, required=True, help='Azure Blob Storage container name')
+    parser.add_argument('--local-folder_path', default="corpus", type=str, help='Local folder path to download files to')
+    parser.add_argument('--container-name', default="data-corpus", type=str, help='Azure Blob Storage container name')
 
     args = parser.parse_args()
 

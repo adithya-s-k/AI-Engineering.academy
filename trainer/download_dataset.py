@@ -15,7 +15,6 @@ def download_files_from_blob_storage(connection_string, folder_name, local_folde
 
         print("Listing blobs in the container...")
         blob_list = container_client.list_blobs(name_starts_with=folder_name)
-        print(f"Found {len(blob_list)} blobs in the container.")
 
         print("Downloading files from Azure Blob Storage...")
         for blob in blob_list:
@@ -44,7 +43,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Download files from Azure Blob Storage and combine text files.')
     parser.add_argument('--connection-string', type=str, required=True, help='Azure Blob Storage connection string')
     parser.add_argument('--folder-name', type=str, required=True, help='Folder name in Azure Blob Storage to download files from')
-    parser.add_argument('--local-folder_path', default="corpus", type=str, help='Local folder path to download files to')
+    parser.add_argument('--local-folder-path', default="corpus", type=str, help='Local folder path to download files to')
     parser.add_argument('--container-name', default="data-corpus", type=str, help='Azure Blob Storage container name')
 
     args = parser.parse_args()

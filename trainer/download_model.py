@@ -7,7 +7,6 @@ from tqdm import tqdm
 from time import sleep
 from argparse import ArgumentParser
 
-from huggingface_hub import Repository
 
 
 logging.set_verbosity_error()
@@ -42,14 +41,7 @@ def main():
 
     # Train and push the model with dummy progress
     train_with_dummy_progress(model, args.final_model_name)
-    
-    # Define your repository ID and custom model name
-    repo_id = args.model_name
-    custom_model_name = args.final_model_name
-    
-    # Create a Repository object and push your model with the custom name
-    repo = Repository(repo_id)
-    repo.push(custom_model_name)
+
     print(f"Model '{args.final_model_name}' pushed to the Hugging Face Hub.")
     
 

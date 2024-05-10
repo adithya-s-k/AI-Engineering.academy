@@ -1,0 +1,7 @@
+openai
+tiktoken
+transformers
+Jinja2
+evaluate
+sqlitedict
+pytablewriter

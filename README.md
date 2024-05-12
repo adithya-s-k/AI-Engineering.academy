@@ -117,18 +117,18 @@ Welcome to a friendly neighborhood repository featuring diverse experiments and 
 ## Repo Structure
 
 ```
-├── DataPrep(Notebook to generate synthetic data)
+├── DataPrep (Notebook to generate synthetic data)
 │   ├── dataset_prep.ipynb
 │   └── ...
-├── Deployment(TGI/VLLM scripts for testing)
+├── Deployment (TGI/VLLM scripts for testing)
 │   └── ...
-├── Finetuning(Finalised Finetuning Scripts)
+├── Finetuning (Finalized Finetuning Scripts)
 │   ├── Gemma_finetuning_notebook.ipynb
 │   ├── Llama2_finetuning_notebook.ipynb
 │   ├── Mistral_finetuning_notebook.ipynb
 │   ├── Mixtral_finetuning_notebook.ipynb
 │   └── ...
-├── LLMS(LLM experiments)
+├── LLMS (LLM experiments)
 │   ├── ambari
 │   │   └── ...
 │   ├── CodeLLama
@@ -142,7 +142,7 @@ Welcome to a friendly neighborhood repository featuring diverse experiments and 
 │   │   └── ...
 │   └── Mixtral
 │       └── ...
-├── Projects(Upsurd ideas i want to try out)
+├── Projects (Upcoming ideas to explore)
 │   └── YT_Clones
 │       ├── Fireship_clone.ipynb
 │       ├── youtube_channel_scraper.py
@@ -151,6 +151,14 @@ Welcome to a friendly neighborhood repository featuring diverse experiments and 
 │   └── ...
 ├── utils
 │   └── streaming_inference_hf.ipynb
+└── RAG (Retrieval Augmented Generation)
+    ├── 1_Naive_RAG.ipynb
+    ├── 2_Semantic_Chunking_RAG.ipynb
+    ├── 3_Sentence_Window_Retrieval_RAG.ipynb
+    ├── 4_Auto_Merging_Retrieval_RAG.ipynb
+    ├── 5_Agentic_RAG.ipynb
+    └── 6_Visual_RAG.ipynb
+
 ```
 
 <p align="center">

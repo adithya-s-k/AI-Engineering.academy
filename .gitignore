@@ -2,3 +2,8 @@
 /LLM-venv
 /DataPrep/data/
 DataPrep/ambari/formatted_dataset_2.jsonl
+/lm-evaluation-harness
+lm-evaluation-harness
+/Evaluation
+Evaluation
+Evaluation/openai_evaluation.py

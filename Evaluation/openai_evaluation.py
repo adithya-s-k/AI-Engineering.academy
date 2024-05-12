@@ -427,23 +427,23 @@ class OpenaiChatCompletionsLM(LM):
 
                 gen_kwargs = all_gen_kwargs[0]
                 until = None
-                if isinstance(kwargs := copy.deepcopy(gen_kwargs), dict):
-                    if "do_sample" in kwargs.keys():
-                        kwargs.pop("do_sample")
-                    if "until" in kwargs.keys():
-                        until = kwargs.pop("until")
-                        if isinstance(until, str):
-                            until = [kwargs]
-                        elif not isinstance(until, list):
-                            raise ValueError(
-                                f"Expected repr(kwargs['until']) to be of type Union[str, list] but got {until}"
-                            )
-                        kwargs["stop"] = until
-                    kwargs["max_tokens"] = kwargs.pop("max_gen_toks", self.max_gen_toks)
-                else:
-                    raise ValueError(
-                        f"Expected repr(kwargs) to be of type repr(dict) but got {kwargs}"
-                    )
+                # if isinstance(kwargs := copy.deepcopy(gen_kwargs), dict):
+                #     if "do_sample" in kwargs.keys():
+                #         kwargs.pop("do_sample")
+                #     if "until" in kwargs.keys():
+                #         until = kwargs.pop("until")
+                #         if isinstance(until, str):
+                #             until = [kwargs]
+                #         elif not isinstance(until, list):
+                #             raise ValueError(
+                #                 f"Expected repr(kwargs['until']) to be of type Union[str, list] but got {until}"
+                #             )
+                #         kwargs["stop"] = until
+                #     kwargs["max_tokens"] = kwargs.pop("max_gen_toks", self.max_gen_toks)
+                # else:
+                #     raise ValueError(
+                #         f"Expected repr(kwargs) to be of type repr(dict) but got {kwargs}"
+                #     )
 
                 response = oa_completion(
                     client=self.client,

@@ -7,3 +7,5 @@ lm-evaluation-harness
 /Evaluation
 Evaluation
 Evaluation/openai_evaluation.py
+**data
+**/data

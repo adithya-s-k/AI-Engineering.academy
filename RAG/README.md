@@ -47,7 +47,7 @@ As our data source mainly consisted of PDFs, we tried two approaches for text ex
 - [Scientific Papers](https://huggingface.co/datasets/scientific_papers)
 
 **Comparison between Original PDF, Marker API, PyPDF:**
-![Comparison](./assets/comparison.png)
+![Comparison](./assets/comparision.png)
 
 Find the dataset we used for this comparison here: [Arxiv RAG Comparison](https://huggingface.co/datasets/AdithyaSK/Arxiv_RAG_Comparision) - [Download ZIP](https://huggingface.co/datasets/AdithyaSK/Arxiv_RAG_Comparision/resolve/main/Arxiv.zip?download=true)
 

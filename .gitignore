@@ -10,3 +10,4 @@ Evaluation/openai_evaluation.py
 **data
 **/data
 RAG/default.sqlite
+RAG/eval_data.csv

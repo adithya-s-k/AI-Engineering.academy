@@ -9,3 +9,4 @@ Evaluation
 Evaluation/openai_evaluation.py
 **data
 **/data
+RAG/default.sqlite

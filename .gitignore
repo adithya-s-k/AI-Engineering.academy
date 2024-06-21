@@ -11,3 +11,5 @@ Evaluation/openai_evaluation.py
 **/data
 RAG/default.sqlite
 RAG/eval_data.csv
+RAG/prodrag
+*.pdf

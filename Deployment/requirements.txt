@@ -1,4 +1,0 @@
-transformers 
-fastapi 
-uvicorn 
-requests

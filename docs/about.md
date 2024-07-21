@@ -11,14 +11,14 @@ With AI Engineering Academy, I aim to:
 1. Provide a structured and well-thought-out path for beginners in AI.
 2. Emphasize applying AI knowledge by creating projects.
 
-### What to Expect?
+### What to Expect
 
-Each chapter in AI Engineering Academy will include the following:
+Each chapter in AI Engineering Academy will include:
 
-* A 5 to 15-minute video covering code and concept overviews, answering mainly three questions:
-  * why you should learn it
-  * How it will be usefull
-  * what is the most optimal way to implement it\
-
-* The most updated code examples.
-* Links to additional resources for deeper dives into the topics.
+* **Video Lessons:** A 5 to 15-minute video covering code and concept overviews, answering three main questions:
+  * **Why you should learn it:** Understanding the importance and relevance of the topic.
+  * **How it will be useful:** Exploring practical applications and benefits.
+  * **What is the most optimal way to implement it:** Learning best practices and efficient implementation techniques.
+* **Code Examples:** The most updated and relevant code examples to help you grasp the concepts and apply them in real-world scenarios.
+* **Hands-on Notebooks/Scripts:** Practical notebooks and scripts to implement the chapter topics, providing an interactive and engaging learning experience.
+* **Additional Resources:** Links to supplementary materials for deeper dives into the topics, providing a comprehensive learning experience.

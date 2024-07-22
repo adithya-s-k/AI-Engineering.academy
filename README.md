@@ -1,15 +1,19 @@
-
-# [AIEngineering.academy](https://aiengineering.academy/)
-description: Navigating the World of AI, One Step at a Time
+<div align="center">
+    <h1 ><a href="https://aiengineering.academy/" target="_blank">AIEngineering.academy</a></h1>
+    <p>Navigating the World of AI, One Step at a Time</p>
+</div>
 
 <img src="./assets/banner.png" alt="Ai Engineering. Academy">
 
+<div align="center">
 
 [![GitHub Stars](https://img.shields.io/github/stars/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/network/members)
 [![GitHub Issues](https://img.shields.io/github/issues/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
 [![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
+
+</div>
 
 AI-related careers are becoming increasingly sought-after. However, the abundance of learning resources scattered across the internet can lead to confusion about where to start.&#x20;
 

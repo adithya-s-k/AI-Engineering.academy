@@ -10,7 +10,7 @@ Welcome to the Basic RAG Implementation guide! This notebook is designed to intr
 2. [Getting Started](#getting-started)
 3. [Notebook Contents](#notebook-contents)
 4. [Usage](#usage)
-5. [Conclusion] (#conclusion)
+5. [Conclusion](#conclusion)
 6. [Contributing](#contributing)
 7. [License](#license)
 
@@ -642,7 +642,7 @@ The chat history is retrieved from `chat_interface` and iterated through to prin
 
 ## Conclusion
 
-We have now reached the end of a comprehensive setup for a Retrieval-Augmented Generation (RAG) system, including data ingestion, index creation, prompt customization, and interactive chat functionality. With clear ilstrations of integration of vector databases, custom prompts, and chat interfaces for efficient and effective query handling, we hope this guide was as thorough as it could be.
+We have now reached the end of a comprehensive setup for a Retrieval-Augmented Generation (RAG) system, including data ingestion, index creation, prompt customization, and interactive chat functionality. With clear illustrations of integration of vector databases, custom prompts, and chat interfaces for efficient and effective query handling, we hope this guide was as thorough as it could be.
 
 If you find this guide helpful, please consider giving us a star on GitHub! ⭐
 

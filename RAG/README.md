@@ -98,3 +98,74 @@ RAG/
 ### Data
 
 - [data](./data/): Contains datasets and other data files used throughout the project.
+
+I'll convert the content from the image into Markdown format for you. Here's a structured version of the 21 strategies for enhancing Retrieval-Augmented Generation (RAG):
+
+---
+
+### 1. Simple RAG
+Encodes document content into a vector store, enabling quick retrieval of relevant information to enhance model responses.
+
+### 2. Context Enrichment
+Adds surrounding context to each retrieved chunk, improving the coherence and completeness of the returned information.
+
+### 3. Multi-faceted Filtering
+Applies various filtering techniques (metadata, similarity thresholds, etc.) to refine and improve the quality of retrieved results.
+
+### 4. Fusion Retrieval
+Combines vector-based similarity search with keyword-based retrieval to improve document retrieval.
+
+### 5. Intelligent Reranking
+Reassesses and reorders initially retrieved documents to ensure that the most pertinent information is prioritized for subsequent processing.
+
+### 6. Query Transformation
+Modifies or expands the original query with query rewriting, step-back prompting, and sub-query decomposition.
+
+### 7. Hierarchical Indices
+First identifies relevant document sections through summaries, then drills down to specific details within those sections.
+
+### 8. Hypothetical Questions
+HyDE transforms queries into hypothetical documents that contain answers, bridging the gap between query and document distributions in vector space.
+
+### 9. Choose Chunk Size
+Selects an appropriate fixed size for text chunks to balance context preservation and retrieval efficiency.
+
+### 10. Semantic Chunking
+Unlike traditional methods that split text by fixed character/word counts, semantic chunking creates more meaningful, context-aware segments.
+
+### 11. Context Compression
+Compresses and extracts the most pertinent parts of documents in the context of a given query.
+
+### 12. Explainable Retrieval
+Not only retrieves relevant documents based on a query but also provides explanations for why each retrieved document is relevant.
+
+### 13. Retrieval w/ Feedback
+Utilizes user feedback on the relevance and quality of retrieved documents and generated responses to fine-tune retrieval and ranking models.
+
+### 14. Adaptive Retrieval
+Classifies queries into different categories and uses tailored retrieval strategies (factual, analytical, contextual, etc.) for each, considering user context and preferences.
+
+### 15. Iterative Retrieval
+Analyzes initial results and generates follow-up queries to fill in gaps or clarify information.
+
+### 16. Ensemble Retrieval
+Applies different embedding models or retrieval algorithms and uses voting or weighting mechanisms to determine the final set of retrieved documents.
+
+### 17. Graph RAG
+Retrieves entities and their relationships from a knowledge graph relevant to the query, combining with unstructured text for more informative responses.
+
+### 18. Multi-Modal
+Integrates models that can retrieve and understand different data modalities, combining insights from text, images, and videos.
+
+### 19. RAPTOR
+Uses abstractive summarization to recursively process and organize retrieved documents, organizing the information in a tree structure for hierarchical context.
+
+### 20. Self RAG
+Multi-step processes including retrieval decision, document retrieval, relevance evaluation, response generation, and more to improve model responses.
+
+### 21. Corrective RAG
+Dynamically evaluates and corrects the retrieval process, combining vector databases, web search, and models to improve response generation.
+
+---
+
+Feel free to copy this Markdown text for use in any platform that supports Markdown formatting.

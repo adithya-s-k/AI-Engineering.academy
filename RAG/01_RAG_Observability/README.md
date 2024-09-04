@@ -1,4 +1,4 @@
-# RAG Observability - Arize Pheonix Setup
+# RAG Observability - Arize Phoenix Setup
 
 Welcome to this notebook, where we explore the setup and observation of a Retrieval-Augmented Generation (RAG) pipeline using Llama Index.
 

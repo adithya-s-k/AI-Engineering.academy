@@ -5,7 +5,7 @@
 Welcome to the Basic RAG Implementation guide! This notebook is designed to introduce beginners to the concept of Retrieval-Augmented Generation (RAG) and provide a step-by-step walkthrough of implementing a basic RAG system.
 
 ```mermaid
-flowchart LR
+flowchart TD
     subgraph "1. Document Processing"
         A[Documents] --> B[Split Text into Chunks]
         B --> C1[Chunk-1]

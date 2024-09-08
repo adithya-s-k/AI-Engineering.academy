@@ -5,24 +5,19 @@ RAG has become increasingly popular in the field of natural language processing 
 ## Tech Stack
 
 ### RAG Orchestration Framework
-
 - **Llama-index**
 
 ### Vector Database
-
 - **Qdrant**
 
 ### Observability
-
 - **Arize Phoenix**
 
 ### Evaluation
-
 - **RAGAS**
 - **Deepeval**
 
 ### Language Models
-
 - **LLM of Choice:** GPT-4-mini
 - **Embedding Model:** text-embedding-3-small
 
@@ -50,122 +45,57 @@ To enhance the performance of our RAG system, we will focus on the following are
 
 10. **Scalability**: Optimize the system architecture to handle increased load and data volume efficiently.
 
-By focusing on these areas and utilizing our chosen tech stack, we aim to create a robust and high-performing RAG system that delivers accurate and relevant results.
+## Repository Structure
 
-To create a `README.md` file for the folder structure displayed in the image, I can provide a template that includes links to each folder and describes the overall structure. Here's an example:
+### Modules
 
-## Folder Structure
-
-```plaintext
-RAG/
-├── 00_Before_RAG
-├── 00_Data_Ingestion
-├── 00_RAG_from_Scratch
-├── 01_Basic_RAG
-├── 01_RAG_Evaluation
-├── 01_RAG_Observability
-├── 02_ReRanker_RAG
-├── 03_Sentence_Window_Retriever
-├── 04_Parent_Document_Retriever
-├── 05_Self_Query_RAG
-├── 06_HyDE_RAG
-├── 07_RAG_Fusion
-├── 08_RAPTOR
-├── 09_Graph_RAG
-├── 10_Agnetic_RAG
-├── data/
-└── README.md
-```
-
-### Folders
-
-- [00_Before_RAG](./00_Before_RAG/): Preliminary setup and concepts before diving into RAG.
-- [00_Data_Ingestion](./00_Data_Ingestion/): Modules for ingesting and preprocessing data.
-- [00_RAG_from_Scratch](./00_RAG_from_Scratch/): Building RAG from scratch.
-- [01_Basic_RAG](./01_Basic_RAG/): Basic implementation and understanding of RAG.
-- [01_RAG_Evaluation](./01_RAG_Evaluation/): Methods and tools for evaluating RAG models.
-- [01_RAG_Observability](./01_RAG_Observability/): Enhancing the observability of RAG systems.
-- [02_ReRanker_RAG](./02_ReRanker_RAG/): Implementing reranking techniques in RAG.
-- [03_Sentence_Window_Retriever](./03_Sentence_Window_Retriever/): Sentence window retriever modules.
-- [04_Parent_Document_Retriever](./04_Parent_Document_Retriever/): Parent document retriever for contextual retrieval.
-- [05_Self_Query_RAG](./05_Self_Query_RAG/): Self-query retriever integration in RAG.
-- [06_HyDE_RAG](./06_HyDE_RAG/): Hybrid Dense-Sparse Retriever for RAG.
-- [07_RAG_Fusion](./07_RAG_Fusion/): Fusion techniques for combining different retrieval methods.
-- [08_RAPTOR](./08_RAPTOR/): RAPTOR framework integration with RAG.
-- [09_Graph_RAG](./09_Graph_RAG/): Graph-based retrieval approaches in RAG.
-- [10_Agnetic_RAG](./10_Agnetic_RAG/): Agnetic retriever techniques in RAG.
+| Module Name | Description |
+|-------------|-------------|
+| [00_RAG_from_Scratch](./00_RAG_from_Scratch) | A step-by-step guide to building RAG from scratch |
+| [01_Basic_RAG](./01_Basic_RAG) | Introduction to a basic RAG setup |
+| [01_BM25_RAG](./01_BM25_RAG) | Implementation of RAG using BM25 for retrieval |
+| [01_Data_Ingestion](./01_Data_Ingestion) | Guidelines and scripts for data ingestion |
+| [01_RAG_Evaluation](./01_RAG_Evaluation) | Methods and tools to evaluate RAG models |
+| [01_RAG_Observability](./01_RAG_Observability) | Techniques to monitor RAG model performance |
+| [02_ReRanker_RAG](./02_ReRanker_RAG) | Enhancing retrieval accuracy using re-ranking |
+| [03_Hybrid_RAG](./03_Hybrid_RAG) | Combining various retrieval methods |
+| [04_Sentence_Window_RAG](./04_Sentence_Window_RAG) | Optimizing retrieval with sentence window techniques |
+| [05_Auto_Merging_RAG](./05_Auto_Merging_RAG) | Automating the merging of retrieved documents |
+| [06_HyDE_RAG](./06_HyDE_RAG) | Implementing Hypothetical Document Embedding |
+| [06_Query_Transformation_RAG](./06_Query_Transformation_RAG) | Techniques to transform queries |
+| [07_Self_Query_RAG](./07_Self_Query_RAG) | A self-querying approach to improve RAG systems |
+| [08_RAG_Fusion](./08_RAG_Fusion) | Integrating multiple RAG models and results |
+| [09_RAPTOR](./09_RAPTOR) | Introduction to the RAPTOR model |
+| [10_ColBERT_RAG](./10_ColBERT_RAG) | Using ColBERT for effective dense retrieval |
+| [11_Graph_RAG](./11_Graph_RAG) | Leveraging graph-based methods for RAG |
+| [12_Agnetic_RAG](./12_Agnetic_RAG) | The Agnetic approach for domain-specific RAG |
 
 ### Data
 
-- [data](./data/): Contains datasets and other data files used throughout the project.
+- [data](../data/): Contains datasets and other data files used throughout the project.
 
-I'll convert the content from the image into Markdown format for you. Here's a structured version of the 21 strategies for enhancing Retrieval-Augmented Generation (RAG):
+## Strategies for Enhancing RAG
 
----
+1. **Simple RAG**: Encode document content into a vector store for quick retrieval.
+2. **Context Enrichment**: Add surrounding context to each retrieved chunk.
+3. **Multi-faceted Filtering**: Apply various filtering techniques to refine results.
+4. **Fusion Retrieval**: Combine vector-based and keyword-based retrieval.
+5. **Intelligent Reranking**: Reassess and reorder initially retrieved documents.
+6. **Query Transformation**: Modify or expand the original query.
+7. **Hierarchical Indices**: Use summaries to identify relevant document sections.
+8. **Hypothetical Questions**: Transform queries into hypothetical documents (HyDE).
+9. **Choose Chunk Size**: Select appropriate fixed size for text chunks.
+10. **Semantic Chunking**: Create context-aware segments.
+11. **Context Compression**: Compress and extract pertinent parts of documents.
+12. **Explainable Retrieval**: Provide explanations for document relevance.
+13. **Retrieval w/ Feedback**: Utilize user feedback to fine-tune models.
+14. **Adaptive Retrieval**: Use tailored strategies for different query types.
+15. **Iterative Retrieval**: Generate follow-up queries to fill information gaps.
+16. **Ensemble Retrieval**: Apply different models and use voting mechanisms.
+17. **Graph RAG**: Retrieve entities and relationships from a knowledge graph.
+18. **Multi-Modal**: Integrate models that understand different data modalities.
+19. **RAPTOR**: Use abstractive summarization for hierarchical context.
+20. **Self RAG**: Implement multi-step processes for improved responses.
+21. **Corrective RAG**: Dynamically evaluate and correct the retrieval process.
 
-### 1. Simple RAG
-Encodes document content into a vector store, enabling quick retrieval of relevant information to enhance model responses.
-
-### 2. Context Enrichment
-Adds surrounding context to each retrieved chunk, improving the coherence and completeness of the returned information.
-
-### 3. Multi-faceted Filtering
-Applies various filtering techniques (metadata, similarity thresholds, etc.) to refine and improve the quality of retrieved results.
-
-### 4. Fusion Retrieval
-Combines vector-based similarity search with keyword-based retrieval to improve document retrieval.
-
-### 5. Intelligent Reranking
-Reassesses and reorders initially retrieved documents to ensure that the most pertinent information is prioritized for subsequent processing.
-
-### 6. Query Transformation
-Modifies or expands the original query with query rewriting, step-back prompting, and sub-query decomposition.
-
-### 7. Hierarchical Indices
-First identifies relevant document sections through summaries, then drills down to specific details within those sections.
-
-### 8. Hypothetical Questions
-HyDE transforms queries into hypothetical documents that contain answers, bridging the gap between query and document distributions in vector space.
-
-### 9. Choose Chunk Size
-Selects an appropriate fixed size for text chunks to balance context preservation and retrieval efficiency.
-
-### 10. Semantic Chunking
-Unlike traditional methods that split text by fixed character/word counts, semantic chunking creates more meaningful, context-aware segments.
-
-### 11. Context Compression
-Compresses and extracts the most pertinent parts of documents in the context of a given query.
-
-### 12. Explainable Retrieval
-Not only retrieves relevant documents based on a query but also provides explanations for why each retrieved document is relevant.
-
-### 13. Retrieval w/ Feedback
-Utilizes user feedback on the relevance and quality of retrieved documents and generated responses to fine-tune retrieval and ranking models.
-
-### 14. Adaptive Retrieval
-Classifies queries into different categories and uses tailored retrieval strategies (factual, analytical, contextual, etc.) for each, considering user context and preferences.
-
-### 15. Iterative Retrieval
-Analyzes initial results and generates follow-up queries to fill in gaps or clarify information.
-
-### 16. Ensemble Retrieval
-Applies different embedding models or retrieval algorithms and uses voting or weighting mechanisms to determine the final set of retrieved documents.
-
-### 17. Graph RAG
-Retrieves entities and their relationships from a knowledge graph relevant to the query, combining with unstructured text for more informative responses.
-
-### 18. Multi-Modal
-Integrates models that can retrieve and understand different data modalities, combining insights from text, images, and videos.
-
-### 19. RAPTOR
-Uses abstractive summarization to recursively process and organize retrieved documents, organizing the information in a tree structure for hierarchical context.
-
-### 20. Self RAG
-Multi-step processes including retrieval decision, document retrieval, relevance evaluation, response generation, and more to improve model responses.
-
-### 21. Corrective RAG
-Dynamically evaluates and corrects the retrieval process, combining vector databases, web search, and models to improve response generation.
-
----
-
-Feel free to copy this Markdown text for use in any platform that supports Markdown formatting.
+By focusing on these areas and utilizing our chosen tech stack, we aim to create a robust and high-performing RAG system that delivers accurate and relevant results.

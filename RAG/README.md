@@ -4,10 +4,10 @@ Welcome to the RAG System Roadmap! RAG systems are gaining traction in natural l
 
 ## Tech Stack
 
-- 🦙 **RAG Orchestration:** Llama-index (because who doesn't love a good llama?)
-- 🔍 **Vector Database:** Qdrant (for when you need to find a needle in a digital haystack)
-- 👁️ **Observability:** Arize Phoenix (rise from the ashes of system errors!)
-- 📊 **Evaluation:** RAGAS & Deepeval (because even AIs need report cards)
+- 🦙 **RAG Orchestration:** Llama-index
+- 🔍 **Vector Database:** Qdrant 
+- 👁️ **Observability:** Arize Phoenix 
+- 📊 **Evaluation:** RAGAS & Deepeval 
 
 
 ### Modules

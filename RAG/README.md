@@ -72,7 +72,7 @@ To enhance the performance of our RAG system, we will focus on the following are
 
 ### Data
 
-- [data](../data/): Contains datasets and other data files used throughout the project.
+- [data](./data/): Contains datasets and other data files used throughout the project.
 
 ## Strategies for Enhancing RAG
 

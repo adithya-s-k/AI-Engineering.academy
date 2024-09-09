@@ -1,9 +1,10 @@
+python-dotenv
 llama-index
+llama-index-vector-stores-qdrant 
 llama-index-readers-file 
 llama-index-embeddings-fastembed 
 llama-index-llms-openai
 llama-index-llms-groq
-llama-index-vector-stores-qdrant 
-qdrant_client 
+qdrant_client
 fastembed
-python-dotenv
+chainlit

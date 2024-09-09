@@ -1,4 +1,158 @@
-## Data Chunking
+# Data Chunking for RAG Systems
+
+## Introduction
+
+Data chunking is a crucial step in Retrieval-Augmented Generation (RAG) systems. It involves breaking down large documents into smaller, manageable pieces that can be efficiently indexed, retrieved, and processed. This README provides an overview of various chunking methods that can be used in RAG pipelines.
+
+## Importance of Chunking in RAG
+
+Effective chunking is essential for RAG systems because it:
+1. Improves retrieval accuracy by creating coherent, self-contained units of information.
+2. Enhances the efficiency of embedding generation and similarity search.
+3. Allows for more precise context selection when generating responses.
+4. Helps manage token limits in language models and embedding systems.
+
+## Chunking Methods
+
+We have implemented six different chunking methods, each with its own strengths and use cases:
+
+1. RecursiveCharacterTextSplitter
+2. TokenTextSplitter
+3. KamradtSemanticChunker
+4. KamradtModifiedChunker
+5. ClusterSemanticChunker
+6. LLMSemanticChunker
+
+## Chunking Workflows
+
+### 1. RecursiveCharacterTextSplitter
+
+```mermaid
+flowchart TB
+    A[Document] --> B[Split by separators]
+    B --> C["Priority: <br/>\n\n, \n, ., ?, !, space"]
+    C --> D[Merge splits until max length]
+    D --> E[Optional: Add chunk overlap]
+```
+
+### 2. TokenTextSplitter
+
+```mermaid
+flowchart TB
+    A[Document] --> B[Tokenize text]
+    B --> C[Split by fixed token count]
+    C --> D[Ensure splits at token boundaries]
+    D --> E[Optional: Add chunk overlap]
+```
+
+### 3. KamradtSemanticChunker
+
+```mermaid
+flowchart TB
+    A[Document] --> B[Split by sentence]
+    B --> C[Compute embeddings<br/>for sliding window]
+    C --> D[Calculate cosine distances<br/>between consecutive windows]
+    D --> E[Find discontinuities<br/>> 95th percentile]
+    E --> F[Split at discontinuities]
+```
+
+### 4. KamradtModifiedChunker
+
+```mermaid
+flowchart TB
+    A[Document] --> B[Split by sentence]
+    B --> C[Compute embeddings<br/>for sliding window]
+    C --> D[Calculate cosine distances<br/>between consecutive windows]
+    D --> E[Binary search for<br/>optimal threshold]
+    E --> F[Ensure largest chunk<br/>< specified length]
+    F --> G[Split at determined<br/>discontinuities]
+```
+
+### 5. ClusterSemanticChunker
+
+```mermaid
+flowchart TB
+    A[Document] --> B[Split into 50-token pieces]
+    B --> C[Compute embeddings<br/>for each piece]
+    C --> D[Calculate pairwise<br/>cosine similarities]
+    D --> E[Use dynamic programming<br/>to maximize similarity]
+    E --> F[Ensure chunks <= max length]
+    F --> G[Merge pieces into<br/>optimal chunks]
+```
+
+### 6. LLMSemanticChunker
+
+```mermaid
+flowchart TB
+    A[Document] --> B[Split into 50-token pieces]
+    B --> C[Surround with<br/><start_chunk_X> tags]
+    C --> D[Prompt LLM with tagged text]
+    D --> E[LLM returns split indexes]
+    E --> F[Process indexes to<br/>create chunks]
+    F --> G[Ensure chunks <= max length]
+```
+
+## Method Descriptions
+
+1. **RecursiveCharacterTextSplitter**: Splits text based on a hierarchy of separators, prioritizing natural breaks in the document.
+
+2. **TokenTextSplitter**: Splits text into chunks of a fixed number of tokens, ensuring that splits occur at token boundaries.
+
+3. **KamradtSemanticChunker**: Uses sliding window embeddings to identify semantic discontinuities and split the text accordingly.
+
+4. **KamradtModifiedChunker**: An improved version of KamradtSemanticChunker that uses binary search to find an optimal threshold for splitting.
+
+5. **ClusterSemanticChunker**: Splits text into small pieces, computes embeddings, and uses dynamic programming to create optimal chunks based on semantic similarity.
+
+6. **LLMSemanticChunker**: Utilizes a language model to determine appropriate split points in the text.
+
+## Usage
+
+To use these chunking methods in your RAG pipeline:
+
+1. Import the desired chunker from the `chunkers` module.
+2. Initialize the chunker with appropriate parameters (e.g., max chunk size, overlap).
+3. Pass your document through the chunker to obtain the chunks.
+
+Example:
+
+```python
+from chunkers import RecursiveCharacterTextSplitter
+
+chunker = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+chunks = chunker.split_text(your_document)
+```
+
+## Choosing a Chunking Method
+
+The choice of chunking method depends on your specific use case:
+
+- For simple text splitting, use RecursiveCharacterTextSplitter or TokenTextSplitter.
+- For semantic-aware splitting, consider KamradtSemanticChunker or KamradtModifiedChunker.
+- For more advanced semantic chunking, use ClusterSemanticChunker or LLMSemanticChunker.
+
+Factors to consider when choosing a method:
+- Document structure and content type
+- Desired chunk size and overlap
+- Computational resources available
+- Specific requirements of your retrieval system (e.g., vector vs. keyword-based)
+
+Experiment with different methods to find the one that works best for your documents and retrieval needs.
+
+## Integration with RAG Systems
+
+After chunking, typically you would:
+1. Generate embeddings for each chunk (for vector-based retrieval systems).
+2. Index the chunks in your chosen retrieval system (e.g., vector database, inverted index).
+3. Use the indexed chunks in your retrieval step when answering queries.
+
+## Contributing
+
+We welcome contributions to improve existing chunking methods or add new ones. Please refer to our contributing guidelines for more information.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
 
 ``` mermaid
 flowchart TB

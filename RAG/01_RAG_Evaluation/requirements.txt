@@ -9,6 +9,8 @@ qdrant_client
 fastembed
 ragas
 arize-phoenix[llama-index]
+llama-index-callbacks-arize-phoenix
+openinference-instrumentation-llama-index
 trulens 
 trulens-apps-llamaindex 
 trulens-providers-openai 

@@ -19,7 +19,7 @@
 ## Introduction
 
 Retrieval-Augmented Generation (RAG) is a powerful technique that combines the strengths of large language models with the ability to retrieve relevant information from a knowledge base. This approach enhances the quality and accuracy of generated responses by grounding them in specific, retrieved information.
-
+a
 This notebook aims to provide a clear and concise introduction to RAG, suitable for beginners who want to understand and implement this technology.
 
 ### RAG Flow

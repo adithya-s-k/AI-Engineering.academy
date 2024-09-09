@@ -1,6 +1,7 @@
 import os
 import openai
 import chainlit as cl
+import argparse
 from dotenv import load_dotenv
 from llama_index.core import (
     Settings,
@@ -44,42 +45,50 @@ Settings.llm = OpenAI(
 Settings.embed_model = OpenAIEmbedding(embed_batch_size=10, api_key=OPENAI_API_KEY)
 Settings.context_window = 4096
 Settings.callback_manager = CallbackManager([cl.LlamaIndexCallbackHandler()])
-# Load documents from a directory
-documents = SimpleDirectoryReader("../data", recursive=True).load_data(
-    show_progress=True
-)
 
 # Connect to the Vector Database
 print("Connecting to Vector Database")
-client = qdrant_client.QdrantClient(location=":memory:")  # In-memory mode for testing
+client = qdrant_client.QdrantClient(
+    host="localhost",
+    port=6333
+)
 
 # Initialize the vector store
 vector_store = QdrantVectorStore(client=client, collection_name="01_Basic_RAG")
 
+def ingest_documents(data_dir):
+    # Load documents from a directory
+    documents = SimpleDirectoryReader(data_dir, recursive=True).load_data(
+        show_progress=True
+    )
 
-# Ingest data into the vector store
-print("Ingesting Data")
-pipeline = IngestionPipeline(
-    transformations=[
-        SentenceSplitter(
-            chunk_size=1024, chunk_overlap=20
-        ),  # Split documents into chunks
-        Settings.embed_model,  # Use the embedding model for processing
-    ],
-    vector_store=vector_store,
-)
+    # Ingest data into the vector store
+    print("Ingesting Data")
+    pipeline = IngestionPipeline(
+        transformations=[
+            SentenceSplitter(
+                chunk_size=1024, chunk_overlap=20
+            ),  # Split documents into chunks
+            Settings.embed_model,  # Use the embedding model for processing
+        ],
+        vector_store=vector_store,
+    )
 
-# Ingest directly into the vector database
-nodes = pipeline.run(documents=documents, show_progress=True)
-print("Number of chunks added to vector DB :", len(nodes))
+    # Ingest directly into the vector database
+    nodes = pipeline.run(documents=documents, show_progress=True)
+    print("Number of chunks added to vector DB:", len(nodes))
 
-index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
-
+# Global variable to store the index
+index = None
 
 @cl.on_chat_start
 async def start():
-    # Initialize service context and query engine on chat start
+    global index
+    # Initialize the index if it hasn't been created yet
+    if index is None:
+        index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
 
+    # Initialize service context and query engine on chat start
     query_engine = index.as_query_engine(
         streaming=True,
         similarity_top_k=5,
@@ -91,34 +100,40 @@ async def start():
         author="Assistant", content="Hello! I'm an AI assistant. How may I help you?"
     ).send()
 
-
 @cl.on_message
-async def main(message: cl.Message):
+async def handle_message(message: cl.Message):
+    global index
     # Check if any files were uploaded
-    # if not message.elements:
-    #     await cl.Message(content="No file attached").send()
-    #     return
+    if message.elements:
+        for file in message.elements:
+            if file.type == "file":
+                # Read the file and process it
+                documents = SimpleDirectoryReader(input_files=[file.path]).load_data()
 
-    # Process the uploaded files
-    for file in message.elements:
-        if file.mime == "application/pdf":  # Check for specific file type
-            # Read the PDF file and process it
-            with open(file.path, "rb") as f:
-                documents = SimpleDirectoryReader(f).load_data(show_progress=True)
+                # Ingest the documents into the pipeline
+                pipeline = IngestionPipeline(
+                    transformations=[
+                        SentenceSplitter(chunk_size=1024, chunk_overlap=20),
+                        Settings.embed_model,
+                    ],
+                    vector_store=vector_store,
+                )
+                nodes = pipeline.run(documents=documents, show_progress=True)
+                
+                # Update the index with new documents
+                index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
+                
+                # Update the query engine
+                query_engine = index.as_query_engine(
+                    streaming=True,
+                    similarity_top_k=5,
+                )
+                cl.user_session.set("query_engine", query_engine)
 
-            # Ingest the documents into the pipeline
-            pipeline = IngestionPipeline(
-                transformations=[Settings.embed_model],
-                vector_store=vector_store,
-            )
-            nodes = pipeline.run(documents=[documents], show_progress=True)
-            await cl.Message(
-                content=f"Processed {len(nodes)} chunks from the uploaded file."
-            ).send()
-        else:
-            await cl.Message(
-                content="Unsupported file type. Please upload a PDF."
-            ).send()
+                await cl.Message(
+                    content=f"Processed {len(nodes)} chunks from the uploaded file."
+                ).send()
+            
 
     # Retrieve the query engine from the user session
     query_engine = cl.user_session.get("query_engine")  # type: RetrieverQueryEngine
@@ -133,3 +148,18 @@ async def main(message: cl.Message):
     for token in res.response_gen:
         await msg.stream_token(token)
     await msg.send()
+
+if __name__ == "__main__":
+    import sys
+    import subprocess
+
+    parser = argparse.ArgumentParser(description="RAG Script with ingestion option")
+    parser.add_argument('--ingest', action='store_true', help='Ingest documents before starting the chat')
+    parser.add_argument('--data_dir', type=str, default="../data", help='Directory containing documents to ingest')
+    args = parser.parse_args()
+
+    if args.ingest:
+        ingest_documents(args.data_dir)
+
+    # Run the Chainlit app
+    subprocess.run(["chainlit", "run", sys.argv[0]], check=True)

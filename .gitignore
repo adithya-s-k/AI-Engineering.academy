@@ -12,6 +12,9 @@ RAG/eval_data.csv
 RAG/prodrag
 *.pdf
 *.chainlit
+*.files
+*.file
+*chainlit.md
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

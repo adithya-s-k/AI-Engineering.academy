@@ -1,5 +1,21 @@
 # Data Chunking for RAG Systems
 
+<div align="center">
+<a href="https://aiengineering.academy/" target="_blank">
+<img src="https://raw.githubusercontent.com/adithya-s-k/AI-Engineering.academy/main/assets/banner.png" alt="AI Engineering Academy" width="50%">
+</a>
+</div>
+
+<div align="center">
+
+[![GitHub Stars](https://img.shields.io/github/stars/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/stargazers)
+[![GitHub Forks](https://img.shields.io/github/forks/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/network/members)
+[![GitHub Issues](https://img.shields.io/github/issues/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/issues)
+[![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
+[![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
+
+</div>
+
 ## Introduction
 
 Data chunking is a crucial step in Retrieval-Augmented Generation (RAG) systems. It involves breaking down large documents into smaller, manageable pieces that can be efficiently indexed, retrieved, and processed. This README provides an overview of various chunking methods that can be used in RAG pipelines.

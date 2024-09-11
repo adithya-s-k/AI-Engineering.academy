@@ -154,6 +154,8 @@ if __name__ == "__main__":
     import subprocess
 
     parser = argparse.ArgumentParser(description="RAG Script with ingestion option")
+    parser.add_argument("--host", default="localhost", help='Host IP address')
+    parser.add_argument("--port", type=int, default=8000, help='Port number')
     parser.add_argument('--ingest', action='store_true', help='Ingest documents before starting the chat')
     parser.add_argument('--data_dir', type=str, default="../data", help='Directory containing documents to ingest')
     args = parser.parse_args()
@@ -162,4 +164,8 @@ if __name__ == "__main__":
         ingest_documents(args.data_dir)
 
     # Run the Chainlit app
-    subprocess.run(["chainlit", "run", sys.argv[0]], check=True)
+    subprocess.run([
+        "chainlit", "run", sys.argv[0],
+        "--host", args.host,
+        "--port", str(args.port)
+    ], check=True)

@@ -1,0 +1,14 @@
+python-dotenv
+llama-index
+llama-index-vector-stores-qdrant 
+llama-index-readers-file 
+llama-index-embeddings-fastembed 
+llama-index-llms-openai
+llama-index-llms-groq
+qdrant_client
+fastembed
+chainlit
+# llama-index-postprocessor-cohere-rerank
+# llama-index-postprocessor-colbert-rerank
+# llama-index-embeddings-huggingface
+# llama-index-postprocessor-flag-embedding-reranker

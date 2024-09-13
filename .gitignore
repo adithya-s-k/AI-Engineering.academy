@@ -10,7 +10,7 @@ Evaluation/openai_evaluation.py
 RAG/default.sqlite
 RAG/eval_data.csv
 RAG/prodrag
-*.pdf
+# *.pdf
 *.chainlit
 *.files
 *.file

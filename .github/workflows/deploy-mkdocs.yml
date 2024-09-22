@@ -1,0 +1,20 @@
+name: Deploy MkDocs to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Set this to your default branch name
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.x
+      - run: pip install mkdocs-material
+      - run: pip install mkdocs-jupyter
+      - run: pip install mkdocs-exclude
+      - run: pip install mkdocstrings[python]
+      - run: mkdocs gh-deploy --force

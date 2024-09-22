@@ -6,7 +6,6 @@
 
 <img src="./assets/banner.png" alt="Ai Engineering. Academy">
 
-<div align="center">
 
 [![GitHub Stars](https://img.shields.io/github/stars/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/network/members)
@@ -14,7 +13,7 @@
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
 [![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
 
-</div>
+
 
 AI-related careers are becoming increasingly sought-after. However, the abundance of learning resources scattered across the internet can lead to confusion about where to start.&#x20;
 

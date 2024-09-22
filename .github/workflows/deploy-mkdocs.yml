@@ -17,4 +17,5 @@ jobs:
       - run: pip install mkdocs-jupyter
       - run: pip install mkdocs-exclude
       - run: pip install mkdocstrings[python]
+      - run: pip install mkdocs-same-dir
       - run: mkdocs gh-deploy --force

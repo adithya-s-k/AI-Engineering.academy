@@ -1,0 +1,328 @@
+# site_name: AI Engineering.academy
+# docs_dir: .
+# site_dir: ../site
+# plugins:
+#   - search
+#   - same-dir
+#   - exclude:
+#       glob:
+#         - archives/**
+#   - mkdocs-jupyter:
+#       include_source: true
+#       ignore_h1_titles: true
+#       execute: false
+#       allow_errors: true
+#       ignore_patterns:
+#         - "archives/*"
+#   - mkdocstrings:
+#       default_handler: python
+#       handlers:
+#         python:
+#           rendering:
+#             show_source: true
+# theme:
+#   name: material
+#   features:
+#     - navigation.tabs
+#     - navigation.sections
+#     - toc.integrate
+#     - navigation.top
+#     - search.suggest
+#     - search.highlight
+#     - content.tabs.link
+#     - content.code.annotation
+#     - content.code.copy
+#   language: en
+#   palette:
+#     - scheme: default
+#       toggle:
+#         icon: material/toggle-switch-off-outline 
+#         name: Switch to dark mode
+#       primary: teal
+#       accent: purple 
+#     - scheme: slate 
+#       toggle:
+#         icon: material/toggle-switch
+#         name: Switch to light mode    
+#       primary: teal
+#       accent: lime
+# markdown_extensions:
+#   - pymdownx.highlight:
+#       anchor_linenums: true
+#   - pymdownx.inlinehilite
+#   - pymdownx.snippets
+#   - admonition
+#   - pymdownx.arithmatex:
+#       generic: true
+#   - footnotes
+#   - pymdownx.details
+#   - pymdownx.superfences:
+#       custom_fences:
+#         - name: mermaid
+#           class: mermaid
+#           format: !!python/name:pymdownx.superfences.fence_code_format
+#   - pymdownx.mark
+#   - attr_list
+
+# nav:
+#   - Home: README.md
+#   - RAG:
+#     - Introduction: RAG/README.md
+#     - RAG from Scratch: 
+#       - Overview: RAG/00_RAG_from_Scratch/README.md
+#       - Implementation: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
+#     - Basic RAG:
+#       - Overview: RAG/01_Basic_RAG/README.md
+#       - Implementation: RAG/01_Basic_RAG/notebook.ipynb
+#       - Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
+#     - BM25 RAG:
+#       - Overview: RAG/01_BM25_RAG/README.md
+#       - Implementation: RAG/01_BM25_RAG/notebook.ipynb
+#     - Data Ingestion:
+#       - Overview: RAG/01_Data_Ingestion/README.md
+#       - Data Parsing: RAG/01_Data_Ingestion/data_parsing.ipynb
+#       - Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
+#       - Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb
+#       - Data Ingestion: RAG/01_Data_Ingestion/data_ingestion.ipynb
+#     - RAG Evaluation:
+#       - Overview: RAG/01_RAG_Evaluation/README.md
+#       - RAGAS: RAG/01_RAG_Evaluation/RAGAS.ipynb
+#       - DeepEval: RAG/01_RAG_Evaluation/deepeval.ipynb
+#       - TruLens: RAG/01_RAG_Evaluation/trulens.ipynb
+#       - Notebook: RAG/01_RAG_Evaluation/notebook.ipynb
+#     - RAG Observability:
+#       - Overview: RAG/01_RAG_Observability/README.md
+#       - Implementation: RAG/01_RAG_Observability/notebook.ipynb
+#     - ReRanker RAG:
+#       - Overview: RAG/02_ReRanker_RAG/README.md
+#       - Implementation: RAG/02_ReRanker_RAG/notebook.ipynb
+#       - Evaluation: RAG/02_ReRanker_RAG/notebook_eval.ipynb
+#     - Hybrid RAG:
+#       - Overview: RAG/03_Hybrid_RAG/README.md
+#       - Qdrant Hybrid Search: RAG/03_Hybrid_RAG/_Qdrant_Hybrid_Search.ipynb
+#       - Implementation: RAG/03_Hybrid_RAG/qdrant_hybrid.ipynb
+#     - Sentence Window RAG:
+#       - Overview: RAG/04_Sentence_Window_RAG/README.md
+#       - Implementation: RAG/04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb
+#     - Auto Merging RAG:
+#       - Overview: RAG/05_Auto_Merging_RAG/README.md
+#       - Implementation: RAG/05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb
+#     - HyDE RAG:
+#       - Overview: RAG/06_HyDE_RAG/README.md
+#       - Implementation: RAG/06_HyDE_RAG/HyDEQueryTransformDemo.ipynb
+#     - Query Transformation RAG:
+#       - Overview: RAG/06_Query_Transformation_RAG/README.md
+#       - Implementation: RAG/06_Query_Transformation_RAG/query_transform_cookbook.ipynb
+#     - Self Query RAG:
+#       - Overview: RAG/07_Self_Query_RAG/README.md
+#       - Implementation: RAG/07_Self_Query_RAG/Self_Query_RAG.ipynb
+#     - RAG Fusion:
+#       - Overview: RAG/08_RAG_Fusion/README.md
+#       - Implementation: RAG/08_RAG_Fusion/ragfusion.ipynb
+#     - RAPTOR:
+#       - Overview: RAG/09_RAPTOR/README.md
+#       - Implementation: RAG/09_RAPTOR/raptor.ipynb
+#     - ColBERT RAG:
+#       - Overview: RAG/10_ColBERT_RAG/README.md
+#       - Implementation: RAG/10_ColBERT_RAG/ColBert_RAG.ipynb
+#       - Ragatouille Retriever: RAG/10_ColBERT_RAG/ragatouille_retriever.ipynb
+#     - Graph RAG:
+#       - Overview: RAG/11_Graph_RAG/README.md
+#       - Implementation: RAG/11_Graph_RAG/GraphRAG_v1.ipynb
+#     - Agentic RAG:
+#       - Overview: RAG/12_Agnetic_RAG/README.md
+#       - Implementation: RAG/12_Agnetic_RAG/multi_document_agents.ipynb
+#     - Vision RAG:
+#       - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
+#   - Finetuning:
+#     - Introduction: Finetuning/README.md
+#     - LLM:
+#       - Gemma: Finetuning/LLM/Gemma_finetuning_notebook.ipynb
+#       - Llama2: Finetuning/LLM/Llama2_finetuning_notebook.ipynb
+#       - Llama3: Finetuning/LLM/Llama3_finetuning_notebook.ipynb
+#       - Mistral: Finetuning/LLM/Mistral_finetuning_notebook.ipynb
+#   - Deployment:
+#     - Introduction: Deployment/README.md
+#   - Projects:
+#     - Introduction: Projects/README.md
+
+# extra:
+#   exclude_files:
+#     - archives/**/*
+
+# extra_javascript:
+#   - https://unpkg.com/mermaid@8.11.2/dist/mermaid.min.js
+
+# extra_css:
+#   - css/extra.css
+site_name: AI Engineering Academy
+site_url: https://aiengineering.academy
+repo_url: https://github.com/adithya-s-k/AI-Engineering.academy
+repo_name: adithya-s-k/AI-Engineering.academy
+edit_uri: edit/main/docs/
+
+docs_dir: .
+site_dir: ../site
+
+theme:
+  name: material
+  logo: assets/logo.png
+  favicon: assets/logo.png
+  palette:
+    scheme: slate
+    primary: teal
+    accent: deep purple
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - toc.integrate
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - content.tabs.link
+    - content.code.annotation
+    - content.code.copy
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  custom_dir: overrides
+
+plugins:
+  - search
+  - same-dir
+  - exclude:
+      glob:
+        - archives/**
+  - mkdocs-jupyter:
+      include_source: true
+      ignore_h1_titles: true
+      execute: false
+      allow_errors: true
+      ignore_patterns:
+        - "archives/*"
+  - mkdocstrings:
+      default_handler: python
+      handlers:
+        python:
+          rendering:
+            show_source: true
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - admonition
+  - pymdownx.arithmatex:
+      generic: true
+  - footnotes
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.mark
+  - attr_list
+
+nav:
+  - Home: README.md
+  - RAG:
+    - Introduction: RAG/README.md
+    - RAG Techniques:
+      - RAG from Scratch: 
+        - Overview: RAG/00_RAG_from_Scratch/README.md
+        - Implementation: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
+      - Basic RAG:
+        - Overview: RAG/01_Basic_RAG/README.md
+        - Implementation: RAG/01_Basic_RAG/notebook.ipynb
+        - Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
+      - BM25 RAG:
+        - Overview: RAG/01_BM25_RAG/README.md
+        - Implementation: RAG/01_BM25_RAG/notebook.ipynb
+      - Data Ingestion:
+        - Overview: RAG/01_Data_Ingestion/README.md
+        - Data Parsing: RAG/01_Data_Ingestion/data_parsing.ipynb
+        - Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
+        - Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb
+        - Data Ingestion: RAG/01_Data_Ingestion/data_ingestion.ipynb
+      - RAG Evaluation:
+        - Overview: RAG/01_RAG_Evaluation/README.md
+        - RAGAS: RAG/01_RAG_Evaluation/RAGAS.ipynb
+        - DeepEval: RAG/01_RAG_Evaluation/deepeval.ipynb
+        - TruLens: RAG/01_RAG_Evaluation/trulens.ipynb
+        - Notebook: RAG/01_RAG_Evaluation/notebook.ipynb
+      - RAG Observability:
+        - Overview: RAG/01_RAG_Observability/README.md
+        - Implementation: RAG/01_RAG_Observability/notebook.ipynb
+      - ReRanker RAG:
+        - Overview: RAG/02_ReRanker_RAG/README.md
+        - Implementation: RAG/02_ReRanker_RAG/notebook.ipynb
+        - Evaluation: RAG/02_ReRanker_RAG/notebook_eval.ipynb
+      - Hybrid RAG:
+        - Overview: RAG/03_Hybrid_RAG/README.md
+        - Qdrant Hybrid Search: RAG/03_Hybrid_RAG/_Qdrant_Hybrid_Search.ipynb
+        - Implementation: RAG/03_Hybrid_RAG/qdrant_hybrid.ipynb
+      - Sentence Window RAG:
+        - Overview: RAG/04_Sentence_Window_RAG/README.md
+        - Implementation: RAG/04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb
+      - Auto Merging RAG:
+        - Overview: RAG/05_Auto_Merging_RAG/README.md
+        - Implementation: RAG/05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb
+      - HyDE RAG:
+        - Overview: RAG/06_HyDE_RAG/README.md
+        - Implementation: RAG/06_HyDE_RAG/HyDEQueryTransformDemo.ipynb
+      - Query Transformation RAG:
+        - Overview: RAG/06_Query_Transformation_RAG/README.md
+        - Implementation: RAG/06_Query_Transformation_RAG/query_transform_cookbook.ipynb
+      - Self Query RAG:
+        - Overview: RAG/07_Self_Query_RAG/README.md
+        - Implementation: RAG/07_Self_Query_RAG/Self_Query_RAG.ipynb
+      - RAG Fusion:
+        - Overview: RAG/08_RAG_Fusion/README.md
+        - Implementation: RAG/08_RAG_Fusion/ragfusion.ipynb
+      - RAPTOR:
+        - Overview: RAG/09_RAPTOR/README.md
+        - Implementation: RAG/09_RAPTOR/raptor.ipynb
+      - ColBERT RAG:
+        - Overview: RAG/10_ColBERT_RAG/README.md
+        - Implementation: RAG/10_ColBERT_RAG/ColBert_RAG.ipynb
+        - Ragatouille Retriever: RAG/10_ColBERT_RAG/ragatouille_retriever.ipynb
+      - Graph RAG:
+        - Overview: RAG/11_Graph_RAG/README.md
+        - Implementation: RAG/11_Graph_RAG/GraphRAG_v1.ipynb
+      - Agentic RAG:
+        - Overview: RAG/12_Agnetic_RAG/README.md
+        - Implementation: RAG/12_Agnetic_RAG/multi_document_agents.ipynb
+      - Vision RAG:
+        - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
+  - Finetuning:
+    - Introduction: Finetuning/README.md
+    - LLM:
+      - Gemma: Finetuning/LLM/Gemma_finetuning_notebook.ipynb
+      - Llama2: Finetuning/LLM/Llama2_finetuning_notebook.ipynb
+      - Llama3: Finetuning/LLM/Llama3_finetuning_notebook.ipynb
+      - Mistral: Finetuning/LLM/Mistral_finetuning_notebook.ipynb
+  - Deployment:
+    - Introduction: Deployment/README.md
+  - Projects:
+    - Introduction: Projects/README.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/adithya-s-k/AI-Engineering.academy
+    - icon: fontawesome/brands/twitter
+      link: https://x.com/adithya_s_k
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+
+copyright: "&copy; 2024 AI Engineering Academy. All rights reserved."
+
+extra_javascript:
+  - https://unpkg.com/mermaid@8.11.2/dist/mermaid.min.js
+
+extra_css:
+  - css/extra.css

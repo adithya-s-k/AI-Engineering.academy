@@ -1,2 +1,0 @@
-# Strcutred Data Extraction
-

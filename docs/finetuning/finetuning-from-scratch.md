@@ -1,2 +1,0 @@
-# Finetuning from Scratch
-

@@ -1,2 +1,0 @@
-# Sentence Window Retrival
-

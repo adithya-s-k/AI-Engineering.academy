@@ -29,7 +29,7 @@ theme:
   language: en
   icon:
     repo: fontawesome/brands/github
-  custom_dir: overrides
+  custom_dir: assets/overrides
 
 plugins:
   - search

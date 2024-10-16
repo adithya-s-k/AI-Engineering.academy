@@ -71,116 +71,120 @@ markdown_extensions:
 
 nav:
   - Home: README.md
+  - Prompt Engineering:
+      - Prompting Techniques: PromptEngineering/README.md
+      - Introduction: PromptEngineering/prompt_engineering.ipynb
+      - Function Calling: PromptEngineering/function_calling.ipynb
   - RAG:
-    - Introduction: RAG/README.md
-    - RAG Techniques:
-      - RAG from Scratch: 
-        - Overview: RAG/00_RAG_from_Scratch/README.md
-        - Implementation: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
-      - Basic RAG:
-        - Overview: RAG/01_Basic_RAG/README.md
-        - Implementation: RAG/01_Basic_RAG/notebook.ipynb
-        - Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
-      - BM25 RAG:
-        - Overview: RAG/01_BM25_RAG/README.md
-        - Implementation: RAG/01_BM25_RAG/notebook.ipynb
-      - Data Ingestion:
-        - Overview: RAG/01_Data_Ingestion/README.md
-        - Data Parsing: RAG/01_Data_Ingestion/data_parsing.ipynb
-        - Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
-        - Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb
-        - Data Ingestion: RAG/01_Data_Ingestion/data_ingestion.ipynb
-      - RAG Evaluation:
-        - Overview: RAG/01_RAG_Evaluation/README.md
-        - RAGAS: RAG/01_RAG_Evaluation/RAGAS.ipynb
-        - DeepEval: RAG/01_RAG_Evaluation/deepeval.ipynb
-        - TruLens: RAG/01_RAG_Evaluation/trulens.ipynb
-        - Notebook: RAG/01_RAG_Evaluation/notebook.ipynb
-      - RAG Observability:
-        - Overview: RAG/01_RAG_Observability/README.md
-        - Implementation: RAG/01_RAG_Observability/notebook.ipynb
-      - ReRanker RAG:
-        - Overview: RAG/02_ReRanker_RAG/README.md
-        - Implementation: RAG/02_ReRanker_RAG/notebook.ipynb
-        - Evaluation: RAG/02_ReRanker_RAG/notebook_eval.ipynb
-      - Hybrid RAG:
-        - Overview: RAG/03_Hybrid_RAG/README.md
-        - Qdrant Hybrid Search: RAG/03_Hybrid_RAG/_Qdrant_Hybrid_Search.ipynb
-        - Implementation: RAG/03_Hybrid_RAG/qdrant_hybrid.ipynb
-      - Sentence Window RAG:
-        - Overview: RAG/04_Sentence_Window_RAG/README.md
-        - Implementation: RAG/04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb
-      - Auto Merging RAG:
-        - Overview: RAG/05_Auto_Merging_RAG/README.md
-        - Implementation: RAG/05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb
-      - HyDE RAG:
-        - Overview: RAG/06_HyDE_RAG/README.md
-        - Implementation: RAG/06_HyDE_RAG/HyDEQueryTransformDemo.ipynb
-      - Query Transformation RAG:
-        - Overview: RAG/06_Query_Transformation_RAG/README.md
-        - Implementation: RAG/06_Query_Transformation_RAG/query_transform_cookbook.ipynb
-      - Self Query RAG:
-        - Overview: RAG/07_Self_Query_RAG/README.md
-        - Implementation: RAG/07_Self_Query_RAG/Self_Query_RAG.ipynb
-      - RAG Fusion:
-        - Overview: RAG/08_RAG_Fusion/README.md
-        - Implementation: RAG/08_RAG_Fusion/ragfusion.ipynb
-      - RAPTOR:
-        - Overview: RAG/09_RAPTOR/README.md
-        - Implementation: RAG/09_RAPTOR/raptor.ipynb
-      - ColBERT RAG:
-        - Overview: RAG/10_ColBERT_RAG/README.md
-        - Implementation: RAG/10_ColBERT_RAG/ColBert_RAG.ipynb
-        - Ragatouille Retriever: RAG/10_ColBERT_RAG/ragatouille_retriever.ipynb
-      - Graph RAG:
-        - Overview: RAG/11_Graph_RAG/README.md
-        - Implementation: RAG/11_Graph_RAG/GraphRAG_v1.ipynb
-      - Agentic RAG:
-        - Overview: RAG/12_Agnetic_RAG/README.md
-        - Implementation: RAG/12_Agnetic_RAG/multi_document_agents.ipynb
-      - Vision RAG:
-        - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
+      - Introduction: RAG/README.md
+      - RAG Techniques:
+          - RAG from Scratch:
+              - Overview: RAG/00_RAG_from_Scratch/README.md
+              - Implementation: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
+          - Basic RAG:
+              - Overview: RAG/01_Basic_RAG/README.md
+              - Implementation: RAG/01_Basic_RAG/notebook.ipynb
+              - Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
+          - BM25 RAG:
+              - Overview: RAG/01_BM25_RAG/README.md
+              - Implementation: RAG/01_BM25_RAG/notebook.ipynb
+          - Data Ingestion:
+              - Overview: RAG/01_Data_Ingestion/README.md
+              - Data Parsing: RAG/01_Data_Ingestion/data_parsing.ipynb
+              - Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
+              - Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb
+              - Data Ingestion: RAG/01_Data_Ingestion/data_ingestion.ipynb
+          - RAG Evaluation:
+              - Overview: RAG/01_RAG_Evaluation/README.md
+              - RAGAS: RAG/01_RAG_Evaluation/RAGAS.ipynb
+              - DeepEval: RAG/01_RAG_Evaluation/deepeval.ipynb
+              - TruLens: RAG/01_RAG_Evaluation/trulens.ipynb
+              - Notebook: RAG/01_RAG_Evaluation/notebook.ipynb
+          - RAG Observability:
+              - Overview: RAG/01_RAG_Observability/README.md
+              - Implementation: RAG/01_RAG_Observability/notebook.ipynb
+          - ReRanker RAG:
+              - Overview: RAG/02_ReRanker_RAG/README.md
+              - Implementation: RAG/02_ReRanker_RAG/notebook.ipynb
+              - Evaluation: RAG/02_ReRanker_RAG/notebook_eval.ipynb
+          - Hybrid RAG:
+              - Overview: RAG/03_Hybrid_RAG/README.md
+              - Qdrant Hybrid Search: RAG/03_Hybrid_RAG/_Qdrant_Hybrid_Search.ipynb
+              - Implementation: RAG/03_Hybrid_RAG/qdrant_hybrid.ipynb
+          - Sentence Window RAG:
+              - Overview: RAG/04_Sentence_Window_RAG/README.md
+              - Implementation: RAG/04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb
+          - Auto Merging RAG:
+              - Overview: RAG/05_Auto_Merging_RAG/README.md
+              - Implementation: RAG/05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb
+          - HyDE RAG:
+              - Overview: RAG/06_HyDE_RAG/README.md
+              - Implementation: RAG/06_HyDE_RAG/HyDEQueryTransformDemo.ipynb
+          - Query Transformation RAG:
+              - Overview: RAG/06_Query_Transformation_RAG/README.md
+              - Implementation: RAG/06_Query_Transformation_RAG/query_transform_cookbook.ipynb
+          - Self Query RAG:
+              - Overview: RAG/07_Self_Query_RAG/README.md
+              - Implementation: RAG/07_Self_Query_RAG/Self_Query_RAG.ipynb
+          - RAG Fusion:
+              - Overview: RAG/08_RAG_Fusion/README.md
+              - Implementation: RAG/08_RAG_Fusion/ragfusion.ipynb
+          - RAPTOR:
+              - Overview: RAG/09_RAPTOR/README.md
+              - Implementation: RAG/09_RAPTOR/raptor.ipynb
+          - ColBERT RAG:
+              - Overview: RAG/10_ColBERT_RAG/README.md
+              - Implementation: RAG/10_ColBERT_RAG/ColBert_RAG.ipynb
+              - Ragatouille Retriever: RAG/10_ColBERT_RAG/ragatouille_retriever.ipynb
+          - Graph RAG:
+              - Overview: RAG/11_Graph_RAG/README.md
+              - Implementation: RAG/11_Graph_RAG/GraphRAG_v1.ipynb
+          - Agentic RAG:
+              - Overview: RAG/12_Agnetic_RAG/README.md
+              - Implementation: RAG/12_Agnetic_RAG/multi_document_agents.ipynb
+          - Vision RAG:
+              - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
   - LLM:
-    - Introduction: Finetuning/README.md
-    - LLM:
-      - Gemma: 
-        - Overview: LLM/Gemma/README.md
-        - Implementation: LLM/Gemma/Gemma_finetuning_notebook.ipynb
-      - Llama2: 
-        - Overview: LLM/LLama2/README.md
-        - Implementation: LLM/LLama2/Llama2_finetuning_notebook.ipynb
-        - QLora: LLM/LLama2/Llama_2_Fine_Tuning_using_QLora.ipynb
-      - Llama3: LLM/Llama3_finetuning_notebook.ipynb
-      - Mistral: 
-        - Overview: LLM/Mistral-7b/README.md
-        - Implementation: LLM/Mistral-7b/Mistral_finetuning_notebook.ipynb
-        - Evaluation: LLM/Mistral-7b/LLM_evaluation_harness_for_Arc_Easy_and_SST.ipynb
-        - DPO Fine-tuning: LLM/Mistral-7b/notebooks_DPO_fine_tuning.ipynb
-        - SFT Trainer: LLM/Mistral-7b/notebooks_SFTTrainer TRL.ipynb
-        - ChatML Inference: LLM/Mistral-7b/notebooks_chatml_inference.ipynb
-      - Mixtral: LLM/Mixtral/Mixtral_fine_tuning.ipynb
-    - VLM:
-      - Florence2: LLM/VLM/Florence2_finetuning_notebook.ipynb
-      - PaliGemma: LLM/VLM/PaliGemma_finetuning_notebook.ipynb
-    - LLM Architecture:
-      - Lora Explained: LLM/LLMArchitecture/LoraExplained/README.md
-      - Parameter Count: LLM/LLMArchitecture/ParameterCount.ipynb
+      - Introduction: LLM/README.md
+      - LLM:
+          - Gemma:
+              - Overview: LLM/Gemma/README.md
+              - Implementation: LLM/Gemma/Gemma_finetuning_notebook.ipynb
+          - Llama2:
+              - Overview: LLM/LLama2/README.md
+              - Implementation: LLM/LLama2/Llama2_finetuning_notebook.ipynb
+              - QLora: LLM/LLama2/Llama_2_Fine_Tuning_using_QLora.ipynb
+          - Llama3: LLM/Llama3_finetuning_notebook.ipynb
+          - Mistral:
+              - Overview: LLM/Mistral-7b/README.md
+              - Implementation: LLM/Mistral-7b/Mistral_finetuning_notebook.ipynb
+              - Evaluation: LLM/Mistral-7b/LLM_evaluation_harness_for_Arc_Easy_and_SST.ipynb
+              - DPO Fine-tuning: LLM/Mistral-7b/notebooks_DPO_fine_tuning.ipynb
+              - SFT Trainer: LLM/Mistral-7b/notebooks_SFTTrainer TRL.ipynb
+              - ChatML Inference: LLM/Mistral-7b/notebooks_chatml_inference.ipynb
+          - Mixtral: LLM/Mixtral/Mixtral_fine_tuning.ipynb
+      - VLM:
+          - Florence2: LLM/VLM/Florence2_finetuning_notebook.ipynb
+          - PaliGemma: LLM/VLM/PaliGemma_finetuning_notebook.ipynb
+      - LLM Architecture:
+          - Lora Explained: LLM/LLMArchitecture/LoraExplained/README.md
+          - Parameter Count: LLM/LLMArchitecture/ParameterCount.ipynb
   - Deployment:
-    - Introduction: Deployment/README.md
-    - Deploy LLM:
-      - Overview: Deployment/DeployLLM/README.md
-    - Quantization:
-      - AWQ: Deployment/Quantization/AWQ_Quantization.ipynb
-      - GGUF: Deployment/Quantization/GGUF_Quantization.ipynb
+      - Introduction: Deployment/README.md
+      - Deploy LLM:
+          - Overview: Deployment/DeployLLM/README.md
+      - Quantization:
+          - AWQ: Deployment/Quantization/AWQ_Quantization.ipynb
+          - GGUF: Deployment/Quantization/GGUF_Quantization.ipynb
   - Projects:
-    - Introduction: Projects/README.md
-    - YouTube Clones:
-      - Overview: Projects/YT_Clones/README.md
-      - Fireship Clone: Projects/YT_Clones/Fireship_clone.ipynb
-      - Dataset Preparation: Projects/YT_Clones/dataset_prep.ipynb
+      - Introduction: Projects/README.md
+      - YouTube Clones:
+          - Overview: Projects/YT_Clones/README.md
+          - Fireship Clone: Projects/YT_Clones/Fireship_clone.ipynb
+          - Dataset Preparation: Projects/YT_Clones/dataset_prep.ipynb
   - Agents:
-    - Overview: Agents/README.md
-    - Multi-document Agents: Agents/multi_document_agents.ipynb
+      - Overview: Agents/README.md
+      - Multi-document Agents: Agents/multi_document_agents.ipynb
 
 extra:
   social:

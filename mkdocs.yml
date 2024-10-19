@@ -72,9 +72,12 @@ markdown_extensions:
 nav:
   - Home: README.md
   - Prompt Engineering:
-      - Prompting Techniques: PromptEngineering/README.md
-      - Introduction: PromptEngineering/prompt_engineering.ipynb
+      - Introduciton: PromptEngineering/README.md
+      - Basic Prompt Engineering: PromptEngineering/Basic_Prompting.md
+      - Advance Prompt Engineering: PromptEngineering/Advanced_Prompting.md
+      - Prompting Hands On: PromptEngineering/prompt_engineering.ipynb
       - Function Calling: PromptEngineering/function_calling.ipynb
+      - Hands on with Adv Prompting: PromptEngineering/hand_on_with_advanced_prompt_engineering.md
   - RAG:
       - Introduction: RAG/README.md
       - RAG Techniques:

@@ -15,15 +15,15 @@ By mastering the art of prompting, users can significantly enhance the performan
 
 To make the README more engaging, you can add a table of contents with a corresponding route for each file in the "PromptEngineering" folder. Here's how you can structure the table for quick navigation:
 
-| File Name                                                                                                        | Description                                                            |
-| ---------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| [**Basic Prompting**](./PromptEngineering/Basic_Prompting.md)                                                    | Introduction to basic prompt engineering concepts and structures.      |
-| [**Advanced Prompting**](./PromptEngineering/Advanced_Prompting.md)                                              | Techniques for advanced prompt optimization and structured outputs.    |
-| [**Hands-on with Advanced Prompt Engineering**](./PromptEngineering/hand_on_with_advanced_prompt_engineering.md) | Practical guide for applying advanced prompting techniques.            |
-| [**Understanding the OpenAI API**](./PromptEngineering/Understanding_OpenAI_API.md)                              | Overview of OpenAI API usage with prompts.                             |
-| [**Function Calling in LLMs**](./PromptEngineering/function_calling.ipynb)                                       | Notebook demonstrating function calling features with language models. |
-| [**Comprehensive Prompt Engineering Notebook**](./PromptEngineering/prompt_engineering.ipynb)                    | Jupyter Notebook covering various prompting techniques.                |
-| [**README**](./PromptEngineering/README.md)                                                                      | Overview of the repository and contents.                               |
+| File Name                                                                                      | Description                                                            |
+| ---------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| [**Basic Prompting**](./Basic_Prompting.md)                                                    | Introduction to basic prompt engineering concepts and structures.      |
+| [**Advanced Prompting**](./Advanced_Prompting.md)                                              | Techniques for advanced prompt optimization and structured outputs.    |
+| [**Hands-on with Advanced Prompt Engineering**](./hand_on_with_advanced_prompt_engineering.md) | Practical guide for applying advanced prompting techniques.            |
+| [**Understanding the OpenAI API**](./Understanding_OpenAI_API.md)                              | Overview of OpenAI API usage with prompts.                             |
+| [**Function Calling in LLMs**](./function_calling.ipynb)                                       | Notebook demonstrating function calling features with language models. |
+| [**Comprehensive Prompt Engineering Notebook**](./prompt_engineering.ipynb)                    | Jupyter Notebook covering various prompting techniques.                |
+| [**README**](./README.md)                                                                      | Overview of the repository and contents.                               |
 
 ### Prompt Engineering Significance
 

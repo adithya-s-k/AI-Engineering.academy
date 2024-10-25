@@ -80,6 +80,8 @@ nav:
       - Hands on with Adv Prompting: PromptEngineering/hand_on_with_advanced_prompt_engineering.md
   - RAG:
       - Introduction: RAG/README.md
+      - Embedding and Similarity:
+          - Introduction: RAG/00_RAG_from_Scratch/Understanding_embeddings_and_similarity
       - RAG Techniques:
           - RAG from Scratch:
               - Overview: RAG/00_RAG_from_Scratch/README.md

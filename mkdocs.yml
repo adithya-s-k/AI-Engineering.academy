@@ -73,6 +73,7 @@ nav:
   - Home: README.md
   - Prompt Engineering:
       - Introduciton: PromptEngineering/README.md
+      - Understanding OpenAI API: PromptEngineering/Understanding_OpenAI_API.md
       - Basic Prompt Engineering: PromptEngineering/Basic_Prompting.md
       - Advance Prompt Engineering: PromptEngineering/Advanced_Prompting.md
       - Prompting Hands On: PromptEngineering/prompt_engineering.ipynb
@@ -81,7 +82,7 @@ nav:
   - RAG:
       - Introduction: RAG/README.md
       - Embedding and Similarity:
-          - Introduction: RAG/00_RAG_from_Scratch/Understanding_embeddings_and_similarity
+          - Introduction: RAG/00_RAG_from_Scratch/Understanding_embeddings_and_similarity.ipynb
       - RAG Techniques:
           - RAG from Scratch:
               - Overview: RAG/00_RAG_from_Scratch/README.md
@@ -172,8 +173,7 @@ nav:
           - Florence2: LLM/VLM/Florence2_finetuning_notebook.ipynb
           - PaliGemma: LLM/VLM/PaliGemma_finetuning_notebook.ipynb
       - LLM Architecture:
-          - Lora Explained: LLM/LLMArchitecture/LoraExplained/README.md
-          - Parameter Count: LLM/LLMArchitecture/ParameterCount.ipynb
+          - Parameter Count: LLM/LLMArchitecture/ParameterCount/README.md
   - Deployment:
       - Introduction: Deployment/README.md
       - Deploy LLM:
@@ -181,16 +181,21 @@ nav:
       - Quantization:
           - AWQ: Deployment/Quantization/AWQ_Quantization.ipynb
           - GGUF: Deployment/Quantization/GGUF_Quantization.ipynb
+  - Agents:
+      - Overview: Agents/README.md
+      - Patterns:
+          - Reflection Pattern: Agents/patterns/reflection_pattern.ipynb
+          - Tool Pattern: Agents/patterns/tool_pattern.ipynb
+          - Planning Pattern: Agents/patterns/planning_pattern.ipynb
+          - Multi-Agent Pattern: Agents/patterns/multiagent_pattern.ipynb
+      - Projects:
+          - Multi-Document Agents: Agents/projects/multi_document_agents.ipynb
   - Projects:
       - Introduction: Projects/README.md
       - YouTube Clones:
           - Overview: Projects/YT_Clones/README.md
           - Fireship Clone: Projects/YT_Clones/Fireship_clone.ipynb
           - Dataset Preparation: Projects/YT_Clones/dataset_prep.ipynb
-  - Agents:
-      - Overview: Agents/README.md
-      - Multi-document Agents: Agents/multi_document_agents.ipynb
-
 extra:
   social:
     - icon: fontawesome/brands/github

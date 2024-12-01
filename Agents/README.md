@@ -6,35 +6,15 @@ Welcome to the AI Agents section of AI Engineering Academy! This module explores
 
 | Category     | Component                                                       | Description                                       |
 | ------------ | --------------------------------------------------------------- | ------------------------------------------------- |
-| **Patterns** | [Multiagent Pattern](./patterns/multiagent_pattern.ipynb)       | Implementing collaborative agent systems          |
-|              | [Planning Pattern](./patterns/planning_pattern.ipynb)           | Strategic decision-making and task planning       |
-|              | [Reflection Pattern](./patterns/reflection_pattern.ipynb)       | Self-evaluation and improvement mechanisms        |
+| **Patterns** | [Reflection Pattern](./patterns/reflection_pattern.ipynb)       | Self-evaluation and improvement mechanisms        |
 |              | [Tool Pattern](./patterns/tool_pattern.ipynb)                   | Tool usage and integration frameworks             |
+|              | [Planning Pattern](./patterns/planning_pattern.ipynb)           | Strategic decision-making and task planning       |
+|              | [Multiagent Pattern](./patterns/multiagent_pattern.ipynb)       | Implementing collaborative agent systems          |
 | **Projects** | [Multi-document Agents](./projects/multi_document_agents.ipynb) | Practical implementation with document processing |
 
 ## 🎯 Core Patterns
 
-### 1. 🤝 Multi-Agent Systems
-
-Learn to implement collaborative AI systems where multiple agents work together to achieve complex goals.
-
-- Agent communication protocols
-- Task distribution and coordination
-- Conflict resolution mechanisms
-- Collaborative problem-solving
-- Emergent behavior management
-
-### 2. 📋 Planning and Strategy
-
-Master strategic decision-making and task planning for autonomous agents.
-
-- Goal decomposition
-- Action sequence planning
-- Resource allocation
-- Risk assessment
-- Adaptive planning strategies
-
-### 3. 🔄 Reflection and Learning
+### 1. 🔄 Reflection and Learning
 
 Implement self-improvement mechanisms for more capable agents.
 
@@ -44,7 +24,7 @@ Implement self-improvement mechanisms for more capable agents.
 - Error recovery
 - Continuous improvement loops
 
-### 4. 🛠️ Tool Usage
+### 2. 🛠️ Tool Usage
 
 Develop agents that can effectively utilize external tools and APIs.
 
@@ -53,6 +33,26 @@ Develop agents that can effectively utilize external tools and APIs.
 - Error handling
 - Resource management
 - Tool chain orchestration
+
+### 3. 📋 Planning and Strategy
+
+Master strategic decision-making and task planning for autonomous agents.
+
+- Goal decomposition
+- Action sequence planning
+- Resource allocation
+- Risk assessment
+- Adaptive planning strategies
+
+### 4. 🤝 Multi-Agent Systems
+
+Learn to implement collaborative AI systems where multiple agents work together to achieve complex goals.
+
+- Agent communication protocols
+- Task distribution and coordination
+- Conflict resolution mechanisms
+- Collaborative problem-solving
+- Emergent behavior management
 
 ## 🚀 Practical Projects
 

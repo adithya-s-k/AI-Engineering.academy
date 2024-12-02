@@ -8,13 +8,13 @@
 
 <div align="center">
 
+</div>
+
 [![GitHub Stars](https://img.shields.io/github/stars/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/network/members)
 [![GitHub Issues](https://img.shields.io/github/issues/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
 [![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
-
-</div>
 
 ## Introduction
 
@@ -23,6 +23,7 @@ Evaluation is a critical component in the development and optimization of Retrie
 ## Importance of Evaluation in RAG
 
 Effective evaluation of RAG systems is essential because it:
+
 1. Helps identify strengths and weaknesses in the retrieval and generation processes.
 2. Guides improvements and optimizations across the RAG pipeline.
 3. Ensures the system meets quality standards and user expectations.
@@ -40,14 +41,14 @@ flowchart TB
         B[Retrieved Chunks] --> E
         C[Generated Response] --> E
     end
-    
+
     subgraph "2. Evaluation Engine"
         E --> F[Evaluation Libraries]
         F --> G[RAGAS Metrics]
         F --> H[DeepEval Metrics]
         F --> I[Trulens Metrics]
     end
-    
+
     subgraph "3. RAGAS Metrics"
         G --> G1[Faithfulness]
         G --> G2[Answer Relevancy]
@@ -58,7 +59,7 @@ flowchart TB
         G --> G7[Noise Sensitivity]
         G --> G8[Summarization Score]
     end
-    
+
     subgraph "4. DeepEval Metrics"
         H --> H1[G-Eval]
         H --> H2[Summarization]
@@ -71,7 +72,7 @@ flowchart TB
         H --> H9[Toxicity]
         H --> H10[Bias]
     end
-    
+
     subgraph "5. Trulens Metrics"
         I --> I1[Context Relevance]
         I --> I2[Groundedness]
@@ -88,6 +89,7 @@ flowchart TB
 ## Key Evaluation Metrics
 
 ### RAGAS Metrics
+
 1. **Faithfulness**: Measures how well the generated response aligns with the retrieved context.
 2. **Answer Relevancy**: Assesses the relevance of the response to the query.
 3. **Context Recall**: Evaluates how well the retrieved chunks cover the information needed to answer the query.
@@ -98,6 +100,7 @@ flowchart TB
 8. **Summarization Score**: Assesses the quality of summarization in the response.
 
 ### DeepEval Metrics
+
 1. **G-Eval**: A general evaluation metric for text generation tasks.
 2. **Summarization**: Assesses the quality of text summarization.
 3. **Answer Relevancy**: Measures how well the response answers the query.
@@ -108,6 +111,7 @@ flowchart TB
 8. **Bias**: Detects unfair prejudice or favoritism in the generated content.
 
 ### Trulens Metrics
+
 1. **Context Relevance**: Assesses how well the retrieved context matches the query.
 2. **Groundedness**: Measures how well the response is supported by the retrieved information.
 3. **Answer Relevance**: Evaluates how well the response addresses the query.

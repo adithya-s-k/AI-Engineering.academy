@@ -8,19 +8,20 @@
 
 <div align="center">
 
+</div>
+
 [![GitHub Stars](https://img.shields.io/github/stars/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/network/members)
 [![GitHub Issues](https://img.shields.io/github/issues/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
 [![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
 
-</div>
-
 ## Introduction
 
 BM25 Retrieval-Augmented Generation (BM25 RAG) is an advanced technique that combines the power of the BM25 (Best Matching 25) algorithm for information retrieval with large language models for text generation. This approach enhances the accuracy and relevance of generated responses by grounding them in specific, retrieved information using a proven probabilistic retrieval model.
 
 ## BM25 RAG Workflow
+
 ```mermaid
 flowchart TD
     subgraph "1. Document Processing"
@@ -29,41 +30,43 @@ flowchart TD
         B --> C2[Chunk-2]
         B --> C3[Chunk-n]
     end
-    
+
     subgraph "2. Indexing"
         C1 & C2 & C3 --> D[Tokenization]
         D --> E[TF-IDF Calculation]
         E --> F[(Inverted Index)]
     end
-    
+
     subgraph "3. Query Processing"
         G[Query] --> H[Tokenization]
         H --> I[Query Terms]
     end
-    
+
     subgraph "4. Retrieval"
         I -->|Term Matching| F
         F -->|BM25 Scoring| J[Relevant Chunks]
     end
-    
+
     subgraph "5. Context Formation"
         J --> K[Query + Relevant Chunks]
     end
-    
+
     subgraph "6. Generation"
         K --> L[LLM]
         L --> M[Response]
     end
-    
+
     G --> K
 ```
 
 ## Getting Started
 
 ### Notebook
+
 You can run the Jupyter notebook provided in this repository to explore BM25 RAG in detail.
 
 ### Chat Application
+
 1. Install dependencies:
    ```
    pip install -r requirements.txt
@@ -78,12 +81,15 @@ You can run the Jupyter notebook provided in this repository to explore BM25 RAG
    ```
 
 ### Server
+
 Run the server with:
+
 ```
 python server.py
 ```
 
 The server has two endpoints:
+
 - `/api/ingest`: For ingesting new documents
 - `/api/query`: For querying the BM25 RAG system
 

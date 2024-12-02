@@ -8,13 +8,13 @@
 <img src="https://raw.githubusercontent.com/adithya-s-k/AI-Engineering.academy/main/assets/banner.png" alt="Ai Engineering. Academy" width="50%">
 </a>
 
+</div>
+
 [![GitHub Stars](https://img.shields.io/github/stars/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/stargazers)
 [![GitHub Forks](https://img.shields.io/github/forks/adithya-s-k/AI-Engineering.academy?style=social)](https://github.com/adithya-s-k/AI-Engineering.academy/network/members)
 [![GitHub Issues](https://img.shields.io/github/issues/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/issues)
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
 [![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
-
-</div>
 
 ## Introduction
 
@@ -32,45 +32,47 @@ flowchart TD
         B --> C2[Chunk-2]
         B --> C3[Chunk-n]
     end
-    
+
     subgraph "2. Document Embedding"
         EM1{{Embedding Model}}
         C1 & C2 & C3 --> EM1
         EM1 --> D1[Embedding-1] & D2[Embedding-2] & D3[Embedding-3]
     end
-    
+
     subgraph "3. Indexing"
         D1 & D2 & D3 --> E[(VectorDB)]
     end
-    
+
     subgraph "4. Query Processing"
         F[Query] --> EM2{{Embedding Model}}
         EM2 --> G[Query Embedding]
     end
-    
+
     subgraph "5. Retrieval"
         G -->|Similarity Search| E
         E -->|Top-K Retrieval| H[Relevant Chunks]
     end
-    
+
     subgraph "6. Context Formation"
         H --> I[Query + Relevant Chunks]
     end
-    
+
     subgraph "7. Generation"
         I --> J[LLM]
         J --> K[Response]
     end
-    
+
     F --> I
 ```
 
 ## Get Started
 
 ### Notebook
+
 You can run the notebook provided in this repository.
 
 ### Chat Application
+
 1. Install dependencies:
    ```
    pip install -r requirements.txt
@@ -85,12 +87,15 @@ You can run the notebook provided in this repository.
    ```
 
 ### Server
+
 Run the server with:
+
 ```
 python server.py
 ```
 
 The server has two endpoints:
+
 - `/api/ingest`
 - `/api/query`
 
@@ -103,13 +108,11 @@ Traditional language models generate text based on learned patterns from trainin
 ### Document Preprocessing and Vector Store Creation
 
 1. **Document Chunking**: The knowledge base documents (e.g., PDFs, articles) are preprocessed and split into manageable chunks. This creates a searchable corpus that can be efficiently used in the retrieval process.
-   
 2. **Embedding Generation**: Each chunk is converted into a vector representation using pre-trained embeddings (e.g., OpenAI's embeddings). This allows the documents to be stored in a vector database, such as Qdrant, enabling efficient similarity searches.
 
 ### Retrieval-Augmented Generation Workflow
 
 1. **Query Input**: A user provides a query that needs to be answered.
-   
 2. **Retrieval Step**: The query is embedded into a vector using the same embedding model that was used for the documents. A similarity search is then performed in the vector database to find the most relevant document chunks.
 
 3. **Generation Step**: The retrieved document chunks are passed to a large language model (e.g., GPT-4) as additional context. The model uses this context to generate a more accurate and relevant response.
@@ -117,7 +120,6 @@ Traditional language models generate text based on learned patterns from trainin
 ## Key Features of RAG
 
 1. **Contextual Relevance**: By grounding responses in actual retrieved information, RAG models can produce more contextually relevant and accurate answers.
-   
 2. **Scalability**: The retrieval step can scale to handle large knowledge bases, allowing the model to draw from vast amounts of information.
 
 3. **Flexibility in Use Cases**: RAG can be adapted for a variety of applications, including question answering, summarization, recommendation systems, and more.

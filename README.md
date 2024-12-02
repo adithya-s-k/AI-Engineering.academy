@@ -18,13 +18,12 @@
 
 ## 🎯 Mission
 
-In today's AI-driven world, finding your path through the maze of scattered learning resources can be overwhelming. AI Engineering Academy stands as your beacon, offering carefully curated, structured learning paths that transform complex AI concepts into digestible, practical knowledge.
+Your journey into AI shouldn't be overwhelming. [AIengineering.academy](https://aiengineering.academy/) curate and organize essential knowledge into clear learning paths, making complex AI concepts accessible and practical for everyone.
 
 ## 🌟 Why Choose AI Engineering Academy?
 
 - 📚 **Structured Learning**: Carefully designed pathways from fundamentals to advanced concepts
 - 💻 **Hands-on Practice**: Real-world projects and implementations
-- 🔄 **Up-to-date Content**: Regular updates reflecting the latest in AI technology
 - 🎓 **Industry-Aligned**: Focus on practical, production-ready skills
 - 🤝 **Community-Driven**: Learn alongside peers and experts
 

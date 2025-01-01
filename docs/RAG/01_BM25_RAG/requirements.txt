@@ -1,0 +1,17 @@
+python-dotenv
+llama-index
+llama-index-vector-stores-qdrant 
+llama-index-readers-file 
+llama-index-embeddings-fastembed 
+llama-index-retrievers-bm25
+llama-index-llms-openai
+llama-index-llms-groq
+llama-index-storage-index-store-mongodb
+llama-index-storage-docstore-mongodb
+llama-index-storage-docstore-redis
+llama-index-storage-index-store-redis
+qdrant_client
+fastembed
+chainlit
+motor
+pymongo

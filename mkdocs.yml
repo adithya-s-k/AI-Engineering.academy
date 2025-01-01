@@ -77,20 +77,20 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  favicon: assets/logo.png
-#   icon:
-#     logo: assets/logo.png
+  favicon: assets/favicon.png
+  icon:
+    logo: logo
 
 # Plugins
 plugins:
   - blog
-  #   - mkdocs-jupyter:
-  #       include_source: true
-  #       ignore_h1_titles: true
-  #       execute: false
-  #       allow_errors: true
-  #       ignore_patterns:
-  #         - "archives/*"
+  - mkdocs-jupyter:
+      include_source: true
+      ignore_h1_titles: true
+      execute: false
+      allow_errors: true
+      ignore_patterns:
+        - "archives/*"
   - mkdocstrings:
       default_handler: python
       handlers:

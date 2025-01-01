@@ -1,0 +1,5388 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Mastering Applied AI, One Concept at a Time">
+      
+      
+        <meta name="author" content="Adithya S Kolavi">
+      
+      
+        <link rel="canonical" href="https://aiengineering.academy/RAG/data/md/gragh_nn_rag.pdf/">
+      
+      
+      
+      
+      <link rel="icon" href="../../../../assets/logo.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.5.49">
+    
+    
+      
+        <title>GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning - AI Engineering Academy</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.6f8fc17f.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.06af60db.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+  
+
+
+  
+  
+
+<script id="__analytics">function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config",""),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script>
+  
+    <script>"undefined"!=typeof __md_analytics&&__md_analytics()</script>
+  
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gnn-rag-graph-neural-retrieval-for-large-language-model-reasoning" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../.." title="AI Engineering Academy" class="md-header__button md-logo" aria-label="AI Engineering Academy" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AI Engineering Academy
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_1">
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="indigo"  aria-hidden="true"  type="radio" name="__palette" id="__palette_2">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="Share" aria-label="Share" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/adithya-s-k/AI-Engineering.academy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    adithya-s-k/AI-Engineering.academy
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../.." class="md-tabs__link">
+        
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../PromptEngineering/" class="md-tabs__link">
+          
+  
+    
+  
+  Prompt Engineering
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../" class="md-tabs__link">
+          
+  
+    
+  
+  RAG
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../LLM/" class="md-tabs__link">
+          
+  
+    
+  
+  LLM
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Deployment/" class="md-tabs__link">
+          
+  
+    
+  
+  Deployment
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Agents/" class="md-tabs__link">
+          
+  
+    
+  
+  Agents
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../Projects/" class="md-tabs__link">
+          
+  
+    
+  
+  Projects
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../../blog/" class="md-tabs__link">
+          
+  
+    
+  
+  Blog
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="AI Engineering Academy" class="md-nav__button md-logo" aria-label="AI Engineering Academy" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AI Engineering Academy
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/adithya-s-k/AI-Engineering.academy" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81"/></svg>
+  </div>
+  <div class="md-source__repository">
+    adithya-s-k/AI-Engineering.academy
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Home
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../PromptEngineering/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Prompt Engineering
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            Prompt Engineering
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../PromptEngineering/Understanding_OpenAI_API/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Understanding OpenAI API
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../PromptEngineering/Basic_Prompting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Basic Prompt Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../PromptEngineering/Advanced_Prompting/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Advance Prompt Engineering
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../PromptEngineering/prompt_engineering.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Prompting Hands On
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../PromptEngineering/function_calling.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Function Calling
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../PromptEngineering/hand_on_with_advanced_prompt_engineering/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Hands on with Adv Prompting
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    RAG
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Embedding and Similarity
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Embedding and Similarity
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../00_RAG_from_Scratch/Understanding_embeddings_and_similarity.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Introduction
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    RAG Techniques
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            RAG Techniques
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../00_RAG_from_Scratch/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    RAG from Scratch
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3_1" id="__nav_3_3_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_1">
+            <span class="md-nav__icon md-icon"></span>
+            RAG from Scratch
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../00_RAG_from_Scratch/RAG_in_10_lines.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../01_Basic_RAG/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Basic RAG
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3_2" id="__nav_3_3_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            Basic RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_Basic_RAG/notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_Basic_RAG/notebook_eval.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_3" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../01_BM25_RAG/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    BM25 RAG
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3_3" id="__nav_3_3_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            BM25 RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_BM25_RAG/notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_4" id="__nav_3_3_4_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Data Ingestion
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            Data Ingestion
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_Data_Ingestion/data_chunking.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Chunking
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_Data_Ingestion/data_embedding.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Embedding
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_Data_Ingestion/data_ingestion.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Data Ingestion
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../01_RAG_Evaluation/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    RAG Evaluation
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3_5" id="__nav_3_3_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            RAG Evaluation
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_RAG_Evaluation/RAGAS.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    RAGAS
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_RAG_Evaluation/deepeval.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DeepEval
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_RAG_Evaluation/trulens.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    TruLens
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_RAG_Evaluation/notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Notebook
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../01_RAG_Observability/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    RAG Observability
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3_3_6" id="__nav_3_3_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            RAG Observability
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../01_RAG_Observability/notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_7" id="__nav_3_3_7_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ReRanker RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            ReRanker RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_ReRanker_RAG/notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../02_ReRanker_RAG/notebook_eval.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_8" id="__nav_3_3_8_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Hybrid RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_8">
+            <span class="md-nav__icon md-icon"></span>
+            Hybrid RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_Hybrid_RAG/_Qdrant_Hybrid_Search.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Qdrant Hybrid Search
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../03_Hybrid_RAG/qdrant_hybrid.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_9" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_9" id="__nav_3_3_9_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Sentence Window RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_9_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_9">
+            <span class="md-nav__icon md-icon"></span>
+            Sentence Window RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_10" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_10" id="__nav_3_3_10_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Auto Merging RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_10_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_10">
+            <span class="md-nav__icon md-icon"></span>
+            Auto Merging RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_11" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_11" id="__nav_3_3_11_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    HyDE RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_11_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_11">
+            <span class="md-nav__icon md-icon"></span>
+            HyDE RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06_HyDE_RAG/HyDEQueryTransformDemo.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_12" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_12" id="__nav_3_3_12_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Query Transformation RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_12_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_12">
+            <span class="md-nav__icon md-icon"></span>
+            Query Transformation RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../06_Query_Transformation_RAG/query_transform_cookbook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_13" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_13" id="__nav_3_3_13_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Self Query RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_13_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_13">
+            <span class="md-nav__icon md-icon"></span>
+            Self Query RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../07_Self_Query_RAG/Self_Query_RAG.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_14" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_14" id="__nav_3_3_14_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    RAG Fusion
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_14_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_14">
+            <span class="md-nav__icon md-icon"></span>
+            RAG Fusion
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../08_RAG_Fusion/ragfusion.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_15" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_15" id="__nav_3_3_15_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    RAPTOR
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_15_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_15">
+            <span class="md-nav__icon md-icon"></span>
+            RAPTOR
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../09_RAPTOR/raptor.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_16" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_16" id="__nav_3_3_16_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    ColBERT RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_16_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_16">
+            <span class="md-nav__icon md-icon"></span>
+            ColBERT RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10_ColBERT_RAG/ColBert_RAG.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../10_ColBERT_RAG/ragatouille_retriever.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Ragatouille Retriever
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_17" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_17" id="__nav_3_3_17_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Graph RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_17_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_17">
+            <span class="md-nav__icon md-icon"></span>
+            Graph RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../11_Graph_RAG/GraphRAG_v1.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_18" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_18" id="__nav_3_3_18_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Agentic RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_18_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_18">
+            <span class="md-nav__icon md-icon"></span>
+            Agentic RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../12_Agnetic_RAG/multi_document_agents.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_3_19" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3_19" id="__nav_3_3_19_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Vision RAG
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_3_3_19_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3_19">
+            <span class="md-nav__icon md-icon"></span>
+            Vision RAG
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../LLM/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    LLM
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            LLM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    LLM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2">
+            <span class="md-nav__icon md-icon"></span>
+            LLM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_1" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../LLM/Gemma/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Gemma
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2_1" id="__nav_4_2_1_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_1_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_1">
+            <span class="md-nav__icon md-icon"></span>
+            Gemma
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Gemma/Gemma_finetuning_notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../LLM/LLama2/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Llama2
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2_2" id="__nav_4_2_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_2">
+            <span class="md-nav__icon md-icon"></span>
+            Llama2
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/LLama2/Llama2_finetuning_notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/LLama2/Llama_2_Fine_Tuning_using_QLora.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    QLora
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Llama3_finetuning_notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Llama3
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_2_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../LLM/Mistral-7b/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Mistral
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4_2_4" id="__nav_4_2_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="3" aria-labelledby="__nav_4_2_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_2_4">
+            <span class="md-nav__icon md-icon"></span>
+            Mistral
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Mistral-7b/Mistral_finetuning_notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Implementation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Mistral-7b/LLM_evaluation_harness_for_Arc_Easy_and_SST.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Evaluation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Mistral-7b/notebooks_DPO_fine_tuning.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    DPO Fine-tuning
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Mistral-7b/notebooks_SFTTrainer%20TRL.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    SFT Trainer
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Mistral-7b/notebooks_chatml_inference.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    ChatML Inference
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/Mixtral/Mixtral_fine_tuning.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Mixtral
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    VLM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_3">
+            <span class="md-nav__icon md-icon"></span>
+            VLM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/VLM/Florence2_finetuning_notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Florence2
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../LLM/VLM/PaliGemma_finetuning_notebook.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    PaliGemma
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4_4" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../LLM/LLMArchitecture/ParameterCount/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    LLM Architecture
+  </span>
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_4_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4_4">
+            <span class="md-nav__icon md-icon"></span>
+            LLM Architecture
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Deployment/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Deployment
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            Deployment
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Deploy LLM
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_2">
+            <span class="md-nav__icon md-icon"></span>
+            Deploy LLM
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Deployment/DeployLLM/README.md" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Overview
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Quantization
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_5_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5_3">
+            <span class="md-nav__icon md-icon"></span>
+            Quantization
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Deployment/Quantization/AWQ_Quantization.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    AWQ
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Deployment/Quantization/GGUF_Quantization.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    GGUF
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Agents/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Agents
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_6" id="__nav_6_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            Agents
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Patterns
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_2">
+            <span class="md-nav__icon md-icon"></span>
+            Patterns
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Agents/patterns/reflection_pattern.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Reflection Pattern
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Agents/patterns/tool_pattern.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Tool Pattern
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Agents/patterns/planning_pattern.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Planning Pattern
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Agents/patterns/multiagent_pattern.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi-Agent Pattern
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Projects
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_6_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6_3">
+            <span class="md-nav__icon md-icon"></span>
+            Projects
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Agents/projects/multi_document_agents.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Multi-Document Agents
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Projects/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Projects
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7" id="__nav_7_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            Projects
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_7_2" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../Projects/YT_Clones/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    YouTube Clones
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_7_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7_2">
+            <span class="md-nav__icon md-icon"></span>
+            YouTube Clones
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Projects/YT_Clones/Fireship_clone.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Fireship Clone
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../Projects/YT_Clones/dataset_prep.ipynb" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    Dataset Preparation
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" >
+        
+          
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../../blog/" class="md-nav__link ">
+              
+  
+  <span class="md-ellipsis">
+    Blog
+  </span>
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_8" id="__nav_8_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            Blog
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Archive
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_2">
+            <span class="md-nav__icon md-icon"></span>
+            Archive
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/archive/2025/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    2025
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+            
+  
+  <span class="md-ellipsis">
+    Categories
+  </span>
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_8_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8_3">
+            <span class="md-nav__icon md-icon"></span>
+            Categories
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+    
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../../blog/category/general/" class="md-nav__link">
+        
+  
+  <span class="md-ellipsis">
+    General
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+    <a href="https://github.com/adithya-s-k/AI-Engineering.academy/edit/master/docs/RAG/data/md/gragh_nn_rag.pdf.md" title="Edit this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/adithya-s-k/AI-Engineering.academy/raw/master/docs/RAG/data/md/gragh_nn_rag.pdf.md" title="View source of this page" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="gnn-rag-graph-neural-retrieval-for-large-language-model-reasoning">GNN-RAG: Graph Neural Retrieval for Large Language Model Reasoning<a class="headerlink" href="#gnn-rag-graph-neural-retrieval-for-large-language-model-reasoning" title="Permanent link">&para;</a></h1>
+<p>Costas Mavromatis</p>
+<p>University of Minnesota</p>
+<p><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#109;&#97;&#118;&#114;&#111;&#48;&#49;&#54;&#64;&#117;&#109;&#110;&#46;&#101;&#100;&#117;">&#109;&#97;&#118;&#114;&#111;&#48;&#49;&#54;&#64;&#117;&#109;&#110;&#46;&#101;&#100;&#117;</a></p>
+<p>George Karypis</p>
+<p>University of Minnesota</p>
+<p><a href="&#109;&#97;&#105;&#108;&#116;&#111;&#58;&#107;&#97;&#114;&#121;&#112;&#105;&#115;&#64;&#117;&#109;&#110;&#46;&#101;&#100;&#117;">&#107;&#97;&#114;&#121;&#112;&#105;&#115;&#64;&#117;&#109;&#110;&#46;&#101;&#100;&#117;</a></p>
+<h1 id="abstract">Abstract<a class="headerlink" href="#abstract" title="Permanent link">&para;</a></h1>
+<p>Knowledge Graphs (KGs) represent human-crafted factual knowledge in the form of triplets (head, relation, tail), which collectively form a graph. Question Answering over KGs (KGQA) is the task of answering natural questions grounding the reasoning to the information provided by the KG. Large Language Models (LLMs) are the state-of-the-art models for QA tasks due to their remarkable ability to understand natural language. On the other hand, Graph Neural Networks (GNNs) have been widely used for KGQA as they can handle the complex graph information stored in the KG. In this work, we introduce GNN-RAG, a novel method for combining language understanding abilities of LLMs with the reasoning abilities of GNNs in a retrieval-augmented generation (RAG) style. First, a GNN reasons over a dense KG subgraph to retrieve answer candidates for a given question. Second, the shortest paths in the KG that connect question entities and answer candidates are extracted to represent KG reasoning paths. The extracted paths are verbalized and given as input for LLM reasoning with RAG. In our GNN-RAG framework, the GNN acts as a dense subgraph reasoner to extract useful graph information, while the LLM leverages its natural language processing ability for ultimate KGQA. Furthermore, we develop a retrieval augmentation (RA) technique to further boost KGQA performance with GNN-RAG. Experimental results show that GNN-RAG achieves state-of-the-art performance in two widely used KGQA benchmarks (WebQSP and CWQ), outperforming or matching GPT-4 performance with a 7B tuned LLM. In addition, GNN-RAG excels on multi-hop and multi-entity questions outperforming competing approaches by 8.9–15.5% points at answer F1. We provide the code and KGQA results at <a href="https://github.com/cmavro/GNN-RAG">https://github.com/cmavro/GNN-RAG</a>.</p>
+<h1 id="1-introduction">1 Introduction<a class="headerlink" href="#1-introduction" title="Permanent link">&para;</a></h1>
+<p>Large Language Models (LLMs) [Brown et al., 2020, Bommasani et al., 2021, Chowdhery et al., 2023] are the state-of-the-art models in many NLP tasks due to their remarkable ability to understand natural language. LLM’s power stems from pretraining on large corpora of textual data to obtain general human knowledge [Kaplan et al., 2020, Hoffmann et al., 2022]. However, because pretraining is costly and time-consuming [Gururangan et al., 2020], LLMs cannot easily adapt to new or in-domain knowledge and are prone to hallucinations [Zhang et al., 2023]. Knowledge Graphs (KGs) [Vrandeˇc and Krötzsch, 2014] are databases that store information in structured form that can be easily updated. KGs represent human-crafted factual knowledge in the form of triplets (head, relation, tail), e.g., &lt;Jamaica → language_spoken → English&gt;, which collectively form a graph. In the case of KGs, the stored knowledge is updated by fact addition or removal. As KGs capture complex interactions between the stored entities, e.g., multi-hop relations, they are widely used for knowledge-intensive tasks, such as Question Answering (QA) [Pan et al., 2024].</p>
+<h2 id="preprint-under-review">Preprint. Under review.<a class="headerlink" href="#preprint-under-review" title="Permanent link">&para;</a></h2>
+<h1 id="retrieval-augmented-generation-rag">Retrieval-augmented Generation (RAG)<a class="headerlink" href="#retrieval-augmented-generation-rag" title="Permanent link">&para;</a></h1>
+<p>Retrieval-augmented generation (RAG) is a framework that alleviates LLM hallucinations by enriching the input context with up-to-date and accurate information [Lewis et al., 2020], e.g., obtained from the KG. In the KGQA task, the goal is to answer natural questions grounding the reasoning to the information provided by the KG. For instance, the input for RAG becomes “Knowledge: Jamaica → language_spoken → English
+Question: Which language do Jamaican people speak?”, where the LLM has access to KG information for answering the question. GNN-RAG’s performance highly depends on the KG facts that are retrieved [Wu et al., 2023]. The challenge is that KGs store complex graph information (they usually consist of millions of facts) and retrieving the right information requires effective graph processing, while retrieving irrelevant information may confuse the LLM during its KGQA reasoning [He et al., 2024]. Existing retrieval methods that rely on LLMs to retrieve relevant KG information (LLM-based retrieval) underperform on multi-hop KGQA as they cannot handle complex graph information [Baek et al., 2023, Luo et al., 2024] or they need the internal knowledge of very large LMs, e.g., GPT-4, to compensate for missing information during KG retrieval [Sun et al., 2024].</p>
+<p>In this work, we introduce GNN-RAG, a novel method for improving RAG for KGQA. GNN-RAG relies on Graph Neural Networks (GNNs) [Mavromatis and Karypis, 2022], which are powerful graph representation learners, to handle the complex graph information stored in the KG. Although GNNs cannot understand natural language the same way LLMs do, GNN-RAG repurposes their graph processing power for retrieval. First, a GNN reasons over a dense KG subgraph to retrieve answer candidates for a given question. Second, the shortest paths in the KG that connect question entities and GNN-based answers are extracted to represent useful KG reasoning paths. The extracted paths are verbalized and given as input for LLM reasoning with RAG. Furthermore, we show that GNN-RAG can be augmented with LLM-based retrievers to further boost KGQA performance.</p>
+<p>Experimental results show GNN-RAG’s superiority over competing RAG-based systems for KGQA by outperforming them by up to 15.5% points at complex KGQA performance (Figure 1). Our contributions are summarized below:</p>
+<ul>
+<li>Framework: GNN-RAG repurposes GNNs for KGQA retrieval to enhance the reasoning abilities of LLMs. In our GNN-RAG framework, the GNN acts as a dense subgraph reasoner to extract useful graph information, while the LLM leverages its natural language processing ability for ultimate KGQA. Moreover, our retrieval analysis (Section 4.3) guides the design of a retrieval augmentation (RA) technique to boost GNN-RAG’s performance (Section 4.4).</li>
+<li>Effectiveness &amp; Faithfulness: GNN-RAG achieves state-of-the-art performance in two widely used KGQA benchmarks (WebQSP and CWQ). GNN-RAG retrieves multi-hop information that is necessary for faithful LLM reasoning on complex questions (8.9–15.5% improvement; see Figure 1).</li>
+<li>Efficiency: GNN-RAG improves vanilla LLMs on KGQA performance without incurring additional LLM calls as existing RAG systems for KGQA require. In addition, GNN-RAG outperforms or matches GPT-4 performance with a 7B tuned LLM.</li>
+</ul>
+<h1 id="2-related-work">2 Related Work<a class="headerlink" href="#2-related-work" title="Permanent link">&para;</a></h1>
+<h2 id="kgqa-methods-kgqa-methods-fall-into-two-categories-lan-et-al-2022-a-semantic-parsing-sp-methods-and-b-information-retrieval-ir-methods-sp-methods-sun-et-al-2020-lan-and-jiang-2020-ye-et-al-2022-learn-to-transform-the-given-question-into-a-query-of-logical-form-eg-sparql-query-the-transformed-query-is-then-executed-over-the-kg-to-obtain-the-answers-however-sp-methods-require-ground-truth-logical-queries-for-training-which-are-time-consuming-to-annotate-in-practice-and-may-lead-non-executable-queries-due-to-syntactical-or-semantic-errors-das-et-al-2021-yu-et-al-2022-ir-methods-sun-et-al-2018-2019-focus-on-the-weakly-supervised-kgqa-setting-where-only-question-answer-pairs-are-given-for-training-ir-methods-retrieve-kg-information-eg-a-kg-subgraph-zhang-et-al-2022a-which-is-used-as-input-during-kgqa-reasoning">KGQA Methods. KGQA methods fall into two categories [Lan et al., 2022]: (A) Semantic Parsing (SP) methods and (B) Information Retrieval (IR) methods. SP methods [Sun et al., 2020, Lan and Jiang, 2020, Ye et al., 2022] learn to transform the given question into a query of logical form, e.g., SPARQL query. The transformed query is then executed over the KG to obtain the answers. However, SP methods require ground-truth logical queries for training, which are time-consuming to annotate in practice, and may lead non-executable queries due to syntactical or semantic errors [Das et al., 2021, Yu et al., 2022]. IR methods [Sun et al., 2018, 2019] focus on the weakly-supervised KGQA setting, where only question-answer pairs are given for training. IR methods retrieve KG information, e.g., a KG subgraph [Zhang et al., 2022a], which is used as input during KGQA reasoning.<a class="headerlink" href="#kgqa-methods-kgqa-methods-fall-into-two-categories-lan-et-al-2022-a-semantic-parsing-sp-methods-and-b-information-retrieval-ir-methods-sp-methods-sun-et-al-2020-lan-and-jiang-2020-ye-et-al-2022-learn-to-transform-the-given-question-into-a-query-of-logical-form-eg-sparql-query-the-transformed-query-is-then-executed-over-the-kg-to-obtain-the-answers-however-sp-methods-require-ground-truth-logical-queries-for-training-which-are-time-consuming-to-annotate-in-practice-and-may-lead-non-executable-queries-due-to-syntactical-or-semantic-errors-das-et-al-2021-yu-et-al-2022-ir-methods-sun-et-al-2018-2019-focus-on-the-weakly-supervised-kgqa-setting-where-only-question-answer-pairs-are-given-for-training-ir-methods-retrieve-kg-information-eg-a-kg-subgraph-zhang-et-al-2022a-which-is-used-as-input-during-kgqa-reasoning" title="Permanent link">&para;</a></h2>
+<h1 id="gnn-based-kgqa">GNN-based KGQA<a class="headerlink" href="#gnn-based-kgqa" title="Permanent link">&para;</a></h1>
+<h1 id="llm-based-kgqa-tog">LLM-based KGQA (ToG)<a class="headerlink" href="#llm-based-kgqa-tog" title="Permanent link">&para;</a></h1>
+<h1 id="llm-based-kgqa-rog">LLM-based KGQA (RoG)<a class="headerlink" href="#llm-based-kgqa-rog" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Dense retrieval</th>
+<th>Prompt: "Which of the following relations are relevant?"</th>
+<th>Prompt: "Generate helpful relation paths. "RetrievalReasoning relevant? "</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Question</td>
+<td>LLM</td>
+<td>Answer</td>
+<td>LLM</td>
+</tr>
+<tr>
+<td>Prompt: "Given the retrieved knowledge, can you answer the question?"</td>
+<td>LLM</td>
+<td>Answer</td>
+<td>LLM</td>
+</tr>
+<tr>
+<td>Textualize + RAG</td>
+<td>Textualize + RAG</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Figure 2: The landscape of existing KGQA methods. GNN-based methods reason on dense subgraphs as they can handle complex and multi-hop graph information. LLM-based methods employ the same LLM for both retrieval and reasoning due to its ability to understand natural language.</p>
+<p>We analyze the reasoning abilities of the prevailing models (GNNs &amp; LLMs) for KGQA, and in Section 4, we propose GNN-RAG which leverages the strengths of both of these models.</p>
+<h1 id="graph-augmented-lms">Graph-augmented LMs<a class="headerlink" href="#graph-augmented-lms" title="Permanent link">&para;</a></h1>
+<p>Combining LMs with graphs that store information in natural language is an emerging research area [Jin et al., 2023]. There are two main directions, (i) methods that enhance LMs with latent graph information [Zhang et al., 2022b, Tian et al., 2024, Huang et al., 2024], e.g., obtained by GNNs, and (ii) methods that insert verbalized graph information at the input [Xie et al., 2022, Jiang et al., 2023a, Jin et al., 2024], similar to RAG. The methods of the first direction are limited because of the modality mismatch between language and graph, which can lead to inferior performance for knowledge-intensive tasks [Mavromatis et al., 2024]. On the other hand, methods of the second direction may fetch noisy information when the underlying graph is large and such information can decrease the LM’s reasoning ability [Wu et al., 2023, He et al., 2024]. GNN-RAG employs GNNs for information retrieval and RAG for KGQA reasoning, achieving superior performance over existing approaches.</p>
+<h1 id="3-problem-statement-background">3 Problem Statement &amp; Background<a class="headerlink" href="#3-problem-statement-background" title="Permanent link">&para;</a></h1>
+<h1 id="kgqa">KGQA<a class="headerlink" href="#kgqa" title="Permanent link">&para;</a></h1>
+<p>We are given a KG G that contains facts represented as (v, r, v′), where v denotes the head entity, v′ denotes the tail entity, and r is the corresponding relation between the two entities. Given G and a natural language question q, the task of KGQA is to extract a set of entities {a} ∈ G that correctly answer q. Following previous works [Lan et al., 2022], question-answer pairs are given for training, but not the ground-truth paths that lead to the answers.</p>
+<h1 id="retrieval-reasoning">Retrieval &amp; Reasoning<a class="headerlink" href="#retrieval-reasoning" title="Permanent link">&para;</a></h1>
+<p>As KGs usually contain millions of facts and nodes, a smaller question-specific subgraph Gq is retrieved for a question q, e.g., via entity linking and neighbor extraction [Yih et al., 2015]. Ideally, all correct answers for the question are contained in the retrieved subgraph, {a} ∈ Gq. The retrieved subgraph Gq along with the question q are used as input to a reasoning model, which outputs the correct answer(s). The prevailing reasoning models for the KGQA setting studied are GNNs and LLMs.</p>
+<h1 id="gnns">GNNs<a class="headerlink" href="#gnns" title="Permanent link">&para;</a></h1>
+<p>KGQA can be regarded as a node classification problem, where KG entities are classified as answers vs. non-answers for a given question. GNNs Kipf and Welling [2016], Veliˇckovi´c et al. [2017], Schlichtkrull et al. [2018] are powerful graph representation learners suited for tasks such as node classification. GNNs update the representation hv (l) of node v at layer l by aggregating messages mvv(l)′ from each neighbor v′. During KGQA, the message passing is also conditioned to the given question q [He et al., 2021]. For readability purposes, we present the following GNN update for KGQA:</p>
+<h2 id="hv-l-hvl1-nvq-r-mvvx-l">hv (l) = ψhv(l−1), ′∈Nvω(q, r) · mvvX (l)′,<a class="headerlink" href="#hv-l-hvl1-nvq-r-mvvx-l" title="Permanent link">&para;</a></h2>
+<h1 id="where-function-measures-how-relevant-relation-r-of-fact-v-r-v-is-to-question-q-neighbor-are-aggregated-by-a-sum-operator-p-which-is-typically-employed-in-gnns-function-messages-mvvl-combines-representations-from-consecutive-gnn-layers">where function ω(·) measures how relevant relation r of fact (v, r, v′) is to question q. Neighbor are aggregated by a sum-operator P, which is typically employed in GNNs. Function messages mvv(l)′ ψ(·) combines representations from consecutive GNN layers.<a class="headerlink" href="#where-function-measures-how-relevant-relation-r-of-fact-v-r-v-is-to-question-q-neighbor-are-aggregated-by-a-sum-operator-p-which-is-typically-employed-in-gnns-function-messages-mvvl-combines-representations-from-consecutive-gnn-layers" title="Permanent link">&para;</a></h1>
+<h1 id="llms-llms-for-kgqa-use-kg-information-to-perform-retrieval-augmented-generation-rag-as-follows-the-retrieved-subgraph-is-first-converted-into-natural-language-so-that-it-can-be-processed-by-the-llm-the-input-given-to-the-llm-contains-the-kg-factual-information-along-with-the-question-and-a-prompt-for-instance-the-input-becomes-knowledge-jamaica-language_spoken-english-n-question-which-language-do-jamaican-people-speak-where-the-llm-has-access-to-kg-information-for-answering-the-question">LLMs. LLMs for KGQA use KG information to perform retrieval-augmented generation (RAG) as follows. The retrieved subgraph is first converted into natural language so that it can be processed by the LLM. The input given to the LLM contains the KG factual information along with the question and a prompt. For instance, the input becomes “Knowledge: Jamaica → language_spoken → English \n Question: Which language do Jamaican people speak?”, where the LLM has access to KG information for answering the question.<a class="headerlink" href="#llms-llms-for-kgqa-use-kg-information-to-perform-retrieval-augmented-generation-rag-as-follows-the-retrieved-subgraph-is-first-converted-into-natural-language-so-that-it-can-be-processed-by-the-llm-the-input-given-to-the-llm-contains-the-kg-factual-information-along-with-the-question-and-a-prompt-for-instance-the-input-becomes-knowledge-jamaica-language_spoken-english-n-question-which-language-do-jamaican-people-speak-where-the-llm-has-access-to-kg-information-for-answering-the-question" title="Permanent link">&para;</a></h1>
+<h1 id="landscape-of-kgqa-methods">Landscape of KGQA methods.<a class="headerlink" href="#landscape-of-kgqa-methods" title="Permanent link">&para;</a></h1>
+<p>Figure 2 presents the landscape of existing KGQA methods with respect to KG retrieval and reasoning. GNN-based methods, such as GraftNet [Sun et al., 2018], NSM [He et al., 2021], and ReaRev [Mavromatis and Karypis, 2022], reason over a dense KG subgraph leveraging the GNN’s ability to handle complex graph information. Recent LLM-based methods leverage the LLM’s power for both retrieval and reasoning. ToG [Sun et al., 2024] uses the LLM to retrieve relevant facts hop-by-hop. RoG [Luo et al., 2024] uses the LLM to generate plausible relation paths which are then mapped on the KG to retrieve the relevant information.</p>
+<h1 id="llm-based-retriever">LLM-based Retriever.<a class="headerlink" href="#llm-based-retriever" title="Permanent link">&para;</a></h1>
+<p>We present an example of an LLM-based retriever (RoG; [Luo et al., 2024]). Given training question-answer pairs, RoG extracts the shortest paths to the answers starting from question entities for fine-tuning the retriever. Based on the extracted paths, an LLM (LLaMA2-Chat-7B [Touvron et al., 2023]) is fine-tuned to generate reasoning paths given a question q as</p>
+<p>LLM(prompt, q) =⇒ {r1 → · · · → rt}k,</p>
+<p>where the prompt is “Please generate a valid relation path that can be helpful for answering the following question: {Question}”. Beam-search decoding is used to generate k diverse sets of reasoning paths for better answer coverage, e.g., relations {<official_language>, <language_spoken>} for the question “Which language do Jamaican people speak?”. The generated paths are mapped on the KG, starting from the question entities, in order to retrieve the intermediate entities for RAG, e.g., <Jamaica → language_spoken → English>.</p>
+<h1 id="4-gnn-rag">4 GNN-RAG<a class="headerlink" href="#4-gnn-rag" title="Permanent link">&para;</a></h1>
+<p>We introduce GNN-RAG, a novel method for combining language understanding abilities of LLMs with the reasoning abilities of GNNs in a retrieval-augmented generation (RAG) style. We provide the overall framework in Figure 3. First, a GNN reasons over a dense KG subgraph to retrieve answer candidates for a given question. Second, the shortest paths in the KG that connect question entities and GNN-based answers are extracted to represent useful KG reasoning paths. The extracted paths are verbalized and given as input for LLM reasoning with RAG. In our GNN-RAG framework, the GNN acts as a dense subgraph reasoner to extract useful graph information, while the LLM leverages its natural language processing ability for ultimate KGQA.</p>
+<h1 id="41-gnn">4.1 GNN<a class="headerlink" href="#41-gnn" title="Permanent link">&para;</a></h1>
+<p>In order to retrieve high-quality reasoning paths via GNN-RAG, we leverage state-of-the-art GNNs for KGQA. We prefer GNNs over other KGQA methods, e.g., embedding-based methods [Saxena et al., 2020], due to their ability to handle complex graph interactions and answer multi-hop questions. GNNs mark themselves as good candidates for retrieval due to their architectural benefit of exploring diverse reasoning paths [Mavromatis and Karypis, 2022, Choi et al., 2024] that result in high answer recall.</p>
+<h2 id="when-gnn-reasoning-is-completed-l-gnn-updates-via-equation-1-all-nodes-in-the-subgraph-are-scored-as-answers-vs-non-answers-based-on-their-final-gnn-representations-hv-l-followed-by-the-softmax-operation-the-gnn-parameters-are-optimized-via-node-classification-answers-vs-non-answers-using-the-training-question-answer-pairs-during-inference-the-nodes-with-the-highest-probability-scores-eg-above-a-probability-threshold-are-returned-as-candidate-answers-along-with-the-shortest-paths-connecting-the-question-entities-with-the-candidate-answers-reasoning-paths-the-retrieved-reasoning-paths-are-used-as-input-for-llm-based-rag">When GNN reasoning is completed (L GNN updates via Equation 1), all nodes in the subgraph are scored as answers vs. non-answers based on their final GNN representations hv (L), followed by the softmax(·) operation. The GNN parameters are optimized via node classification (answers vs. non-answers) using the training question-answer pairs. During inference, the nodes with the highest probability scores, e.g., above a probability threshold, are returned as candidate answers, along with the shortest paths connecting the question entities with the candidate answers (reasoning paths). The retrieved reasoning paths are used as input for LLM-based RAG.<a class="headerlink" href="#when-gnn-reasoning-is-completed-l-gnn-updates-via-equation-1-all-nodes-in-the-subgraph-are-scored-as-answers-vs-non-answers-based-on-their-final-gnn-representations-hv-l-followed-by-the-softmax-operation-the-gnn-parameters-are-optimized-via-node-classification-answers-vs-non-answers-using-the-training-question-answer-pairs-during-inference-the-nodes-with-the-highest-probability-scores-eg-above-a-probability-threshold-are-returned-as-candidate-answers-along-with-the-shortest-paths-connecting-the-question-entities-with-the-candidate-answers-reasoning-paths-the-retrieved-reasoning-paths-are-used-as-input-for-llm-based-rag" title="Permanent link">&para;</a></h2>
+<h1 id="gnn-rag">GNN-RAG<a class="headerlink" href="#gnn-rag" title="Permanent link">&para;</a></h1>
+<p>Prompt: "Generate helpful relation paths." +RA</p>
+<h1 id="q-which-language-do-jamaican-people-speak">Q: "Which language do Jamaican people speak?"<a class="headerlink" href="#q-which-language-do-jamaican-people-speak" title="Permanent link">&para;</a></h1>
+<p>LLM A: English, Jamaican English</p>
+<p>Union</p>
+<h1 id="dense-retrieval">Dense retrieval<a class="headerlink" href="#dense-retrieval" title="Permanent link">&para;</a></h1>
+<h1 id="reasoning">Reasoning<a class="headerlink" href="#reasoning" title="Permanent link">&para;</a></h1>
+<h1 id="shortest-retrieval-reasoning-for-gnn">Shortest Retrieval Reasoning for GNN<a class="headerlink" href="#shortest-retrieval-reasoning-for-gnn" title="Permanent link">&para;</a></h1>
+<p>GNN A: English, Jamaican English, French, Caribbean</p>
+<p>Textualize + RAG</p>
+<p>Jamaica -&gt; official_language -&gt; English</p>
+<p>Jamaica -&gt; language_spoken -&gt; Jamaican English</p>
+<p>Jamaica -&gt; close_to -&gt; Haiti -&gt; official_language -&gt; French</p>
+<p>LLM A: English, Jamaican English</p>
+<p>Jamaica -&gt; located_in -&gt; Caribbean Sea</p>
+<h1 id="which-language-do-jamaican-people-speak">"Which language do Jamaican people speak?"<a class="headerlink" href="#which-language-do-jamaican-people-speak" title="Permanent link">&para;</a></h1>
+<p>Figure 3: GNN-RAG: The GNN reasons over a dense subgraph to retrieve candidate answers, along with the corresponding reasoning paths (shortest paths from question entities to answers). The retrieved reasoning paths –optionally combined with retrieval augmentation (RA)– are verbalized and given to the LLM for RAG.</p>
+<p>Different GNNs may fetch different reasoning paths for RAG. As presented in Equation 3, GNN reasoning depends on the question-relation matching operation ω(q, r). A common implementation of ω(q, r) is ϕ(q(k) ⊙ r) [He et al., 2021], where function ϕ is a neural network, and ⊙ is the element-wise multiplication. Question representations q(k) and KG relation representations r are encoded via a shared pretrained LM [Jiang et al., 2023b] as LM&reg;, q(k) = γkLM(q), r = γc.</p>
+<p>(3) where γk are attention-based pooling neural networks so that different representations q(k) attend to different question tokens, and γc is the [CLS] token pooling.</p>
+<p>In Appendix B, we develop a Theorem that shows that the GNN’s output depends on the question-relation matching operation ω(q, r) and as a result, the choice of the LM in Equation 3 plays an important role regarding which answer nodes are retrieved. Instead of trying different GNN architectures, we employ different LMs in Equation 3 that result in different output node representations. Specifically, we train two separate GNN models, one using pretrained LMs, such as SBERT [Reimers and Gurevych, 2019], and one using LMSR, a pretrained LM for question-relation matching over the KG [Zhang et al., 2022a]. Our experimental results suggest that, although these GNNs retrieve different KG information, they both improve RAG-based KGQA.</p>
+<h1 id="42-llm">4.2 LLM<a class="headerlink" href="#42-llm" title="Permanent link">&para;</a></h1>
+<p>After obtaining the reasoning paths by GNN-RAG, we verbalize them and give them as input to a downstream LLM, such as ChatGPT or LLaMA. However, LLMs are sensitive to the input prompt template and the way that the graph information is verbalized.</p>
+<p>To alleviate this issue, we opt to follow RAG prompt tuning [Lin et al., 2023, Zhang et al., 2024] for LLMs that have open weights and are feasible to train. A LLaMA2-Chat-7B model is fine-tuned based on the training question-answer pairs to generate a list of correct answers, given the prompt: “Based on the reasoning paths, please answer the given question.
+Reasoning Paths: {Reasoning Paths}
+Question: {Question}.”</p>
+<p>The reasoning paths are verbalized as “{question entity} → {relation} → {entity} → · · · → {relation} → {answer entity}
+” (see Figure 3).</p>
+<p>During training, the reasoning paths are the shortest paths from question entities to answer entities. During inference, the reasoning paths are obtained by GNN-RAG.</p>
+<h1 id="43-retrieval-analysis-why-gnns-their-limitations">4.3 Retrieval Analysis: Why GNNs &amp; Their Limitations<a class="headerlink" href="#43-retrieval-analysis-why-gnns-their-limitations" title="Permanent link">&para;</a></h1>
+<h2 id="gnns-leverage-the-graph-structure-to-retrieve-relevant-parts-of-the-kg-that-contain-multi-hop-information-we-provide-experimental-evidence-on-why-gnns-are-good-retrievers-for-multi-hop">GNNs leverage the graph structure to retrieve relevant parts of the KG that contain multi-hop information. We provide experimental evidence on why GNNs are good retrievers for multi-hop.<a class="headerlink" href="#gnns-leverage-the-graph-structure-to-retrieve-relevant-parts-of-the-kg-that-contain-multi-hop-information-we-provide-experimental-evidence-on-why-gnns-are-good-retrievers-for-multi-hop" title="Permanent link">&para;</a></h2>
+<h1 id="kgqa_1">KGQA<a class="headerlink" href="#kgqa_1" title="Permanent link">&para;</a></h1>
+<p>We train two different GNNs, a deep one (L = 3) and a shallow one (L = 1), and measure their retrieval capabilities. We report the ‘Answer Coverage’ metric, which evaluates whether the retriever is able to fetch at least one correct answer for RAG. Note that ‘Answer Coverage’ does not measure downstream KGQA performance but whether the retriever fetches relevant KG information. ‘#Input Tokens’ denotes the median number of the input tokens of the retrieved KG paths. Table 1 shows GNN retrieval results for single-hop and multi-hop questions of the WebQSP dataset compared to an LLM-based retriever (RoG; Equation 2). The results indicate that deep GNNs (L = 3) can handle the complex graph structure and retrieve useful multi-hop information more effectively (%Ans. Cov.) and efficiently (#Input Tok.) than the LLM and the shallow GNN.</p>
+<p>On the other hand, the limitation of GNNs is for simple (1-hop) questions, where accurate question-relation matching is more important than deep graph search (see our Theorem in Appendix A that states this GNN limitation). In such cases, the LLM retriever is better at selecting the right KG information due to its natural language understanding abilities (we provide an example later in Figure 5).</p>
+<h1 id="44-retrieval-augmentation-ra">4.4 Retrieval Augmentation (RA)<a class="headerlink" href="#44-retrieval-augmentation-ra" title="Permanent link">&para;</a></h1>
+<p>Retrieval augmentation (RA) combines the retrieved KG information from different approaches to increase diversity and answer recall. Motivated by the results in Section 4.3, we present a RA technique (GNN-RAG+RA), which complements the GNN retriever with an LLM-based retriever to combine their strengths on multi-hop and single-hop questions, respectively. Specifically, we experiment with the RoG retrieval, which is described in Equation 2. During inference, we take the union of the reasoning paths retrieved by the two retrievers.</p>
+<p>A downside of LLM-based retrieval is that it requires multiple generations (beam-search decoding) to retrieve diverse paths, which trades efficiency for effectiveness (we provide a performance analysis in Appendix A). A cheaper alternative is to perform RA by combining the outputs of different GNNs, which are equipped with different LMs in Equation 3. Our GNN-RAG+Ensemble takes the union of the retrieved paths of the two different GNNs (GNN+SBERT &amp; GNN+LMSR) as input for RAG.</p>
+<h1 id="5-experimental-setup">5 Experimental Setup<a class="headerlink" href="#5-experimental-setup" title="Permanent link">&para;</a></h1>
+<h1 id="kgqa-datasets">KGQA Datasets<a class="headerlink" href="#kgqa-datasets" title="Permanent link">&para;</a></h1>
+<p>We experiment with two widely used KGQA benchmarks: WebQuestionsSP (WebQSP) [Yih et al., 2015], Complex WebQuestions 1.1 (CWQ) [Talmor and Berant, 2018]. WebQSP contains 4,737 natural language questions that are answerable using a subset Freebase KG [Bollacker et al., 2008]. The questions require up to 2-hop reasoning within this KG. CWQ contains 34,699 total complex questions that require up to 4-hops of reasoning over the KG. We provide the detailed dataset statistics in Appendix C.</p>
+<h1 id="implementation-evaluation">Implementation &amp; Evaluation<a class="headerlink" href="#implementation-evaluation" title="Permanent link">&para;</a></h1>
+<p>For subgraph retrieval, we use the linked entities and the pagerank algorithm to extract dense graph information [He et al., 2021]. We employ ReaRev [Mavromatis and Karypis, 2022], which is a GNN targeting at deep KG reasoning (Section 4.3), for GNN-RAG. The default implementation is to combine ReaRev with SBERT as the LM in Equation 3. In addition, we combine ReaRev with LMSR, which is obtained by following the implementation of SR [Zhang et al., 2022a]. We employ RoG [Luo et al., 2024] for RAG-based prompt tuning (Section 4.2). For evaluation, we adopt Hit, Hits@1 (H@1), and F1 metrics. Hit measures if any of the true answers is found in the generated response, which is typically employed when evaluating LLMs. H@1 is the accuracy of the top/first predicted answer. F1 takes into account the recall (number of true answers found) and the precision (number of false answers found) of the generated answers. Further experimental setup details are provided in Appendix C.</p>
+<h1 id="competing-methods">Competing Methods<a class="headerlink" href="#competing-methods" title="Permanent link">&para;</a></h1>
+<h2 id="we-compare-with-sota-gnn-and-llm-methods-for-kgqa-mavromatis-and-karypis-2022-li-et-al-2023-we-also-include-earlier-embedding-based-methods-saxena-et-al-2020-as-well-as-zero-shotfew-shot-llms-taori-et-al-2023-we-do-not-compare-with-semantic-parsing-methods-yu-et-al-2022-as-they-use-additional-training-data-sparql-annotations-which">We compare with SOTA GNN and LLM methods for KGQA [Mavromatis and Karypis, 2022, Li et al., 2023]. We also include earlier embedding-based methods [Saxena et al., 2020] as well as zero-shot/few-shot LLMs [Taori et al., 2023]. We do not compare with semantic parsing methods [Yu et al., 2022] as they use additional training data (SPARQL annotations), which<a class="headerlink" href="#we-compare-with-sota-gnn-and-llm-methods-for-kgqa-mavromatis-and-karypis-2022-li-et-al-2023-we-also-include-earlier-embedding-based-methods-saxena-et-al-2020-as-well-as-zero-shotfew-shot-llms-taori-et-al-2023-we-do-not-compare-with-semantic-parsing-methods-yu-et-al-2022-as-they-use-additional-training-data-sparql-annotations-which" title="Permanent link">&para;</a></h2>
+<h1 id="table-2-performance-comparison-of-different-methods-on-the-two-kgqa-benchmarks-we-denote-the-best-and-second-best-method">Table 2: Performance comparison of different methods on the two KGQA benchmarks. We denote the best and second-best method.<a class="headerlink" href="#table-2-performance-comparison-of-different-methods-on-the-two-kgqa-benchmarks-we-denote-the-best-and-second-best-method" title="Permanent link">&para;</a></h1>
+<p>|Type|Method|WebQSP|WebQSP|WebQSP|CWQ|CWQ|CWQ|
+|---|---|---|---|
+| | |Hit|H@1|F1|Hit|H@1|F1|
+|KV-Mem|Miller et al. [2016]|–|46.7|38.6|–|21.1|–|
+|Embedding|EmbedKGQA Saxena et al. [2020]|–|66.6|–|–|–|–|
+| |TransferNet Shi et al. [2021]|–|71.4|–|–|48.6|–|
+| |Rigel Sen et al. [2021]|–|73.3|–|–|48.7|–|
+| |GraftNet Sun et al. [2018]|–|66.7|62.4|–|36.8|32.7|
+| |PullNet Sun et al. [2019]|–|68.1|–|–|45.9|–|
+| |NSM He et al. [2021]|–|68.7|62.8|–|47.6|42.4|
+|GNN|SR+NSM(+E2E) [Zhang et al., 2022a]|–|69.5|64.1|–|50.2|47.1|
+| |NSM+h He et al. [2021]|–|74.3|67.4|–|48.8|44.0|
+| |SQALER Atzeni et al. [2021]|–|76.1|–|–|–|–|
+| |UniKGQA [Jiang et al., 2023b]|–|77.2|72.2|–|51.2|49.1|
+| |ReaRev [Mavromatis and Karypis, 2022]|–|76.4|70.9|–|52.9|47.8|
+| |ReaRev + LMSR|–|77.5|72.8|–|53.3|49.7|
+| |Flan-T5-xl [Chung et al., 2024]|31.0|–|–|14.7|–|–|
+| |Alpaca-7B [Taori et al., 2023]|51.8|–|–|27.4|–|–|
+|LLM|LLaMA2-Chat-7B [Touvron et al., 2023]|64.4|–|–|34.6|–|–|
+| |ChatGPT|66.8|–|–|39.9|–|–|
+| |ChatGPT+CoT|75.6|–|–|48.9|–|–|
+| |KD-CoT [Wang et al., 2023]|68.6|–|52.5|55.7|–|–|
+| |StructGPT [Jiang et al., 2023a]|72.6|–|–|–|–|–|
+| |KB-BINDER [Li et al., 2023]|74.4|–|–|–|–|–|
+|KG+LLM|ToG+LLaMA2-70B [Sun et al., 2024]|68.9|–|–|57.6|–|–|
+| |ToG+ChatGPT [Sun et al., 2024]|76.2|–|–|58.9|–|–|
+| |ToG+GPT-4 [Sun et al., 2024]|82.6|–|–|69.5|–|–|
+| |RoG [Luo et al., 2024]|85.7|80.0|70.8|62.6|57.8|56.2|
+| |G-Retriever [He et al., 2024]|–|70.1|–|–|–|–|
+|GNN+LLM|GNN-RAG (Ours)|85.7|80.6|71.3|66.8|61.7|59.4|
+| |GNN-RAG+RA (Ours)|90.7|82.8|73.5|68.7|62.8|60.4|</p>
+<p>Hit is used for LLM evaluation. We use the default GNN-RAG (+RA) implementation. GNN-RAG, RoG, KD-CoT, and G-Retriever use 7B fine-tuned LLaMA2 models. KD-CoT employs ChatGPT as well.</p>
+<h1 id="table-3-performance-analysis-f1-on-multi-hop-hops-2-and-multi-entity-entities-2-questions">Table 3: Performance analysis (F1) on multi-hop (hops≥ 2) and multi-entity (entities≥ 2) questions.<a class="headerlink" href="#table-3-performance-analysis-f1-on-multi-hop-hops-2-and-multi-entity-entities-2-questions" title="Permanent link">&para;</a></h1>
+<p>|Method|WebQSP|WebQSP|CWQ|CWQ|
+|---|---|---|
+| |multi-hop|multi-entity|multi-hop|multi-entity|
+|LLM (No RAG)|48.4|61.5|33.7|32.3|
+|RoG|63.3|65.1|59.3|58.3|
+|GNN-RAG|69.8|82.3|68.2|64.8|
+|GNN-RAG+RA|71.1|88.8|69.3|65.6|</p>
+<p>are difficult to obtain in practice. Furthermore, we compare GNN-RAG with LLM-based retrieval approaches [Luo et al., 2024, Sun et al., 2024] in terms of efficiency and effectiveness.</p>
+<h1 id="6-results">6 Results<a class="headerlink" href="#6-results" title="Permanent link">&para;</a></h1>
+<h1 id="main-results">Main Results.<a class="headerlink" href="#main-results" title="Permanent link">&para;</a></h1>
+<p>Table 2 presents performance results of different KGQA methods. GNN-RAG is the method that performs overall the best, achieving state-of-the-art results on the two KGQA benchmarks in almost all metrics. The results show that equipping LLMs with GNN-based retrieval boosts their reasoning ability significantly (GNN+LLM vs. KG+LLM). Specifically, GNN-RAG+RA outperforms RoG by 5.0–6.1% points at Hit, while it outperforms or matches ToG+GPT-4 performance, using an LLM with only 7B parameters and much fewer LLM calls – we estimate ToG+GPT-4 has an overall cost above $800, while GNN-RAG can be deployed on a single 24GB GPU. GNN-RAG+RA outperforms ToG+ChatGPT by up to 14.5% points at Hit and the best performing GNN by 5.3–9.5% points at Hits@1 and by 0.7–10.7% points at F1.</p>
+<h1 id="multi-hop-multi-entity-kgqa">Multi-Hop &amp; Multi-Entity KGQA.<a class="headerlink" href="#multi-hop-multi-entity-kgqa" title="Permanent link">&para;</a></h1>
+<h2 id="table-3-compares-performance-results-on-multi-hop-questions-where-answers-are-more-than-one-hop-away-from-the-question-entities-and-multi-entity-questions-which-have-more-than-one-question-entities-gnn-rag-leverages-gnns-to-handle-complex-graph-information-and-outperforms-rog-llm-based-retrieval-by-65172-points-at-f1-on-webqsp-and-by-8589-points-at-f1-on-cwq-in-addition-gnn-ragra-offers-an-additional-improvement-by">Table 3 compares performance results on multi-hop questions, where answers are more than one hop away from the question entities, and multi-entity questions, which have more than one question entities. GNN-RAG leverages GNNs to handle complex graph information and outperforms RoG (LLM-based retrieval) by 6.5–17.2% points at F1 on WebQSP and by 8.5–8.9% points at F1 on CWQ. In addition, GNN-RAG+RA offers an additional improvement by<a class="headerlink" href="#table-3-compares-performance-results-on-multi-hop-questions-where-answers-are-more-than-one-hop-away-from-the-question-entities-and-multi-entity-questions-which-have-more-than-one-question-entities-gnn-rag-leverages-gnns-to-handle-complex-graph-information-and-outperforms-rog-llm-based-retrieval-by-65172-points-at-f1-on-webqsp-and-by-8589-points-at-f1-on-cwq-in-addition-gnn-ragra-offers-an-additional-improvement-by" title="Permanent link">&para;</a></h2>
+<h1 id="table-4-performance-comparison-f1-at-kgqa-of-different-retrieval-augmentations-section-44">Table 4: Performance comparison (F1 at KGQA) of different retrieval augmentations (Section 4.4).<a class="headerlink" href="#table-4-performance-comparison-f1-at-kgqa-of-different-retrieval-augmentations-section-44" title="Permanent link">&para;</a></h1>
+<p>‘#LLM Calls’ are controlled by the hyperparameter k (number of beams) during beam-search decoding for LLM-based retrievers, ‘#Input Tokens’ denotes the median number of tokens.</p>
+<table>
+<thead>
+<tr>
+<th>Retriever</th>
+<th>KGQA Model</th>
+<th>#LLM Calls</th>
+<th>#Input Tokens</th>
+<th>F1 (%)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a) Dense Subgraph</td>
+<td>(i) GNN + SBERT (Eq. 3)</td>
+<td>0</td>
+<td>–</td>
+<td>70.9 / 47.8</td>
+</tr>
+<tr>
+<td>b) Dense Subgraph</td>
+<td>(ii) GNN + LMSR (Eq. 3)</td>
+<td>0</td>
+<td></td>
+<td>72.8 / 49.1</td>
+</tr>
+<tr>
+<td>c) None</td>
+<td></td>
+<td>0</td>
+<td>59 / 70</td>
+<td>49.7 / 33.8</td>
+</tr>
+<tr>
+<td>d) (iii) RoG (LLM-based; Eq. 2)</td>
+<td>LLaMA2-Chat-7B (tuned)</td>
+<td>3</td>
+<td>202 / 325</td>
+<td>70.8 / 56.2</td>
+</tr>
+<tr>
+<td>e) GNN-RAG (default): (i)</td>
+<td></td>
+<td>0</td>
+<td>144 / 207</td>
+<td>71.3 / 59.4</td>
+</tr>
+<tr>
+<td>f) GNN-RAG: (ii)</td>
+<td></td>
+<td>0</td>
+<td>124 / 206</td>
+<td>71.5 / 58.9</td>
+</tr>
+<tr>
+<td>g) GNN-RAG+Ensemble: (i) + (ii)</td>
+<td></td>
+<td>0</td>
+<td>156 / 281</td>
+<td>71.7 / 57.5</td>
+</tr>
+<tr>
+<td>h) GNN-RAG+RA (default): (i) + (iii)</td>
+<td>LLaMA2-Chat-7B (tuned)</td>
+<td>3</td>
+<td>299 / 540</td>
+<td>73.5 / 60.4</td>
+</tr>
+<tr>
+<td>i) GNN-RAG+RA: (ii) + (iii)</td>
+<td></td>
+<td>3</td>
+<td>267 / 532</td>
+<td>73.4 / 61.0</td>
+</tr>
+<tr>
+<td>j) GNN-RAG+All: (i) + (ii) + (iii)</td>
+<td></td>
+<td>3</td>
+<td>330 / 668</td>
+<td>72.3 / 59.1</td>
+</tr>
+</tbody>
+</table>
+<p>For other experiments, we use the default GNN-RAG and GNN-RAG+RA implementations. The GNN used is ReaRev.</p>
+<p>up to 6.5% points at F1. The results show that GNN-RAG is an effective retrieval method when deep graph search is important for successful KGQA.</p>
+<h1 id="retrieval-augmentation">Retrieval Augmentation.<a class="headerlink" href="#retrieval-augmentation" title="Permanent link">&para;</a></h1>
+<p>Table 4 compares different retrieval augmentations for GNN-RAG. The primary metric is F1, while the other metrics assess how well the methods retrieve relevant information from the KG. Based on the results, we make the following conclusions:</p>
+<ol>
+<li>GNN-based retrieval is more efficient (#LLM Calls, #Input Tokens) and effective (F1) than LLM-based retrieval, especially for complex questions (CWQ); see rows (e-f) vs. row (d).</li>
+<li>Retrieval augmentation works the best (F1) when combining GNN-induced reasoning paths with LLM-induced reasoning paths as they fetch non-overlapping KG information (increased #Input Tokens) that improves retrieval for KGQA; see rows (h) &amp; (i).</li>
+<li>Augmenting all retrieval approaches does not necessarily cause improved performance (F1) as the long input (#Input Tokens) may confuse the LLM; see rows (g/j) vs. rows (e/h).</li>
+<li>Although the two GNNs perform differently at KGQA (F1), they both improve RAG with LLMs; see rows (a-b) vs. rows (e-f). We note though that weak GNNs are not effective retrievers (see Appendix D.2).</li>
+</ol>
+<p>In addition, GNN-RAG improves the vanilla LLM by up to 176% at F1 without incurring additional LLM calls; see row &copy; vs. row (e). Overall, retrieval augmentation of GNN-induced and LLM-induced paths combines their strengths and achieves the best KGQA performance.</p>
+<h1 id="table-5-retrieval-effect-on-performance-hit-using-various-llms">Table 5: Retrieval effect on performance (% Hit) using various LLMs.<a class="headerlink" href="#table-5-retrieval-effect-on-performance-hit-using-various-llms" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>WebQSP</th>
+<th>CWQ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ChatGPT</td>
+<td>51.8</td>
+<td>39.9</td>
+</tr>
+<tr>
+<td>+ ToG</td>
+<td>76.2</td>
+<td>58.9</td>
+</tr>
+<tr>
+<td>+ RoG</td>
+<td>81.5</td>
+<td>52.7</td>
+</tr>
+<tr>
+<td>+ GNN-RAG (+RA)</td>
+<td>85.3 (87.9)</td>
+<td>64.1 (65.4)</td>
+</tr>
+<tr>
+<td>Alpaca-7B</td>
+<td>51.8</td>
+<td>27.4</td>
+</tr>
+<tr>
+<td>+ RoG</td>
+<td>73.6</td>
+<td>44.0</td>
+</tr>
+<tr>
+<td>+ GNN-RAG (+RA)</td>
+<td>76.2 (76.5)</td>
+<td>54.5 (50.8)</td>
+</tr>
+<tr>
+<td>LLaMA2-Chat-7B</td>
+<td>64.4</td>
+<td>34.6</td>
+</tr>
+<tr>
+<td>+ RoG</td>
+<td>84.8</td>
+<td>56.4</td>
+</tr>
+<tr>
+<td>+ GNN-RAG (+RA)</td>
+<td>85.2 (88.5)</td>
+<td>62.7 (62.9)</td>
+</tr>
+<tr>
+<td>LLaMA2-Chat-70B</td>
+<td>57.4</td>
+<td>39.1</td>
+</tr>
+<tr>
+<td>+ ToG</td>
+<td>68.9</td>
+<td>57.6</td>
+</tr>
+<tr>
+<td>Flan-T5-xl</td>
+<td>31.0</td>
+<td>14.7</td>
+</tr>
+<tr>
+<td>+ RoG</td>
+<td>67.9</td>
+<td>37.8</td>
+</tr>
+<tr>
+<td>+ GNN-RAG (+RA)</td>
+<td>74.5 (72.3)</td>
+<td>51.0 (41.5)</td>
+</tr>
+</tbody>
+</table>
+<p>GNN-RAG (+RA) is the retrieval approach that achieves the largest improvements for RAG. For instance, GNN-RAG+RA improves ChatGPT by up to 6.5% points at Hit over RoG and ToG. Moreover, GNN-RAG substantially improves the KGQA performance of weaker LLMs, such as Alpaca-7B and Flan-T5-xl. The improvement over RoG is up to 13.2% points at Hit, while GNN-RAG outperforms LLaMA2-Chat-70B+ToG using a lightweight LLaMA2 model. The results demonstrate that GNN-RAG can be integrated with other LLMs to improve their KGQA reasoning without retraining.</p>
+<h1 id="case-studies-on-faithfulness">Case Studies on Faithfulness.<a class="headerlink" href="#case-studies-on-faithfulness" title="Permanent link">&para;</a></h1>
+<h2 id="figure-4-illustrates-two-case-studies-from-the-cwq-dataset-showing-how-gnn-rag-improves-llms-faithfulness-ie-how-well-the-llm-follows-the-questions-instructions-and-uses-the-right-information-from-the-kg-in-both-cases-gnn-rag-retrieves-multi-hop-information-which-is-necessary-for-answering-the-questions-correctly-in-the-first-case-gnn-rag">Figure 4 illustrates two case studies from the CWQ dataset, showing how GNN-RAG improves LLM’s faithfulness, i.e., how well the LLM follows the question’s instructions and uses the right information from the KG. In both cases, GNN-RAG retrieves multi-hop information, which is necessary for answering the questions correctly. In the first case, GNN-RAG<a class="headerlink" href="#figure-4-illustrates-two-case-studies-from-the-cwq-dataset-showing-how-gnn-rag-improves-llms-faithfulness-ie-how-well-the-llm-follows-the-questions-instructions-and-uses-the-right-information-from-the-kg-in-both-cases-gnn-rag-retrieves-multi-hop-information-which-is-necessary-for-answering-the-questions-correctly-in-the-first-case-gnn-rag" title="Permanent link">&para;</a></h2>
+<h1 id="7-conclusion">7 Conclusion<a class="headerlink" href="#7-conclusion" title="Permanent link">&para;</a></h1>
+<p>We introduce GNN-RAG, a novel method for combining the reasoning abilities of LLMs and GNNs for RAG-based KGQA. Our contributions are the following.</p>
+<ol>
+<li>Framework: GNN-RAG repurposes GNNs for KGQA retrieval to enhance the reasoning abilities of LLMs. Moreover, our retrieval analysis guides the design of a retrieval augmentation technique to boost GNN-RAG performance.</li>
+<li>Effectiveness &amp; Faithfulness: GNN-RAG achieves state-of-the-art performance in two widely used KGQA benchmarks (WebQSP and CWQ). Furthermore, GNN-RAG is shown to retrieve multi-hop information that is necessary for faithful LLM reasoning on complex questions.</li>
+<li>Efficiency: GNN-RAG improves vanilla LLMs on KGQA performance without incurring additional LLM calls as existing RAG systems for KGQA require. In addition, GNN-RAG outperforms or matches GPT-4 performance with a 7B tuned LLM.</li>
+</ol>
+<hr />
+<h1 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h1>
+<p>Reid Andersen, Fan Chung, and Kevin Lang. Local graph partitioning using pagerank vectors. In 2006 47<sup>th</sup> Annual IEEE Symposium on Foundations of Computer Science (FOCS’06), 2006.</p>
+<p>Mattia Atzeni, Jasmina Bogojeska, and Andreas Loukas. Sqaler: Scaling question answering by decoupling multi-hop and logical reasoning. Advances in Neural Information Processing Systems, 2021.</p>
+<p>Jinheon Baek, Alham Fikri Aji, and Amir Saffari. Knowledge-augmented language model prompting for zero-shot knowledge graph question answering. arXiv preprint arXiv:2306.04136, 2023.</p>
+<p>Kurt Bollacker, Colin Evans, Praveen Paritosh, Tim Sturge, and Jamie Taylor. Freebase: a collaboratively created graph database for structuring human knowledge. In Proceedings of the 2008 ACM SIGMOD international conference on Management of data, pages 1247–1250, 2008.</p>
+<p>Rishi Bommasani, Drew A Hudson, Ehsan Adeli, Russ Altman, Simran Arora, Sydney von Arx, Michael S Bernstein, Jeannette Bohg, Antoine Bosselut, Emma Brunskill, et al. On the opportunities and risks of foundation models. arXiv preprint arXiv:2108.07258, 2021.</p>
+<p>Tom Brown, Benjamin Mann, Nick Ryder, Melanie Subbiah, Jared D Kaplan, Prafulla Dhariwal, Arvind Neelakantan, Pranav Shyam, Girish Sastry, Amanda Askell, et al. Language models are few-shot learners. Advances in neural information processing systems, 33:1877–1901, 2020.</p>
+<p>Hyeong Kyu Choi, Seunghun Lee, Jaewon Chu, and Hyunwoo J Kim. Nutrea: Neural tree search for context-guided multi-hop kgqa. Advances in Neural Information Processing Systems, 36, 2024.</p>
+<p>Aakanksha Chowdhery, Sharan Narang, Jacob Devlin, Maarten Bosma, Gaurav Mishra, Adam Roberts, Paul Barham, Hyung Won Chung, Charles Sutton, Sebastian Gehrmann, et al. Palm: Scaling language modeling with pathways. Journal of Machine Learning Research, 24(240):1–113, 2023.</p>
+<p>Hyung Won Chung, Le Hou, Shayne Longpre, Barret Zoph, Yi Tay, William Fedus, Yunxuan Li, Xuezhi Wang, Mostafa Dehghani, Siddhartha Brahma, et al. Scaling instruction-finetuned language models. Journal of Machine Learning Research, 25(70):1–53, 2024.</p>
+<p>Rajarshi Das, Manzil Zaheer, Dung Thai, Ameya Godbole, Ethan Perez, Jay-Yoon Lee, Lizhen Tan, Lazaros Polymenakos, and Andrew McCallum. Case-based reasoning for natural language queries over knowledge bases. arXiv preprint arXiv:2104.08762, 2021.</p>
+<p>Suchin Gururangan, Ana Marasović, Swabha Swayamdipta, Kyle Lo, Iz Beltagy, Doug Downey, and Noah A Smith. Don’t stop pretraining: Adapt language models to domains and tasks. arXiv preprint arXiv:2004.10964, 2020.</p>
+<p>Gaole He, Yunshi Lan, Jing Jiang, Wayne Xin Zhao, and Ji-Rong Wen. Improving multi-hop knowledge base question answering by learning intermediate supervision signals. In Proceedings of the 14<sup>th</sup> ACM international conference on web search and data mining, pages 553–561, 2021.</p>
+<p>Xiaoxin He, Yijun Tian, Yifei Sun, Nitesh V Chawla, Thomas Laurent, Yann LeCun, Xavier Bresson, and Bryan Hooi. G-retriever: Retrieval-augmented generation for textual graph understanding and question answering. arXiv preprint arXiv:2402.07630, 2024.</p>
+<p>Jordan Hoffmann, Sebastian Borgeaud, Arthur Mensch, Elena Buchatskaya, Trevor Cai, Eliza Rutherford, Diego de Las Casas, Lisa Anne Hendricks, Johannes Welbl, Aidan Clark, et al. Training compute-optimal large language models. arXiv preprint arXiv:2203.15556, 2022.</p>
+<p>Xuanwen Huang, Kaiqiao Han, Yang Yang, Dezheng Bao, Quanjin Tao, Ziwei Chai, and Qi Zhu. Can gnn be good adapter for llms? arXiv preprint arXiv:2402.12984, 2024.</p>
+<h2 id="jinhao-jiang-kun-zhou-zican-dong-keming-ye-wayne-xin-zhao-and-ji-rong-wen-structgpt-a-general-framework-for-large-language-model-to-reason-over-structured-data-arxiv-preprint-arxiv230509645-2023a">Jinhao Jiang, Kun Zhou, Zican Dong, Keming Ye, Wayne Xin Zhao, and Ji-Rong Wen. Structgpt: A general framework for large language model to reason over structured data. arXiv preprint arXiv:2305.09645, 2023a.<a class="headerlink" href="#jinhao-jiang-kun-zhou-zican-dong-keming-ye-wayne-xin-zhao-and-ji-rong-wen-structgpt-a-general-framework-for-large-language-model-to-reason-over-structured-data-arxiv-preprint-arxiv230509645-2023a" title="Permanent link">&para;</a></h2>
+<h1 id="references_1">References<a class="headerlink" href="#references_1" title="Permanent link">&para;</a></h1>
+<p>Jinhao Jiang, Kun Zhou, Wayne Xin Zhao, and Ji-Rong Wen. Unikgqa: Unified retrieval and reasoning for solving multi-hop question answering over knowledge graph. In International Conference on Learning Representations, 2023b.</p>
+<p>Bowen Jin, Gang Liu, Chi Han, Meng Jiang, Heng Ji, and Jiawei Han. Large language models on graphs: A comprehensive survey. arXiv preprint arXiv:2312.02783, 2023.</p>
+<p>Bowen Jin, Chulin Xie, Jiawei Zhang, Kashob Kumar Roy, Yu Zhang, Suhang Wang, Yu Meng, and Jiawei Han. Graph chain-of-thought: Augmenting large language models by reasoning on graphs. arXiv preprint arXiv:2404.07103, 2024.</p>
+<p>Jared Kaplan, Sam McCandlish, Tom Henighan, Tom B Brown, Benjamin Chess, Rewon Child, Scott Gray, Alec Radford, Jeffrey Wu, and Dario Amodei. Scaling laws for neural language models. arXiv preprint arXiv:2001.08361, 2020.</p>
+<p>Thomas N Kipf and Max Welling. Semi-supervised classification with graph convolutional networks. arXiv preprint arXiv:1609.02907, 2016.</p>
+<p>Yunshi Lan and Jing Jiang. Query graph generation for answering multi-hop complex questions from knowledge bases. In Dan Jurafsky, Joyce Chai, Natalie Schluter, and Joel Tetreault, editors, Proceedings of the 58<sup>th</sup> Annual Meeting of the Association for Computational Linguistics, pages 969–974. Association for Computational Linguistics, July 2020.</p>
+<p>Yunshi Lan, Gaole He, Jinhao Jiang, Jing Jiang, Wayne Xin Zhao, and Ji-Rong Wen. Complex knowledge base question answering: A survey. IEEE Transactions on Knowledge and Data Engineering, 2022.</p>
+<p>Patrick Lewis, Ethan Perez, Aleksandra Piktus, Fabio Petroni, Vladimir Karpukhin, Naman Goyal, Heinrich Küttler, Mike Lewis, Wen-tau Yih, Tim Rocktäschel, et al. Retrieval-augmented generation for knowledge-intensive nlp tasks. Advances in Neural Information Processing Systems, 33: 9459–9474, 2020.</p>
+<p>Tianle Li, Xueguang Ma, Alex Zhuang, Yu Gu, Yu Su, and Wenhu Chen. Few-shot in-context learning on knowledge base question answering. In Anna Rogers, Jordan Boyd-Graber, and Naoaki Okazaki, editors, Proceedings of the 61<sup>st</sup> Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 6966–6980. Association for Computational Linguistics, 2023.</p>
+<p>Xi Victoria Lin, Xilun Chen, Mingda Chen, Weijia Shi, Maria Lomeli, Rich James, Pedro Rodriguez, Jacob Kahn, Gergely Szilvasy, Mike Lewis, et al. Ra-dit: Retrieval-augmented dual instruction tuning. arXiv preprint arXiv:2310.01352, 2023.</p>
+<p>Linhao Luo, Yuan-Fang Li, Gholamreza Haffari, and Shirui Pan. Reasoning on graphs: Faithful and interpretable large language model reasoning. In International Conference on Learning Representations, 2024.</p>
+<p>Costas Mavromatis and George Karypis. ReaRev: Adaptive reasoning for question answering over knowledge graphs. In Findings of the Association for Computational Linguistics: EMNLP 2022, pages 2447–2458, Abu Dhabi, United Arab Emirates, December 2022. Association for Computational Linguistics. URL <a href="https://aclanthology.org/2022.findings-emnlp.181">https://aclanthology.org/2022.findings-emnlp.181</a></p>
+<p>Costas Mavromatis, Petros Karypis, and George Karypis. Sempool: Simple, robust, and interpretable kg pooling for enhancing language models. In Pacific-Asia Conference on Knowledge Discovery and Data Mining, pages 154–166. Springer, 2024.</p>
+<p>Alexander Miller, Adam Fisch, Jesse Dodge, Amir-Hossein Karimi, Antoine Bordes, and Jason Weston. Key-value memory networks for directly reading documents. In Proceedings of the 2016 Conference on Empirical Methods in Natural Language Processing, 2016.</p>
+<h2 id="shirui-pan-linhao-luo-yufei-wang-chen-chen-jiapu-wang-and-xindong-wu-unifying-large-language-models-and-knowledge-graphs-a-roadmap-ieee-transactions-on-knowledge-and-data-engineering-2024">Shirui Pan, Linhao Luo, Yufei Wang, Chen Chen, Jiapu Wang, and Xindong Wu. Unifying large language models and knowledge graphs: A roadmap. IEEE Transactions on Knowledge and Data Engineering, 2024.<a class="headerlink" href="#shirui-pan-linhao-luo-yufei-wang-chen-chen-jiapu-wang-and-xindong-wu-unifying-large-language-models-and-knowledge-graphs-a-roadmap-ieee-transactions-on-knowledge-and-data-engineering-2024" title="Permanent link">&para;</a></h2>
+<h1 id="references_2">References<a class="headerlink" href="#references_2" title="Permanent link">&para;</a></h1>
+<p>Nils Reimers and Iryna Gurevych. Sentence-BERT: Sentence embeddings using Siamese BERT- networks. In Proceedings of the 2019 Conference on Empirical Methods in Natural Language Processing and the 9<sup>th</sup> International Joint Conference on Natural Language Processing (EMNLP- IJCNLP), 2019.</p>
+<p>Apoorv Saxena, Aditay Tripathi, and Partha Talukdar. Improving multi-hop question answering over knowledge graphs using knowledge base embeddings. In Proceedings of the 58<sup>th</sup> Annual Meeting of the Association for Computational Linguistics, 2020.</p>
+<p>Michael Schlichtkrull, Thomas N Kipf, Peter Bloem, Rianne Van Den Berg, Ivan Titov, and Max Welling. Modeling relational data with graph convolutional networks. In The semantic web: 15<sup>th</sup> international conference, ESWC 2018, Heraklion, Crete, Greece, June 3–7, 2018, proceedings 15, pages 593–607. Springer, 2018.</p>
+<p>Priyanka Sen, Amir Saffari, and Armin Oliya. Expanding end-to-end question answering on differentiable knowledge graphs with intersection. arXiv preprint arXiv:2109.05808, 2021.</p>
+<p>Jiaxin Shi, Shulin Cao, Lei Hou, Juanzi Li, and Hanwang Zhang. Transfernet: An effective and transparent framework for multi-hop question answering over relation graph. arXiv preprint arXiv:2104.07302, 2021.</p>
+<p>Haitian Sun, Bhuwan Dhingra, Manzil Zaheer, Kathryn Mazaitis, Ruslan Salakhutdinov, and William Cohen. Open domain question answering using early fusion of knowledge bases and text. In Ellen Riloff, David Chiang, Julia Hockenmaier, and Jun’ichi Tsujii, editors, Proceedings of the 2018 Conference on Empirical Methods in Natural Language Processing, pages 4231–4242. Association for Computational Linguistics, 2018.</p>
+<p>Haitian Sun, Tania Bedrax-Weiss, and William W Cohen. Pullnet: Open domain question answering with iterative retrieval on knowledge bases and text. arXiv preprint arXiv:1904.09537, 2019.</p>
+<p>Jiashuo Sun, Chengjin Xu, Lumingyuan Tang, Saizhuo Wang, Chen Lin, Yeyun Gong, Heung-Yeung Shum, and Jian Guo. Think-on-graph: Deep and responsible reasoning of large language model with knowledge graph. In International Conference on Learning Representations, 2024.</p>
+<p>Yawei Sun, Lingling Zhang, Gong Cheng, and Yuzhong Qu. Sparqa: skeleton-based semantic parsing for complex questions over knowledge bases. In Proceedings of the AAAI conference on artificial intelligence, volume 34, pages 8952–8959, 2020.</p>
+<p>Alon Talmor and Jonathan Berant. The web as a knowledge-base for answering complex questions. In Proceedings of the 2018 Conference of the North American Chapter of the Association for Computational Linguistics, 2018.</p>
+<p>Rohan Taori, Ishaan Gulrajani, Tianyi Zhang, Yann Dubois, Xuechen Li, Carlos Guestrin, Percy Liang, and Tatsunori B. Hashimoto. Stanford alpaca: An instruction-following llama model. <a href="https://github.com/tatsu-lab/stanford_alpaca">https://github.com/tatsu-lab/stanford_alpaca</a>, 2023.</p>
+<p>Yijun Tian, Huan Song, Zichen Wang, Haozhu Wang, Ziqing Hu, Fang Wang, Nitesh V Chawla, and Panpan Xu. Graph neural prompting with large language models. In Proceedings of the AAAI Conference on Artificial Intelligence, volume 38, pages 19080–19088, 2024.</p>
+<p>Hugo Touvron, Louis Martin, Kevin Stone, Peter Albert, Amjad Almahairi, Yasmine Babaei, Nikolay Bashlykov, Soumya Batra, Prajjwal Bhargava, Shruti Bhosale, et al. Llama 2: Open foundation and fine-tuned chat models. arXiv preprint arXiv:2307.09288, 2023.</p>
+<p>Théo Trouillon, Johannes Welbl, Sebastian Riedel, Éric Gaussier, and Guillaume Bouchard. Complex embeddings for simple link prediction. In International conference on machine learning. PMLR, 2016.</p>
+<p>Petar Veličkovic, Guillem Cucurull, Arantxa Casanova, Adriana Romero, Pietro Lio, and Yoshua Bengio. Graph attention networks. arXiv preprint arXiv:1710.10903, 2017.</p>
+<h2 id="denny-vrandec-and-markus-krotzsch-wikidata-a-free-collaborative-knowledgebase-communications-of-the-acm-57107885-2014">Denny Vrandeč and Markus Krötzsch. Wikidata: a free collaborative knowledgebase. Communications of the ACM, 57(10):78–85, 2014.<a class="headerlink" href="#denny-vrandec-and-markus-krotzsch-wikidata-a-free-collaborative-knowledgebase-communications-of-the-acm-57107885-2014" title="Permanent link">&para;</a></h2>
+<h1 id="references_3">References<a class="headerlink" href="#references_3" title="Permanent link">&para;</a></h1>
+<p>Keheng Wang, Feiyu Duan, Sirui Wang, Peiguang Li, Yunsen Xian, Chuantao Yin, Wenge Rong, and Zhang Xiong. Knowledge-driven cot: Exploring faithful reasoning in llms for knowledge-intensive question answering. arXiv preprint arXiv:2308.13259, 2023.</p>
+<p>Jason Wei, Xuezhi Wang, Dale Schuurmans, Maarten Bosma, Fei Xia, Ed Chi, Quoc V Le, Denny Zhou, et al. Chain-of-thought prompting elicits reasoning in large language models. Advances in neural information processing systems, 35:24824–24837, 2022.</p>
+<p>Yike Wu, Nan Hu, Guilin Qi, Sheng Bi, Jie Ren, Anhuan Xie, and Wei Song. Retrieve-rewrite-answer: A kg-to-text enhanced llms framework for knowledge graph question answering. arXiv preprint arXiv:2309.11206, 2023.</p>
+<p>Tianbao Xie, Chen Henry Wu, Peng Shi, Ruiqi Zhong, Torsten Scholak, Michihiro Yasunaga, Chien-Sheng Wu, Ming Zhong, Pengcheng Yin, Sida I. Wang, Victor Zhong, Bailin Wang, Chengzu Li, Connor Boyle, Ansong Ni, Ziyu Yao, Dragomir Radev, Caiming Xiong, Lingpeng Kong, Rui Zhang, Noah A. Smith, Luke Zettlemoyer, and Tao Yu. Unifiedskg: Unifying and multi-tasking structured knowledge grounding with text-to-text language models. EMNLP, 2022.</p>
+<p>Xi Ye, Semih Yavuz, Kazuma Hashimoto, Yingbo Zhou, and Caiming Xiong. RNG-KBQA: Generation augmented iterative ranking for knowledge base question answering. In Smaranda Muresan, Preslav Nakov, and Aline Villavicencio, editors, Proceedings of the 60<sup>th</sup> Annual Meeting of the Association for Computational Linguistics (Volume 1: Long Papers), pages 6032–6043. Association for Computational Linguistics, 2022.</p>
+<p>Scott Wen-tau Yih, Ming-Wei Chang, Xiaodong He, and Jianfeng Gao. Semantic parsing via staged query graph generation: Question answering with knowledge base. In Proceedings of the Joint Conference of the 53<sup>rd</sup> Annual Meeting of the ACL and the 7<sup>th</sup> International Joint Conference on Natural Language Processing of the AFNLP, 2015.</p>
+<p>Donghan Yu, Sheng Zhang, Patrick Ng, Henghui Zhu, Alexander Hanbo Li, Jun Wang, Yiqun Hu, William Wang, Zhiguo Wang, and Bing Xiang. Decaf: Joint decoding of answers and logical forms for question answering over knowledge bases. arXiv preprint arXiv:2210.00063, 2022.</p>
+<p>Jing Zhang, Xiaokang Zhang, Jifan Yu, Jian Tang, Jie Tang, Cuiping Li, and Hong Chen. Subgraph retrieval enhanced model for multi-hop knowledge base question answering. arXiv preprint arXiv:2202.13296, 2022a.</p>
+<p>Tianjun Zhang, Shishir G Patil, Naman Jain, Sheng Shen, Matei Zaharia, Ion Stoica, and Joseph E, Gonzalez. Raft: Adapting language model to domain specific rag. arXiv preprint arXiv:2403.10131 2024.</p>
+<p>Xikun Zhang, Antoine Bosselut, Michihiro Yasunaga, Hongyu Ren, Percy Liang, Christopher D Manning, and Jure Leskovec. Greaselm: Graph reasoning enhanced language models. In International Conference on Learning Representations, 2022b.</p>
+<p>Yue Zhang, Yafu Li, Leyang Cui, Deng Cai, Lemao Liu, Tingchen Fu, Xinting Huang, Enbo Zhao, Yu Zhang, Yulong Chen, et al. Siren’s song in the ai ocean: a survey on hallucination in large language models. arXiv preprint arXiv:2309.01219, 2023.</p>
+<h2 id="yuyu-zhang-hanjun-dai-zornitsa-kozareva-alexander-j-smola-and-le-song-variational-reasoning-for-question-answering-with-knowledge-graph-in-thirty-second-aaai-conference-on-artificial-intelligence-2018">Yuyu Zhang, Hanjun Dai, Zornitsa Kozareva, Alexander J Smola, and Le Song. Variational reasoning for question answering with knowledge graph. In Thirty-Second AAAI Conference on Artificial Intelligence, 2018.<a class="headerlink" href="#yuyu-zhang-hanjun-dai-zornitsa-kozareva-alexander-j-smola-and-le-song-variational-reasoning-for-question-answering-with-knowledge-graph-in-thirty-second-aaai-conference-on-artificial-intelligence-2018" title="Permanent link">&para;</a></h2>
+<h1 id="appendix-supplemental-material">Appendix / supplemental material<a class="headerlink" href="#appendix-supplemental-material" title="Permanent link">&para;</a></h1>
+<h1 id="a-analysis">A Analysis<a class="headerlink" href="#a-analysis" title="Permanent link">&para;</a></h1>
+<p>In this section, we analyze the reasoning and retrieval abilities of GNN and LLMs, respectively.</p>
+<h1 id="table-6-efficiency-vs-effectiveness-trade-off-of-llm-based-retrieval">Table 6: Efficiency vs. effectiveness trade-off of LLM-based retrieval.<a class="headerlink" href="#table-6-efficiency-vs-effectiveness-trade-off-of-llm-based-retrieval" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Retrieval</th>
+<th>#LLM Calls (efficiency)</th>
+<th>Answer Hit (%) (effectiveness)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RoG [Luo et al., 2024]</td>
+<td>3</td>
+<td>85.7</td>
+</tr>
+<tr>
+<td></td>
+<td>1</td>
+<td>77.2</td>
+</tr>
+<tr>
+<td>Reasoning paths are defined as the KG paths that reach the answer nodes, starting from the question entities {e}, e.g., &lt;Jamaica → language_spoken → English&gt; for question “Which language do Jamaican people speak?”.</td>
+<td>up to 21</td>
+<td>76.2</td>
+</tr>
+<tr>
+<td>ToG [Sun et al., 2024]</td>
+<td>3</td>
+<td>66.3</td>
+</tr>
+<tr>
+<td>GNN-RAG</td>
+<td>0</td>
+<td>87.2</td>
+</tr>
+</tbody>
+</table>
+<h1 id="llm-calls-are-controlled-by-the-hyperparameter-k-number-of-beams-during-beam-search-decoding">LLM Calls are controlled by the hyperparameter k (number of beams) during beam-search decoding.<a class="headerlink" href="#llm-calls-are-controlled-by-the-hyperparameter-k-number-of-beams-during-beam-search-decoding" title="Permanent link">&para;</a></h1>
+<p>We define that a model M reasons effectively if its output {a} = M(Gq∗, q), i.e., the model returns the correct answers given the ground-truth subgraph Gq∗.</p>
+<p>As KGQA methods do not use the ground-truth subgraph Gq∗ for reasoning, but the retrieved subgraph Gq, we identify two cases in which the reasoning model cannot reason effectively, i.e., {a}̸ = M(Gq, q).</p>
+<h1 id="case-1">Case 1:<a class="headerlink" href="#case-1" title="Permanent link">&para;</a></h1>
+<p>Gq ⊂ G∗, i.e., the retrieved subgraph Gq does not contain all the necessary information for answering q. An application of this case is when we use LLMs for retrieval. As LLMs are not designed to handle complex graph information, the retrieved subgraph Gq may contain incomplete KG information. Existing LLM-based methods rely on employing an increased number of LLM calls (beam search decoding) to fetch diverse reasoning paths that approximate Gq.</p>
+<p>Table 6 provides experimental evidence that shows how LLM-based retrieval trades computational efficiency for effectiveness. In particular, when we switch from beam-search decoding to greedy decoding for faster LLM retrieval, the KGQA performance drops by 8.3–9.9% points at answer hit.</p>
+<h1 id="case-2">Case 2:<a class="headerlink" href="#case-2" title="Permanent link">&para;</a></h1>
+<p>Gq∗ ⊂ Gq and model M cannot “filter-out” irrelevant facts during reasoning. An application of this case is when we use GNNs for reasoning. GNNs cannot understand the textual semantics of KGs and natural questions the same way as LLMs do, and they reason ineffectively if they cannot tell the irrelevant KG information. We develop the following Theorem that supports this case for GNNs.</p>
+<h1 id="theorem-a3-simplified">Theorem A.3 (Simplified)<a class="headerlink" href="#theorem-a3-simplified" title="Permanent link">&para;</a></h1>
+<p>Under mild assumptions and due to the sum operator of GNNs in Equation 1, a GNN can reason effectively by selecting question-relevant facts and filtering-out question-irrelevant facts through ω(q, r).</p>
+<p>We provide the full theorem and its proof in Appendix B. Theorem A.3 suggests that GNNs need to perform semantic matching via function ω(q, r) apart from leveraging the graph information encoded in the KG. Our analysis suggests that GNNs lack reasoning abilities for KGQA if they cannot perform effective semantic matching between the KG and the question.</p>
+<h1 id="b-full-theorem-proof">B Full Theorem &amp; Proof<a class="headerlink" href="#b-full-theorem-proof" title="Permanent link">&para;</a></h1>
+<p>To analyze under which conditions GNN perform well for KGQA, we use the ground-truth subgraph Gq∗ for a question q, as defined in Definition A.1. We compare the output representations of a GNN over the ground-truth Gq∗ and another Gq to measure how close the two outputs are.</p>
+<p>We always assume Gq∗ ⊆ Gq for a question q. 1-hop facts that contain v are denoted as N v∗.</p>
+<h1 id="definition-b1">Definition B.1<a class="headerlink" href="#definition-b1" title="Permanent link">&para;</a></h1>
+<p>Let M be a GNN model for answering question q over a KG Gq, where the output is computed by M(q, Gq). M consists of L reasoning steps (GNN layers). We assume M is an effective reasoner, according to Definition A.2. Furthermore, we define the reasoning process RM,q,Gq as the sequence of the derived node representations at each step l, i.e.,</p>
+<h2 id="rmqgq-hv1-v-gq-hvl-v-gq">RM,q,Gq = {hv(1) : v ∈ Gq}, . . . , {hv(L) : v ∈ Gq}.<a class="headerlink" href="#rmqgq-hv1-v-gq-hvl-v-gq" title="Permanent link">&para;</a></h2>
+<h1 id="optimal-reasoning-process-for-gnns">Optimal Reasoning Process for GNNs<a class="headerlink" href="#optimal-reasoning-process-for-gnns" title="Permanent link">&para;</a></h1>
+<p>We also define the optimal reasoning process for answering question q with GNN M as RM,q,Gq ∗.</p>
+<p>We assume that zero node representations do not contribute in Equation 4.</p>
+<h1 id="lemma-b2">Lemma B.2<a class="headerlink" href="#lemma-b2" title="Permanent link">&para;</a></h1>
+<p>If two subgraphs G1 and G2 have the same nodes, and a GNN outputs the same node representations for all nodes v ∈ G1 and v ∈ G2 at each step l, then the reasoning processes RM,q,G1 and RM,q,G2 are identical.</p>
+<p>This is true as hv with l = 1, . . . , L for both G1 and G2 and by using Definition B.1 to show(l) RM,q,G1 = RM,q,G2. Note that Lemma B.2 does not make any assumptions about the actual edges of G1 and G2.</p>
+<h1 id="importance-of-semantic-matching-for-gnns">Importance of Semantic Matching for GNNs<a class="headerlink" href="#importance-of-semantic-matching-for-gnns" title="Permanent link">&para;</a></h1>
+<p>To analyze the importance of semantic matching for GNNs, we consider the following GNN update:</p>
+<p>hv (l)= ψhv(l−1), ′∈Nvω(q, r) · mvvX (l)′.</p>
+<p>where ω(·, ·) : Rd × Rd −→ {0, 1} is a binary function that decides if fact (v, r, v′) is relevant to question q or not. Neighbor messages mvv(l)′ are aggregated by a sum-operator, which is typically employed in GNNs. Function ψ(·) combines representations among consecutive GNN layers. We assume hv(0)∈ Rd and that ψhv (0), 0d= 0d.</p>
+<h1 id="theorem-b3">Theorem B.3<a class="headerlink" href="#theorem-b3" title="Permanent link">&para;</a></h1>
+<p>If ω(q, r) = 0, ∀(v, r, v′) /∈ G∗ and ω(q, r) = 1, ∀(v, r, v) ∈ Gq ∗, then RM,q,Gq is an optimal reasoning process of GNN M for answering q.</p>
+<h1 id="proof">Proof<a class="headerlink" href="#proof" title="Permanent link">&para;</a></h1>
+<p>We show that:</p>
+<p>X v′∈Nvω(q, r) · mvv(l)′ = ′∈N v∗mvv′ v (l),</p>
+<p>which gives that RM,q,Gq = RM,q,Gq∗ via Lemma B.2. This is true if:</p>
+<p>ω(q, r) =1 if (v, r, v′) /′) ∈ N v ∈ N∗,∗,</p>
+<p>0 if (v, r, v).</p>
+<p>which means that GNNs need to filter-out question irrelevant facts. We consider two cases.</p>
+<h1 id="case-1_1">Case 1<a class="headerlink" href="#case-1_1" title="Permanent link">&para;</a></h1>
+<p>Let u denote a node that is present in Gq, but not in Gq ∗. Then, all facts that contain u are not present in Gq ∗. Condition ω(q, r) = 0, ∀(v, r, v′) /∈ G∗ of Theorem B.3 gives that:</p>
+<p>ω(q, r) = 0, ∀(u, r, v′), and</p>
+<p>ω(q, r) = 0, ∀(v, r, u).</p>
+<p>as node u /∈ G∗. This gives:</p>
+<p>X v′∈N (u)ω(q, r) · muv(l)′ = 0,</p>
+<p>as no edges will contribute to the GNN update. With ψhv(0), 0d= 0d, we have:</p>
+<p>hu (l)= 0d, ∀u /∈ G∗ with l = {1, . . . , L}, which means that nodes u /∈ G∗ do not contribute to the reasoning process RM,q,Gq; see Definition B.1.</p>
+<h1 id="case-2_1">Case 2<a class="headerlink" href="#case-2_1" title="Permanent link">&para;</a></h1>
+<p>Let p denote a relation between two nodes v and v′ that is present in Gq, but not in Gq ∗. We decompose the GNN update to:</p>
+<p>X v′∈N(v)ω(q, r) · mvvr + X v′∈Np(v)ω(q, p) · mvv′.</p>
+<p>where the first term includes facts Nr that are present in Gq ∗ and the second term includes facts Np that are present in Gq only. Using the condition ω(q, r) = 0, ∀(v, r, v′) /∈ G∗ of Theorem B.3, we have:</p>
+<h2 id="x-vnpvq-p-mvv-0">X v′∈Np(v)ω(q, p) · mvv = 0.<a class="headerlink" href="#x-vnpvq-p-mvv-0" title="Permanent link">&para;</a></h2>
+<h1 id="table-7-datasets-statistics">Table 7: Datasets statistics<a class="headerlink" href="#table-7-datasets-statistics" title="Permanent link">&para;</a></h1>
+<p>“avg.|Vq |” denotes average number of entities in subgraph, and “coverage” denotes the ratio of at least one answer in subgraph.</p>
+<p>|Datasets|Train|Dev|Test|avg. |Vq ||coverage (%)|
+|---|---|---|---|---|---|
+|WebQSP|2,848|250|1,639|1,429.8|94.9|
+|CWQ|27,639|3,519|3,531|1,305.8|79.3|
+|MetaQA-3|114,196|14,274|14,274|497.9|99.0|</p>
+<p>Using condition ω(q, r) = 1, ∀(v, r, v′) ∈ Gq ∗, we have</p>
+<p>X(l)′ = X(l).</p>
+<p>Combining the two above expression gives X(l)′ = X(l) = ∑v′∈Nr(v)ω(q, r) · mvv ∑v′∈Nr(v)mvv′ (13)</p>
+<p>It is straightforward to obtain RM,q,Gq = RM,q,Gq via Lemma B.2 in this case.</p>
+<p>Putting it altogether. Combining Case 1 and Case 2, nodes u /∈ G∗ do not contribute to RM,q,Gq, q while for other nodes we have RM,q,Gq = RM,q,Gq ∗. Thus, overall we have RM,q,Gq = RM,q,Gq ∗.</p>
+<h1 id="c-experimental-setup">C Experimental Setup<a class="headerlink" href="#c-experimental-setup" title="Permanent link">&para;</a></h1>
+<h1 id="kgqa-datasets_1">KGQA Datasets<a class="headerlink" href="#kgqa-datasets_1" title="Permanent link">&para;</a></h1>
+<p>We experiment with two widely used KGQA benchmarks: WebQuestionsSP (WebQSP) Yih et al. [2015], Complex WebQuestions 1.1 (CWQ) Talmor and Berant [2018]. We also experiment with MetaQA-3 Zhang et al. [2018] dataset. We provide the dataset statistics Table 7.</p>
+<p>WebQSP contains 4,737 natural language questions that are answerable using a subset Freebase KG [Bollacker et al., 2008]. This KG contains 164.6 million facts and 24.9 million entities. The questions require up to 2-hop reasoning within this KG. Specifically, the model needs to aggregate over two KG facts for 30% of the questions, to reason over constraints for 7% of the questions, and to use a single KG fact for the rest of the questions.</p>
+<p>CWQ is generated from WebQSP by extending the question entities or adding constraints to answers, in order to construct more complex multi-hop questions (34,689 in total). There are four types of questions: composition (45%), conjunction (45%), comparative (5%), and superlative (5%). The questions require up to 4-hops of reasoning over the KG, which is the same KG as in WebQSP.</p>
+<p>MetaQA-3 consists of more than 100k 3-hop questions in the domain of movies. The questions were constructed using the KG provided by the WikiMovies Miller et al. [2016] dataset, with about 43k entities and 135k triples. For MetaQA-3, we use 1,000 (1%) of the training questions.</p>
+<h1 id="implementation">Implementation<a class="headerlink" href="#implementation" title="Permanent link">&para;</a></h1>
+<p>For subgraph retrieval, we use the linked entities to the KG provided by Yih et al. [2015] for WebQSP, by Talmor and Berant [2018] for CWQ. We obtain dense subgraphs by He et al. [2021]. It runs the PageRank Nibble Andersen et al. [2006] (PRN) method starting from the linked entities to select the top-m (m = 2, 000) entities to be included in the subgraph.</p>
+<p>We employ ReaRev1 [Mavromatis and Karypis, 2022] for GNN reasoning (Section 4.1) and RoG2 [Luo et al., 2024] for RAG-based prompt tuning (Section 4.2), following their official implementation codes. In addition, we empower ReaRev with LMSR (Section 4.1), which is obtained by following the implementation of SR3 [Zhang et al., 2022a]. For both training and inference of these methods, we use their suggested hyperparameters, without performing further hyperparameter search. Model selection is performed based on the validation data. Experiments with GNNs were performed on a Nvidia Geforce RTX-3090 GPU over 128GB RAM machine. Experiments with LLMs were performed on 4 A100 GPUs connected via NVLink and 512 GB of memory. The experiments are implemented with PyTorch.</p>
+<p>1 <a href="https://github.com/cmavro/ReaRev_KGQA">https://github.com/cmavro/ReaRev_KGQA</a></p>
+<p>2 <a href="https://github.com/RManLuo/reasoning-on-graphs">https://github.com/RManLuo/reasoning-on-graphs</a></p>
+<h2 id="3-httpsgithubcomruckbreasoningsubgraphretrievalkbqa">3 <a href="https://github.com/RUCKBReasoning/SubgraphRetrievalKBQA">https://github.com/RUCKBReasoning/SubgraphRetrievalKBQA</a><a class="headerlink" href="#3-httpsgithubcomruckbreasoningsubgraphretrievalkbqa" title="Permanent link">&para;</a></h2>
+<h1 id="for-llm-prompting-during-retrieval-section-44-we-use-the-following-prompt">For LLM prompting during retrieval (Section 4.4), we use the following prompt:<a class="headerlink" href="#for-llm-prompting-during-retrieval-section-44-we-use-the-following-prompt" title="Permanent link">&para;</a></h1>
+<p>Please generate a valid relation path that can be helpful for answering the following question:</p>
+<p>{Question}</p>
+<h1 id="for-llm-prompting-during-reasoning-section-42-we-use-the-following-prompt">For LLM prompting during reasoning (Section 4.2), we use the following prompt:<a class="headerlink" href="#for-llm-prompting-during-reasoning-section-42-we-use-the-following-prompt" title="Permanent link">&para;</a></h1>
+<p>Based on the reasoning paths, please answer the given question. Please keep the answer as simple as possible and return all the possible answers as a list.</p>
+<p>Reasoning Paths: {Reasoning Paths}</p>
+<p>Question: {Question}</p>
+<h1 id="during-gnn-inference">During GNN inference<a class="headerlink" href="#during-gnn-inference" title="Permanent link">&para;</a></h1>
+<p>Each node in the subgraph is assigned a probability of being the correct answer, which is normalized via softmax. To retrieve answer candidates, we sort the nodes based on their probability scores, and select the top nodes whose cumulative probability score is below a threshold. We set the threshold to 0.95. To retrieve the shortest paths between the question entities and answer candidates for RAG, we use the NetworkX library.</p>
+<h1 id="competing-approaches">Competing Approaches<a class="headerlink" href="#competing-approaches" title="Permanent link">&para;</a></h1>
+<p>We evaluate the following categories of methods:</p>
+<ol>
+<li>Embedding</li>
+<li>GNN</li>
+<li>LLM</li>
+<li>KG+LMM</li>
+<li>GNN+LLM</li>
+</ol>
+<h1 id="1-embedding">1. Embedding<a class="headerlink" href="#1-embedding" title="Permanent link">&para;</a></h1>
+<p>KV-Mem Miller et al. [2016] is a key-value memory network for KGQA. EmbedKGQA Saxena et al. [2020] utilizes KG pre-trained embeddings Trouillon et al. [2016] to improve multi-hop reasoning. TransferNet Shi et al. [2021] improves multi-hop reasoning over the relation set. Rigel Sen et al. [2021] improves reasoning with questions of multiple entities.</p>
+<h1 id="2-gnn">2. GNN<a class="headerlink" href="#2-gnn" title="Permanent link">&para;</a></h1>
+<p>GraftNet Sun et al. [2018] uses a convolution-based GNN Kipf and Welling [2016]. Pull-Net Sun et al. [2019] is built on top of GraftNet, but learns which nodes to retrieve via selecting shortest paths to the answers. NSM He et al. [2021] is the adaptation of GNNs for KGQA. NSM+h He et al. [2021] improves NSM for multi-hop reasoning. SQALER Atzeni et al. [2021] learns which relations (facts) to retrieve during KGQA for GNN reasoning. Similarly, SR+NSM [Zhang et al., 2022a] proposes a relation-path retrieval. UniKGQA [Jiang et al., 2023b] unifies the graph retrieval and reasoning process with a single LM. ReaRev [Mavromatis and Karypis, 2022] explores diverse reasoning paths in a multi-stage manner.</p>
+<h1 id="3-llm">3. LLM<a class="headerlink" href="#3-llm" title="Permanent link">&para;</a></h1>
+<p>We experiment with instruction-tuned LLMs. Flan-T5 [Chung et al., 2024] is based on T5, while Aplaca [Taori et al., 2023] and LLaMA2-Chat [Touvron et al., 2023] are based on LLaMA. ChatGPT is a powerful closed-source LLM that excels in many complex tasks. ChatGPT+CoT uses the chain-of-thought [Wei et al., 2022] prompt to improve the ChatGPT. We access ChatGPT ‘gpt-3.5-turbo’ through its API (as of May 2024).</p>
+<h1 id="4-kglmm">4. KG+LMM<a class="headerlink" href="#4-kglmm" title="Permanent link">&para;</a></h1>
+<p>KD-CoT [Wang et al., 2023] enhances CoT prompting for LLMs with relevant knowledge from KGs. StructGPT [Jiang et al., 2023a] retrieves KG facts for RAG. KB-BINDER [Li et al., 2023] enhances LLM reasoning by generating logical forms of the questions. ToG [Sun et al., 2024] uses a powerful LLM to select relevant facts hop-by-hop. RoG [Luo et al., 2024] uses the LLM to generate relation paths for better planning.</p>
+<h1 id="5-gnnllm">5. GNN+LLM<a class="headerlink" href="#5-gnnllm" title="Permanent link">&para;</a></h1>
+<p>G-Retriever [He et al., 2024] augments LLMs with GNN-based prompt tuning.</p>
+<h1 id="d-additional-experimental-results">D Additional Experimental Results<a class="headerlink" href="#d-additional-experimental-results" title="Permanent link">&para;</a></h1>
+<h1 id="d1-question-analysis">D.1 Question Analysis<a class="headerlink" href="#d1-question-analysis" title="Permanent link">&para;</a></h1>
+<p>Following the case studies presented in Figure 4 and Figure 5, we provide numerical results on how GNN-RAG improves multi-hop question answering and how retrieval augmentation (RA) enhances.</p>
+<p>4</p>
+<h2 id="5">5<a class="headerlink" href="#5" title="Permanent link">&para;</a></h2>
+<h1 id="table-8-performance-analysis-f1-based-on-the-number-of-maximum-hops-that-connect-question-entities-to-answer-entities">Table 8: Performance analysis (F1) based on the number of maximum hops that connect question entities to answer entities.<a class="headerlink" href="#table-8-performance-analysis-f1-based-on-the-number-of-maximum-hops-that-connect-question-entities-to-answer-entities" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>WebQSP</th>
+<th>1 hop</th>
+<th>2 hop</th>
+<th>≥3 hop</th>
+<th>CWQ</th>
+<th>1 hop</th>
+<th>2 hop</th>
+<th>≥3 hop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>RoG</td>
+<td>73.4</td>
+<td>63.3</td>
+<td>–</td>
+<td>50.4</td>
+<td>60.7</td>
+<td>40.0</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>GNN-RAG</td>
+<td>72.0</td>
+<td>69.8</td>
+<td>–</td>
+<td>47.4</td>
+<td>69.4</td>
+<td>51.8</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>GNN-RAG +RA</td>
+<td>74.6</td>
+<td>71.1</td>
+<td>–</td>
+<td>48.2</td>
+<td>70.9</td>
+<td>47.7</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Table 8 summarizes these results. GNN-RAG improves performance on multi-hop questions (≥2 hops) by 6.5–11.8% F1 points over RoG. Furthermore, RA improves performance on single-hop questions by 0.8–2.6% F1 points over GNN-RAG.</p>
+<h1 id="table-9-performance-analysis-f1-based-on-the-number-of-answers-ans">Table 9: Performance analysis (F1) based on the number of answers (#Ans).<a class="headerlink" href="#table-9-performance-analysis-f1-based-on-the-number-of-answers-ans" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>WebQSP</th>
+<th>#Ans=1</th>
+<th>2≤#Ans≤4</th>
+<th>5≤#Ans≤9</th>
+<th>#Ans≥10</th>
+<th>CWQ</th>
+<th>#Ans=1</th>
+<th>2≤#Ans≤4</th>
+<th>5≤#Ans≤9</th>
+<th>#Ans≥10</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RoG</td>
+<td>67.89</td>
+<td>79.39</td>
+<td>75.04</td>
+<td>58.33</td>
+<td>56.90</td>
+<td>53.73</td>
+<td>58.36</td>
+<td>43.62</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG</td>
+<td>71.24</td>
+<td>76.30</td>
+<td>74.06</td>
+<td>56.28</td>
+<td>60.40</td>
+<td>55.52</td>
+<td>61.49</td>
+<td>50.08</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG +RA</td>
+<td>71.16</td>
+<td>82.31</td>
+<td>77.78</td>
+<td>57.71</td>
+<td>62.09</td>
+<td>56.47</td>
+<td>62.87</td>
+<td>50.33</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Table 9 presents results with respect to the number of correct answers. As shown, RA enhances GNN-RAG in almost all cases as it can fetch correct answers that might have been missed by the GNN.</p>
+<h1 id="d2-gnn-effect">D.2 GNN Effect<a class="headerlink" href="#d2-gnn-effect" title="Permanent link">&para;</a></h1>
+<h1 id="table-10-performance-comparison-of-different-gnn-models-at-complex-kgqa-cwq">Table 10: Performance comparison of different GNN models at complex KGQA (CWQ).<a class="headerlink" href="#table-10-performance-comparison-of-different-gnn-models-at-complex-kgqa-cwq" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Retriever</th>
+<th>KGQA Model</th>
+<th>CWQ</th>
+<th>Hit∗</th>
+<th>H@1</th>
+<th>F1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Dense Subgraph</td>
+<td>GraftNet</td>
+<td>–</td>
+<td>45.3</td>
+<td>35.8</td>
+</tr>
+<tr>
+<td></td>
+<td>Dense Subgraph</td>
+<td>NSM</td>
+<td>–</td>
+<td>47.9</td>
+<td>42.0</td>
+</tr>
+<tr>
+<td></td>
+<td>Dense Subgraph</td>
+<td>ReaRev</td>
+<td>–</td>
+<td>52.7</td>
+<td>49.1</td>
+</tr>
+<tr>
+<td></td>
+<td>RoG</td>
+<td>–</td>
+<td>62.6</td>
+<td>57.8</td>
+<td>56.2</td>
+</tr>
+<tr>
+<td></td>
+<td>GNN-RAG: GraftNet</td>
+<td>LLaMA2-Chat-7B (tuned)</td>
+<td>58.2</td>
+<td>51.9</td>
+<td>49.4</td>
+</tr>
+<tr>
+<td></td>
+<td>GNN-RAG: NSM</td>
+<td>–</td>
+<td>58.5</td>
+<td>52.5</td>
+<td>50.1</td>
+</tr>
+<tr>
+<td></td>
+<td>GNN-RAG: ReaRev</td>
+<td>–</td>
+<td>66.8</td>
+<td>61.7</td>
+<td>59.4</td>
+</tr>
+</tbody>
+</table>
+<p>GNN-RAG employs ReaRev [Mavromatis and Karypis, 2022] as its GNN retriever, which is a powerful GNN for deep KG reasoning. In this section, we ablate on the impact of the GNN used for retrieval, i.e., how strong and weak GNNs affect KGQA performance. We experiment with GraftNet [Sun et al., 2018] and NSM [He et al., 2021] GNNs, which are less powerful than ReaRev at KGQA. The results are presented in Table 10. As shown, strong GNNs (ReaRev) are required in order to improve RAG at KGQA. Retrieval with weak GNNs (NSM and GraftNet) underperforms retrieval with ReaRev by 9.2–9.8% and retrieval with RoG by 5.3–5.9% points at H@1.</p>
+<h1 id="table-11-results-on-metaqa-3-dataset">Table 11: Results on MetaQA-3 dataset.<a class="headerlink" href="#table-11-results-on-metaqa-3-dataset" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>MetaQA-3</th>
+<th>Hit@1</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RoG</td>
+<td>84.8</td>
+<td></td>
+</tr>
+<tr>
+<td>RoG+pretraining</td>
+<td>88.9</td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG</td>
+<td>98.6</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h2 id="d3-metaqa-3-table-11-presents-results-on-the-metaqa-3-dataset-which-requires-3-hop-reasoning-rog-is-a-llm-based-retrieval-which-cannot-handle-the-multi-hop-kg-information-effectively-and-as-a-result-rog-underperforms-even-when-using-additional-pretraining-data-from-webqsp-cwq-datasets-on-the-other-hand-gnn-rag-relies-on-gnns-that-are-able-to-retrieve-useful-graph-information-for-multi-hop-questions-and-achieves-an-almost-perfect-performance-of-986-at-hit1">D.3 MetaQA-3 Table 11 presents results on the MetaQA-3 dataset, which requires 3-hop reasoning. RoG is a LLM-based retrieval which cannot handle the multi-hop KG information effectively and as a result, RoG underperforms (even when using additional pretraining data from WebQSP &amp; CWQ datasets). On the other hand, GNN-RAG relies on GNNs that are able to retrieve useful graph information for multi-hop questions and achieves an almost perfect performance of 98.6% at Hit@1.<a class="headerlink" href="#d3-metaqa-3-table-11-presents-results-on-the-metaqa-3-dataset-which-requires-3-hop-reasoning-rog-is-a-llm-based-retrieval-which-cannot-handle-the-multi-hop-kg-information-effectively-and-as-a-result-rog-underperforms-even-when-using-additional-pretraining-data-from-webqsp-cwq-datasets-on-the-other-hand-gnn-rag-relies-on-gnns-that-are-able-to-retrieve-useful-graph-information-for-multi-hop-questions-and-achieves-an-almost-perfect-performance-of-986-at-hit1" title="Permanent link">&para;</a></h2>
+<h1 id="d4-retrieval-augmentation">D.4 Retrieval Augmentation<a class="headerlink" href="#d4-retrieval-augmentation" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Retriever</th>
+<th>KGQA Model</th>
+<th>#LLM Calls</th>
+<th>WebQSP (total)</th>
+<th>Hit*</th>
+<th>H@1</th>
+<th>F1</th>
+<th>CWQ</th>
+<th>Hit*</th>
+<th>H@1</th>
+<th>F1</th>
+<th>Avg.</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dense Subgraph</td>
+<td>(i) ReaRev + SBERT</td>
+<td>0</td>
+<td>–</td>
+<td>76.4</td>
+<td>70.9</td>
+<td>–</td>
+<td>52.9</td>
+<td>47.8</td>
+<td>–</td>
+<td>–</td>
+<td></td>
+</tr>
+<tr>
+<td></td>
+<td>(ii) ReaRev + LMSR</td>
+<td>0</td>
+<td>–</td>
+<td>77.5</td>
+<td>72.8</td>
+<td>–</td>
+<td>52.7</td>
+<td>49.1</td>
+<td>–</td>
+<td>–</td>
+<td></td>
+</tr>
+<tr>
+<td>None</td>
+<td></td>
+<td>1</td>
+<td>65.6</td>
+<td>60.4</td>
+<td>49.7</td>
+<td>40.1</td>
+<td>36.2</td>
+<td>33.8</td>
+<td>47.63</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>(iii) LLM-based</td>
+<td>LLaMA2-Chat-7B (tuned)</td>
+<td>4</td>
+<td>85.7</td>
+<td>80.0</td>
+<td>70.8</td>
+<td>62.6</td>
+<td>57.8</td>
+<td>56.2</td>
+<td>68.85</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG: (i)</td>
+<td></td>
+<td>1</td>
+<td>85.7</td>
+<td>80.6</td>
+<td>71.3</td>
+<td>66.8</td>
+<td>61.7</td>
+<td>59.4</td>
+<td>70.92</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG: (ii)</td>
+<td></td>
+<td>1</td>
+<td>85.0</td>
+<td>80.3</td>
+<td>71.5</td>
+<td>66.2</td>
+<td>61.3</td>
+<td>58.9</td>
+<td>70.50</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG: (i) + (ii)</td>
+<td></td>
+<td>1</td>
+<td>87.2</td>
+<td>81.0</td>
+<td>71.7</td>
+<td>65.5</td>
+<td>59.5</td>
+<td>57.5</td>
+<td>70.40</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG: (i) + (iii)</td>
+<td>LLaMA2-Chat-7B (tuned)</td>
+<td>4</td>
+<td>90.7</td>
+<td>82.8</td>
+<td>73.5</td>
+<td>68.7</td>
+<td>62.8</td>
+<td>60.4</td>
+<td>73.15</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG: (ii) + (iii)</td>
+<td></td>
+<td>4</td>
+<td>89.9</td>
+<td>82.4</td>
+<td>73.4</td>
+<td>67.9</td>
+<td>63.0</td>
+<td>61.0</td>
+<td>72.93</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>GNN-RAG: (i) + (ii) + (iii)</td>
+<td></td>
+<td>4</td>
+<td>90.1</td>
+<td>81.7</td>
+<td>72.3</td>
+<td>67.3</td>
+<td>61.5</td>
+<td>59.1</td>
+<td>72.00</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>None-RAG: (i) + (ii)</td>
+<td>GNN</td>
+<td>LLaMA2-Chat-7B</td>
+<td></td>
+<td>1</td>
+<td>64.4</td>
+<td>86.8</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>34.6</td>
+<td>62.9</td>
+</tr>
+<tr>
+<td>GNN-RAG: (i) + (iii)</td>
+<td></td>
+<td>4</td>
+<td>88.5</td>
+<td>–</td>
+<td>–</td>
+<td>62.1</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Table 12 has the extended results of Table 4, showing performance results on all three metrics (Hit / H@1 / F1) with respect to the retrieval method used. Overall, GNN-RAG improves the vanilla LLM by 149–182%, when employing the same number of LLM calls for retrieval.</p>
+<h1 id="d5-prompt-ablation">D.5 Prompt Ablation<a class="headerlink" href="#d5-prompt-ablation" title="Permanent link">&para;</a></h1>
+<p>When using RAG, LLM performance depends on the prompts used. To ablate on the prompt impact, we experiment with the following prompts:</p>
+<ul>
+<li>Prompt A:
+Based on the reasoning paths, please answer the given question. Please keep the answer as simple as possible and return all the possible answers as a list.</li>
+</ul>
+<p>Reasoning Paths: {Reasoning Paths}</p>
+<p>Question: {Question}
+- Prompt B:
+Based on the provided knowledge, please answer the given question. Please keep the answer as simple as possible and return all the possible answers as a list.</p>
+<p>Knowledge: {Reasoning Paths}</p>
+<p>Question: {Question}
+- Prompt C:
+Your tasks is to use the following facts and answer the question. Make sure that you use the information from the facts provided. Please keep the answer as simple as possible and return all the possible answers as a list.</p>
+<p>The facts are the following: {Reasoning Paths}</p>
+<p>Question: {Question}</p>
+<h2 id="we-provide-the-results-based-on-different-input-prompts-in-table-13-as-the-results-indicate-gnn-rag-outperforms-rog-in-all-cases-being-robust-at-the-prompt-selection">We provide the results based on different input prompts in Table 13. As the results indicate, GNN-RAG outperforms RoG in all cases, being robust at the prompt selection.<a class="headerlink" href="#we-provide-the-results-based-on-different-input-prompts-in-table-13-as-the-results-indicate-gnn-rag-outperforms-rog-in-all-cases-being-robust-at-the-prompt-selection" title="Permanent link">&para;</a></h2>
+<h1 id="table-13-performance-comparison-hit-based-on-different-input-prompts">Table 13: Performance comparison (%Hit) based on different input prompts.<a class="headerlink" href="#table-13-performance-comparison-hit-based-on-different-input-prompts" title="Permanent link">&para;</a></h1>
+<table>
+<thead>
+<tr>
+<th>Prompt</th>
+<th>Method</th>
+<th>WebQSP</th>
+<th></th>
+<th>CWQ</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td>Prompt A</td>
+<td>RoG</td>
+<td>84.8</td>
+<td>56.4</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>GNN-RAG</td>
+<td>86.8</td>
+<td>62.9</td>
+</tr>
+<tr>
+<td></td>
+<td>Prompt B</td>
+<td>RoG</td>
+<td>84.3</td>
+<td>55.2</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>GNN-RAG</td>
+<td>85.2</td>
+<td>61.7</td>
+</tr>
+<tr>
+<td></td>
+<td>Prompt C</td>
+<td>RoG</td>
+<td>81.6</td>
+<td>51.8</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td>GNN-RAG</td>
+<td>84.4</td>
+<td>59.4</td>
+</tr>
+</tbody>
+</table>
+<h1 id="table-14-performance-results-based-on-different-training-data">Table 14: Performance results based on different training data.<a class="headerlink" href="#table-14-performance-results-based-on-different-training-data" title="Permanent link">&para;</a></h1>
+<p>|Method|WebQSP|WebQSP|WebQSP|CWQ|CWQ|CWQ| | | | | |
+|---|---|---|---|---|---|---|---|
+| |Training Data (Retriever)| |Training Data (KGQA Model)|Hit|Training Data (Retriever)|Training Data (KGQA Model)|Hit|
+|UniKGQA|WebQSP| | |77.2|CWQ|CWQ|51.2|
+| |WebQSP| | |81.5|CWQ|CWQ|59.1|
+|RoG|WebQSP+CWQ| | |84.8|WebQSP+CWQ|None|56.4|
+| |WebQSP+CWQ| | |85.7|WebQSP+CWQ|WebQSP+CWQ|62.6|
+|GNN-RAG|WebQSP| | |86.8|CWQ|None|62.9|
+| |WebQSP| | |87.2|CWQ|WebQSP+CWQ|66.8|</p>
+<h1 id="d6-effect-of-training-data">D.6 Effect of Training Data<a class="headerlink" href="#d6-effect-of-training-data" title="Permanent link">&para;</a></h1>
+<p>Table 14 compares performance of different methods based on the training data used for training the retriever and the KGQA model. For example, GNN-RAG trains a GNN model for retrieval and uses a LLM for KGQA, which can be fine-tuned or not. As the results show, GNN-RAG outperforms the competing methods (RoG and UniKGQA) by either fine-tuning the KGQA model or not, while it uses the same or less data for training its retriever.</p>
+<h1 id="d7-graph-effect">D.7 Graph Effect<a class="headerlink" href="#d7-graph-effect" title="Permanent link">&para;</a></h1>
+<p>GNNs operate on dense subgraphs, which might include noisy information. A question that arises is whether removing irrelevant information from the subgraph would improve GNN retrieval. We experiment with SR [Zhang et al., 2022a], which learns to prune question-irrelevant facts from the KG. As shown in Table 15, although SR can improve the GNN reasoning results – see row (a) vs. (b) at CWQ –, the retrieval effectiveness deteriorates; rows &copy; and (d). After examination, we found that the sparse subgraph may contain disconnected KG parts. In this case, GNN-RAG’s extraction of the shortest paths fails, and GNN-RAG returns empty KG information.</p>
+<h1 id="table-15-performance-comparison-on-different-subgraphs">Table 15: Performance comparison on different subgraphs.<a class="headerlink" href="#table-15-performance-comparison-on-different-subgraphs" title="Permanent link">&para;</a></h1>
+<p>|Retriever|KGQA Model|WebQSP|WebQSP|WebQSP|CWQ|CWQ|CWQ|
+|---|---|---|---|
+| | |Hit*|H@1|F1|Hit*|H@1|F1|
+|a) Dense Subgraph|(A) ReaRev + LMSR|-|77.5|72.8|-|52.7|49.1|
+|b) Sparse Subgraph [Zhang et al., 2022a]|(B) ReaRev + LMSR|-|74.2|69.8|-|53.3|49.7|
+|c) GNN-RAG: (A)|LLaMA2-Chat-7B (tuned)|85.0|80.3|71.5|66.2|61.3|58.9|
+|d) GNN-RAG: (B)| |83.4|78.9|69.8|60.6|55.6|53.3|</p>
+<h1 id="e-limitations">E Limitations<a class="headerlink" href="#e-limitations" title="Permanent link">&para;</a></h1>
+<h2 id="gnn-rag-assumes-that-the-kg-subgraph-on-which-the-gnn-reasons-contains-answer-nodes-however-as-the-subgraph-is-decided-by-tools-such-as-entity-linking-and-neighborhood-extraction-errors-in-these-tools-eg-unlinked-entities-can-result-to-subgraphs-that-do-not-include-any-answers-for-example-table-7-shows-that-cwq-subgraphs-contain-an-answer-in-793-of-the-questions-in-such-cases-gnn-rag-cannot-retrieve-the-correct-answers-to-help-the-llm-answer-the-questions">GNN-RAG assumes that the KG subgraph, on which the GNN reasons, contains answer nodes. However, as the subgraph is decided by tools such as entity linking and neighborhood extraction, errors in these tools, e.g., unlinked entities, can result to subgraphs that do not include any answers. For example, Table 7 shows that CWQ subgraphs contain an answer in 79.3% of the questions. In such cases, GNN-RAG cannot retrieve the correct answers to help the LLM answer the questions.<a class="headerlink" href="#gnn-rag-assumes-that-the-kg-subgraph-on-which-the-gnn-reasons-contains-answer-nodes-however-as-the-subgraph-is-decided-by-tools-such-as-entity-linking-and-neighborhood-extraction-errors-in-these-tools-eg-unlinked-entities-can-result-to-subgraphs-that-do-not-include-any-answers-for-example-table-7-shows-that-cwq-subgraphs-contain-an-answer-in-793-of-the-questions-in-such-cases-gnn-rag-cannot-retrieve-the-correct-answers-to-help-the-llm-answer-the-questions" title="Permanent link">&para;</a></h2>
+<h1 id="f-broader-impacts">F. Broader Impacts<a class="headerlink" href="#f-broader-impacts" title="Permanent link">&para;</a></h1>
+<p>GNN-RAG is a method that grounds the LLM generations for QA using ground-truth facts from the KG. As a result, GNN-RAG can have positive societal impacts by using KG information to alleviate LLM hallucinations in tasks such as QA.</p>
+<p>In addition, if the KG has disconnected parts, the shortest path extraction algorithm of GNN-RAG may return empty reasoning paths (see Appendix D.7).</p>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2025 Adithya S Kolavi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        <div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/adithya-s-k/AI-Engineering.academy" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8M97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/adithya-s-k/AI-Engineering.academy" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6M286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3M167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4m-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://x.com/adithya_s_k" target="_blank" rel="noopener" title="x.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 6.7.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.--><path d="M389.2 48h70.6L305.6 224.2 487 464H345L233.7 318.6 106.5 464H35.8l164.9-188.5L26.8 48h145.6l100.5 132.9zm-24.8 373.8h39.1L151.1 88h-42z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    <script id="__config" type="application/json">{"base": "../../../..", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.tooltips", "navigation.footer", "navigation.indexes", "navigation.sections", "navigation.tabs", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "../../../../assets/javascripts/workers/search.6ce7567c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.88dd0f4e.min.js"></script>
+      
+    
+  </body>
+</html>

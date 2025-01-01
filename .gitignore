@@ -179,3 +179,5 @@ cython_debug/
 #.idea/
 
 **/agentic_patterns
+
+**/mainm

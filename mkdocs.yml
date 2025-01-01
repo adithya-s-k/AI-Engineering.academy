@@ -1,73 +1,179 @@
+# Copyright (c) 2016-2024 Martin Donath <martin.donath@squidfunk.com>
+
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+
+# Project information
 site_name: AI Engineering Academy
 site_url: https://aiengineering.academy
-repo_url: https://github.com/adithya-s-k/AI-Engineering.academy
+site_author: Adithya S Kolavi
+site_description: >-
+  Mastering Applied AI, One Concept at a Time
+
+# Repository
 repo_name: adithya-s-k/AI-Engineering.academy
-edit_uri: edit/main/docs/
+repo_url: https://github.com/adithya-s-k/AI-Engineering.academy
 
-docs_dir: .
-site_dir: ../site
+# Copyright
+copyright: Copyright &copy; 2024 - 2025 Adithya S Kolavi
 
+# Configuration
 theme:
   name: material
-  logo: assets/logo.png
-  favicon: assets/logo.png
-  palette:
-    scheme: slate
-    primary: teal
-    accent: deep purple
+  # custom_dir: material/overrides
   features:
-    - navigation.tabs
-    - navigation.sections
-    - navigation.expand
-    - toc.integrate
-    - navigation.top
-    - search.suggest
-    - search.highlight
-    - content.tabs.link
-    - content.code.annotation
+    - announce.dismiss
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
     - content.code.copy
-  language: en
-  icon:
-    repo: fontawesome/brands/github
-  custom_dir: assets/overrides
+    # - content.code.select
+    # - content.footnote.tooltips
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.instant.prefetch
+    # - navigation.instant.progress
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
+    # - toc.integrate
+  palette:
+    - media: "(prefers-color-scheme)"
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: indigo
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: assets/logo.png
+#   icon:
+#     logo: assets/logo.png
 
+# Plugins
 plugins:
-  - search
-  - same-dir
-  - exclude:
-      glob:
-        - archives/**
-  - mkdocs-jupyter:
-      include_source: true
-      ignore_h1_titles: true
-      execute: false
-      allow_errors: true
-      ignore_patterns:
-        - "archives/*"
+  - blog
+  #   - mkdocs-jupyter:
+  #       include_source: true
+  #       ignore_h1_titles: true
+  #       execute: false
+  #       allow_errors: true
+  #       ignore_patterns:
+  #         - "archives/*"
   - mkdocstrings:
       default_handler: python
       handlers:
         python:
           rendering:
             show_source: true
+  - search:
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  # - minify:
+  #     minify_html: true
 
+# Additional configuration
+extra:
+  status:
+    new: Recently added
+    deprecated: Deprecated
+  analytics:
+    provider: google
+    property: !ENV GOOGLE_ANALYTICS_KEY
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/adithya-s-k/AI-Engineering.academy
+    - icon: fontawesome/brands/python
+      link: https://github.com/adithya-s-k/AI-Engineering.academy
+    # - icon: fontawesome/brands/bluesky
+    #   link:
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/adithya_s_k
+
+# Extensions
 markdown_extensions:
-  - pymdownx.highlight:
-      anchor_linenums: true
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
+  - abbr
   - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
   - pymdownx.arithmatex:
       generic: true
-  - footnotes
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
   - pymdownx.details
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: squidfunk
+      repo: mkdocs-material
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.snippets:
+      auto_append:
+        - includes/mkdocs.md
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
-  - pymdownx.mark
-  - attr_list
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+not_in_nav: |
+  /tutorials/**/*.md
+
+# Page tree
 
 nav:
   - Home: README.md
@@ -182,20 +288,5 @@ nav:
           - Overview: Projects/YT_Clones/README.md
           - Fireship Clone: Projects/YT_Clones/Fireship_clone.ipynb
           - Dataset Preparation: Projects/YT_Clones/dataset_prep.ipynb
-extra:
-  social:
-    - icon: fontawesome/brands/github
-      link: https://github.com/adithya-s-k/AI-Engineering.academy
-    - icon: fontawesome/brands/twitter
-      link: https://x.com/adithya_s_k
-  analytics:
-    provider: google
-    property: !ENV GOOGLE_ANALYTICS_KEY
-
-copyright: "&copy; 2024 AI Engineering Academy. All rights reserved."
-
-extra_javascript:
-  - https://unpkg.com/mermaid@8.11.2/dist/mermaid.min.js
-
-extra_css:
-  - css/extra.css
+  - Blog:
+      - blog/index.md

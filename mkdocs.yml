@@ -244,6 +244,9 @@ nav:
               - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
   - LLM:
       - Introduction: LLM/README.md
+      - GRPO Finetuning:
+          - Overview: LLM/GRPO/hacker_guide_to_GRPO.md
+          - Implementation: LLM/GRPO/Qwen_0_5b__GRPO.ipynb
       - LLM:
           - Gemma:
               - Overview: LLM/Gemma/README.md

@@ -21,7 +21,6 @@ jobs:
       - run: pip install mkdocs-material
       - run: pip install mkdocstrings==0.27.0
       - run: pip install mkdocstrings-python
-      - run: pip install mkdocstrings-handlers
       - run: pip install -U mkdocs-jupyter
       - run: pip install mkdocs-exclude
       - run: pip install mkdocstrings[python]

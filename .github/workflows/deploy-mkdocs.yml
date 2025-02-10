@@ -3,7 +3,7 @@ name: Deploy MkDocs to GitHub Pages
 on:
   push:
     branches:
-      - main  # Set this to your default branch name
+      - main # Set this to your default branch name
 permissions:
   contents: write
 jobs:
@@ -19,6 +19,8 @@ jobs:
           key: ${{ github.ref }}
           path: .cache
       - run: pip install mkdocs-material
+      - run: pip install mkdocstrings
+      - run: pip install mkdocstrings-python
       - run: pip install mkdocs-jupyter
       - run: pip install mkdocs-exclude
       - run: pip install mkdocstrings[python]

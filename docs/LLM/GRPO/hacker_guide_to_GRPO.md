@@ -6,15 +6,6 @@ Group Relative Policy Optimization (GRPO) represents a significant advancement i
 GRPO, introduced by DeepSeek, offers an elegant solution to these challenges. Instead of relying on a value function, GRPO uses a group-based approach to estimate advantages, which significantly reduces both computational complexity and memory requirements. This makes it particularly attractive for researchers and practitioners working with limited computational resources.
 The key innovation of GRPO lies in its group-relative reward mechanism. Rather than comparing policy updates against an absolute baseline, it evaluates performance relative to a group of samples. This approach not only simplifies the training process but also provides more stable and efficient learning, especially for tasks requiring complex reasoning like mathematical problem-solving.
 
-Key Benefits of GRPO:
-
-- Reduced computational overhead compared to traditional PPO
-- No need for value function estimation
-- More efficient memory utilization
-- Improved stability in training
-- Particularly effective for mathematical reasoning tasks
-- Simpler implementation and maintenance
-
 This guide will walk you through implementing GRPO for fine-tuning language models, with a focus on practical applications and efficient deployment.
 
 ## Initial Setup

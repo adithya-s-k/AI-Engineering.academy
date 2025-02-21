@@ -77,9 +77,9 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  favicon: assets/favicon.png
-  icon:
-    logo: logo
+  favicon: assets/logo.png
+  # icon:
+  logo: assets/logo.png
 
 # Plugins
 plugins:
@@ -244,10 +244,17 @@ nav:
               - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
   - LLM:
       - Introduction: LLM/README.md
-      - GRPO Finetuning:
-          - Overview: LLM/GRPO/hacker_guide_to_GRPO.md
-          - Implementation: LLM/GRPO/Qwen_0_5b__GRPO.ipynb
-      - LLM:
+      - Finetuning Techniques:
+          - PreTraining: LLM/TheoryBehindFinetuning/PreTrain.md
+          - SFT: LLM/TheoryBehindFinetuning/SFT.md
+          - PPO: LLM/TheoryBehindFinetuning/PPO.md
+          - DPO: LLM/TheoryBehindFinetuning/DPO.md
+          - ORPO: LLM/TheoryBehindFinetuning/ORPO.md
+          - GRPO: LLM/TheoryBehindFinetuning/GRPO.md
+          - GRPO Hands on:
+              - Overview: LLM/GRPO/hacker_guide_to_GRPO.md
+              - Implementation: LLM/GRPO/Qwen_0_5b__GRPO.ipynb
+      - LLM Finetuning Hands on:
           - Gemma:
               - Overview: LLM/Gemma/README.md
               - Implementation: LLM/Gemma/Gemma_finetuning_notebook.ipynb

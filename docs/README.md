@@ -18,7 +18,7 @@
 
 ## 🎯 Mission
 
-Your journey into AI shouldn't be overwhelming. [AIengineering.academy](https://aiengineering.academy/) curate and organize essential knowledge into clear learning paths, making complex AI concepts accessible and practical for everyone.
+Your journey into AI shouldn't be overwhelming. [AI Engineering.academy](https://aiengineering.academy/) curate and organize essential knowledge into clear learning paths, making complex AI concepts accessible and practical for everyone.
 
 ## 🌟 Why Choose AI Engineering Academy?
 

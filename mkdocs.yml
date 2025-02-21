@@ -252,10 +252,10 @@ nav:
               - Overview: LLM/Gemma/README.md
               - Implementation: LLM/Gemma/Gemma_finetuning_notebook.ipynb
           - Llama2:
-              - Overview: LLM/LLama2/README.md
               - Implementation: LLM/LLama2/Llama2_finetuning_notebook.ipynb
               - QLora: LLM/LLama2/Llama_2_Fine_Tuning_using_QLora.ipynb
-          - Llama3: LLM/Llama3_finetuning_notebook.ipynb
+          - Llama3:
+              - Implementation: LLM/Llama3_finetuning_notebook.ipynb
           - Mistral:
               - Overview: LLM/Mistral-7b/README.md
               - Implementation: LLM/Mistral-7b/Mistral_finetuning_notebook.ipynb
@@ -263,7 +263,7 @@ nav:
               - DPO Fine-tuning: LLM/Mistral-7b/notebooks_DPO_fine_tuning.ipynb
               - SFT Trainer: LLM/Mistral-7b/notebooks_SFTTrainer TRL.ipynb
               - ChatML Inference: LLM/Mistral-7b/notebooks_chatml_inference.ipynb
-          - Mixtral: LLM/Mixtral/Mixtral_fine_tuning.ipynb
+              - Mixtral: LLM/Mixtral/Mixtral_fine_tuning.ipynb
       - VLM:
           - Florence2: LLM/VLM/Florence2_finetuning_notebook.ipynb
           - PaliGemma: LLM/VLM/PaliGemma_finetuning_notebook.ipynb

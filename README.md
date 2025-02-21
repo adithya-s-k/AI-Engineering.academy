@@ -29,7 +29,7 @@ Your journey into AI shouldn't be overwhelming. [AIengineering.academy](https://
 
 ## 🗺️ Learning Paths
 
-### 1. [Prompt Engineering](./PromptEngineering/)
+### 1. [Prompt Engineering](./docs/PromptEngineering/)
 
 Master the art of effectively communicating with AI models
 
@@ -37,7 +37,7 @@ Master the art of effectively communicating with AI models
 - Advanced techniques for optimal results
 - Real-world applications and case studies
 
-### 2. [Retrieval Augmented Generation (RAG)](./RAG/)
+### 2. [Retrieval Augmented Generation (RAG)](./docs/RAG/)
 
 Enhance AI responses with external knowledge
 
@@ -46,7 +46,7 @@ Enhance AI responses with external knowledge
 - Production deployment strategies
 - Performance optimization techniques
 
-### 3. [Fine-tuning](./LLM/)
+### 3. [Fine-tuning](./docs/LLM/)
 
 Customize AI models for your specific needs
 
@@ -55,7 +55,7 @@ Customize AI models for your specific needs
 - Best practices and common pitfalls
 - Resource optimization
 
-### 4. [Deployment](./Deployment/) 📍 _Coming Soon_
+### 4. [Deployment](./docs/Deployment/) 📍 _Coming Soon_
 
 Take your AI models from laptop to production
 
@@ -64,7 +64,7 @@ Take your AI models from laptop to production
 - Scaling considerations
 - Monitoring and maintenance
 
-### 5. [AI Agents](./Agents/)
+### 5. [AI Agents](./docs/Agents/)
 
 Build autonomous AI systems
 
@@ -73,7 +73,7 @@ Build autonomous AI systems
 - Multi-agent systems
 - Real-world applications
 
-### 6. [Projects](./Projects/)
+### 6. [Projects](./docs/Projects/)
 
 Apply your knowledge through hands-on projects
 
@@ -98,7 +98,7 @@ Apply your knowledge through hands-on projects
 - Contribute to improving the curriculum
 
 <div align="center">
-  <h3>🏆 Contributors</h3>
+  <h3>🏆 Maintainer</h3>
   <table>
     <tr>
       <td align="center">

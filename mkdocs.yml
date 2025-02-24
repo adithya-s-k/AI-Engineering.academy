@@ -246,14 +246,17 @@ nav:
       - Introduction: LLM/README.md
       - Finetuning Techniques:
           - PreTraining: LLM/TheoryBehindFinetuning/PreTrain.md
-          - SFT: LLM/TheoryBehindFinetuning/SFT.md
+          - SFT:
+              - Theory: LLM/TheoryBehindFinetuning/SFT.md
+              - Hands on: LLM/HandsOnWithFinetuning/SFT/SFT.md
+              - Implementation: LLM/HandsOnWithFinetuning/SFT/SFT_finetuning_notebook.ipynb
           - PPO: LLM/TheoryBehindFinetuning/PPO.md
           - DPO: LLM/TheoryBehindFinetuning/DPO.md
           - ORPO: LLM/TheoryBehindFinetuning/ORPO.md
-          - GRPO: LLM/TheoryBehindFinetuning/GRPO.md
-          - GRPO Hands on:
-              - Overview: LLM/GRPO/hacker_guide_to_GRPO.md
-              - Implementation: LLM/GRPO/Qwen_0_5b__GRPO.ipynb
+          - GRPO:
+              - Theory: LLM/TheoryBehindFinetuning/GRPO.md
+              - Hands on: LLM/HandsOnWithFinetuning/GRPO/hacker_guide_to_GRPO.md
+              - Implementation: LLM/HandsOnWithFinetuning/GRPO/Qwen_0_5b__GRPO.ipynb
       - LLM Finetuning Hands on:
           - Gemma:
               - Overview: LLM/Gemma/README.md
@@ -278,8 +281,8 @@ nav:
           - Parameter Count: LLM/LLMArchitecture/ParameterCount/README.md
   - Deployment:
       - Introduction: Deployment/README.md
-      - Deploy LLM:
-          - Overview: Deployment/DeployLLM/README.md
+      # - Deploy LLM:
+      - LLMs to Prod: Deployment/DeployLLMtoProd.md
       - Quantization:
           - AWQ: Deployment/Quantization/AWQ_Quantization.ipynb
           - GGUF: Deployment/Quantization/GGUF_Quantization.ipynb

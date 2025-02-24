@@ -1,8 +1,8 @@
-# 🤖 AI Agents Engineering Guide
+# AI Agents Engineering Guide
 
 Welcome to the AI Agents section of AI Engineering Academy! This module explores the fascinating world of AI agents, from fundamental patterns to practical implementations. Learn how to create, orchestrate, and deploy intelligent agents that can perform complex tasks and reason about their environment.
 
-## 📚 Repository Structure
+## Repository Structure
 
 | Category     | Component                                                       | Description                                       |
 | ------------ | --------------------------------------------------------------- | ------------------------------------------------- |
@@ -12,9 +12,9 @@ Welcome to the AI Agents section of AI Engineering Academy! This module explores
 |              | [Multiagent Pattern](./patterns/multiagent_pattern.ipynb)       | Implementing collaborative agent systems          |
 | **Projects** | [Multi-document Agents](./projects/multi_document_agents.ipynb) | Practical implementation with document processing |
 
-## 🎯 Core Patterns
+## Core Patterns
 
-### 1. 🔄 Reflection and Learning
+### 1. Reflection and Learning
 
 Implement self-improvement mechanisms for more capable agents.
 
@@ -24,7 +24,7 @@ Implement self-improvement mechanisms for more capable agents.
 - Error recovery
 - Continuous improvement loops
 
-### 2. 🛠️ Tool Usage
+### 2. Tool Usage
 
 Develop agents that can effectively utilize external tools and APIs.
 
@@ -34,7 +34,7 @@ Develop agents that can effectively utilize external tools and APIs.
 - Resource management
 - Tool chain orchestration
 
-### 3. 📋 Planning and Strategy
+### 3. Planning and Strategy
 
 Master strategic decision-making and task planning for autonomous agents.
 
@@ -44,7 +44,7 @@ Master strategic decision-making and task planning for autonomous agents.
 - Risk assessment
 - Adaptive planning strategies
 
-### 4. 🤝 Multi-Agent Systems
+### 4. Multi-Agent Systems
 
 Learn to implement collaborative AI systems where multiple agents work together to achieve complex goals.
 
@@ -54,7 +54,7 @@ Learn to implement collaborative AI systems where multiple agents work together 
 - Collaborative problem-solving
 - Emergent behavior management
 
-## 🚀 Practical Projects
+## Practical Projects
 
 ### Multi-Document Agents
 
@@ -66,29 +66,30 @@ An implementation showcase for handling multiple documents:
 - Content summarization
 - Knowledge synthesis
 
-## 💡 Implementation Guidelines
+## Implementation Guidelines
 
 ### Best Practices
 
-1. **Agent Design**
+1.  **Agent Design**
 
-   - Clear responsibility definition
-   - Robust error handling
-   - Efficient resource usage
-   - Scalable architecture
+         - Clear responsibility definition
+         - Robust error handling
+         - Efficient resource usage
+         - Scalable architecture
 
-2. **System Integration**
+2.  **System Integration**
 
-   - API standardization
-   - Communication protocols
-   - Security considerations
-   - Performance optimization
+         - API standardization
+         - Communication protocols
+         - Security considerations
+         - Performance optimization
 
-3. **Testing and Validation**
-   - Unit testing strategies
-   - Integration testing
-   - Performance benchmarking
-   - Behavior validation
+3.  **Testing and Validation**
+
+         - Unit testing strategies
+         - Integration testing
+         - Performance benchmarking
+         - Behavior validation
 
 ## 📚 Learning Path
 

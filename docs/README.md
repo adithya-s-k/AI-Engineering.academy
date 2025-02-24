@@ -1,12 +1,11 @@
 <div align="center">
   <h1> AI Engineering Academy </h1>
-  <h3>🚀 Mastering Applied AI, One Concept at a Time 🚀</h3>
-  <img src="./assets/banner.png" alt="Ai Engineering. Academy" width="60%">
+  <h3> Mastering Applied AI, One Concept at a Time </h3>
+  <img src="./assets/banner.png" alt="Ai Engineering. Academy" width="100%">
   <p>
     <a href="https://aiengineering.academy/" target="_blank">Website</a> •
-    <a href="#roadmap">Learning Paths</a> •
-    <a href="#getting-started">Getting Started</a> •
-    <a href="#community">Community</a>
+    <a href="#learning-paths">Learning Paths</a> •
+    <a href="#contributing">Community</a>
   </p>
 </div>
 
@@ -16,18 +15,18 @@
 [![GitHub Pull Requests](https://img.shields.io/github/issues-pr/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/pulls)
 [![License](https://img.shields.io/github/license/adithya-s-k/AI-Engineering.academy)](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/LICENSE)
 
-## 🎯 Mission
+## Mission
 
 Your journey into AI shouldn't be overwhelming. [AI Engineering.academy](https://aiengineering.academy/) curate and organize essential knowledge into clear learning paths, making complex AI concepts accessible and practical for everyone.
 
-## 🌟 Why Choose AI Engineering Academy?
+## Why Choose AI Engineering Academy?
 
-- 📚 **Structured Learning**: Carefully designed pathways from fundamentals to advanced concepts
-- 💻 **Hands-on Practice**: Real-world projects and implementations
-- 🎓 **Industry-Aligned**: Focus on practical, production-ready skills
-- 🤝 **Community-Driven**: Learn alongside peers and experts
+- **Structured Learning**: Carefully designed pathways from fundamentals to advanced concepts
+- **Hands-on Practice**: Real-world projects and implementations
+- **Industry-Aligned**: Focus on practical, production-ready skills
+- **Community-Driven**: Learn alongside peers and experts
 
-## 🗺️ Learning Paths
+## Learning Paths
 
 ### 1. [Prompt Engineering](./PromptEngineering/)
 
@@ -55,7 +54,7 @@ Customize AI models for your specific needs
 - Best practices and common pitfalls
 - Resource optimization
 
-### 4. [Deployment](./Deployment/) 📍 _Coming Soon_
+### 4. [Deployment](./Deployment/)
 
 Take your AI models from laptop to production
 
@@ -81,7 +80,7 @@ Apply your knowledge through hands-on projects
 - Industry-relevant scenarios
 - Portfolio-worthy demonstrations
 
-## 🚀 Getting Started
+## Getting Started
 
 1. **Choose Your Path**: Select a learning track that matches your goals
 2. **Follow the Structure**: Complete modules in the recommended order
@@ -89,7 +88,7 @@ Apply your knowledge through hands-on projects
 4. **Build**: Create your own projects using the knowledge gained
 5. **Share**: Contribute to the community and help others learn
 
-## 👥 Community
+## Community
 
 - Join our growing community of AI enthusiasts
 - Share your learning journey
@@ -128,7 +127,7 @@ Apply your knowledge through hands-on projects
   </a>
 </p>
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Whether it's fixing a typo, adding new content, or suggesting improvements, every contribution helps make AI Engineering Academy better for everyone.
 
@@ -138,7 +137,7 @@ We welcome contributions! Whether it's fixing a typo, adding new content, or sug
 4. Push to the branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
 
-## 📝 License
+## License
 
 This project is licensed under the terms of the MIT license. See the [LICENSE](LICENSE) file for details.
 

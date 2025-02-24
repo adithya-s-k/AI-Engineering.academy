@@ -1,116 +1,117 @@
-# 🚀 RAG (Retrieval Augmented Generation) System Implementation Guide
+# RAG (Retrieval Augmented Generation) System Implementation Guide
 
 Welcome to the comprehensive guide for implementing RAG systems! This repository provides a structured approach to building and optimizing Retrieval Augmented Generation systems, from basic implementations to advanced techniques.
 
-## 📚 Repository Structure
+## Repository Structure
 
 ### Core Modules
 
 #### Fundamentals
 
-1. [**RAG from Scratch**](./00_RAG_from_Scratch/)
-   - Complete implementation guide from ground up
-   - RAG in 10 lines of code
-   - Understanding embeddings and similarity
-   - Basic requirements setup
+1.  [**RAG from Scratch**](./00_RAG_from_Scratch/)
+
+        - Complete implementation guide from ground up
+        - RAG in 10 lines of code
+        - Understanding embeddings and similarity
+        - Basic requirements setup
 
 #### Basic Implementation & Evaluation
 
-2. [**Basic RAG Implementation**](./01_Basic_RAG/)
+2.  [**Basic RAG Implementation**](./01_Basic_RAG/)
 
-   - Basic server implementation
-   - Jupyter notebook tutorials
-   - Performance evaluation notebooks
-   - Environment setup guide
+        - Basic server implementation
+        - Jupyter notebook tutorials
+        - Performance evaluation notebooks
+        - Environment setup guide
 
-3. [**BM25 RAG**](./01_BM25_RAG/)
+3.  [**BM25 RAG**](./01_BM25_RAG/)
 
-   - BM25 algorithm implementation
-   - Application setup
-   - Interactive notebook examples
+        - BM25 algorithm implementation
+        - Application setup
+        - Interactive notebook examples
 
-4. [**Data Ingestion**](./01_Data_Ingestion/)
+4.  [**Data Ingestion**](./01_Data_Ingestion/)
 
-   - Data chunking strategies
-   - Embedding generation
-   - Batch processing examples
-   - Data parsing techniques
+        - Data chunking strategies
+        - Embedding generation
+        - Batch processing examples
+        - Data parsing techniques
 
-5. [**RAG Evaluation**](./01_RAG_Evaluation/)
+5.  [**RAG Evaluation**](./01_RAG_Evaluation/)
 
-   - RAGAS metrics implementation
-   - Deepeval integration
-   - TruLens evaluation
-   - Test dataset examples
+        - RAGAS metrics implementation
+        - Deepeval integration
+        - TruLens evaluation
+        - Test dataset examples
 
-6. [**RAG Observability**](./01_RAG_Observability/)
-   - System monitoring setup
-   - Performance tracking
-   - Debug tools integration
+6.  [**RAG Observability**](./01_RAG_Observability/)
+
+        - System monitoring setup
+        - Performance tracking
+        - Debug tools integration
 
 #### Advanced Techniques
 
-7. [**ReRanker RAG**](./02_ReRanker_RAG/)
+7.  [**ReRanker RAG**](./02_ReRanker_RAG/)
 
-   - Result re-ranking implementation
-   - Evaluation metrics
-   - Performance optimization
+        - Result re-ranking implementation
+        - Evaluation metrics
+        - Performance optimization
 
-8. [**Hybrid RAG**](./03_Hybrid_RAG/)
+8.  [**Hybrid RAG**](./03_Hybrid_RAG/)
 
-   - Qdrant hybrid search implementation
-   - Multiple retrieval method integration
+        - Qdrant hybrid search implementation
+        - Multiple retrieval method integration
 
-9. [**Sentence Window RAG**](./04_Sentence_Window_RAG/)
+9.  [**Sentence Window RAG**](./04_Sentence_Window_RAG/)
 
-   - Context window optimization
-   - Sentence-level retrieval
+        - Context window optimization
+        - Sentence-level retrieval
 
 10. [**Auto Merging RAG**](./05_Auto_Merging_RAG/)
 
-    - Automatic content merging
-    - Redundancy elimination
+        - Automatic content merging
+        - Redundancy elimination
 
 11. [**Advanced Query Processing**](./06_Query_Transformation_RAG/)
-    - HyDE (Hypothetical Document Embeddings)
-    - Query transformation techniques
-    - Query optimization strategies
+
+        - HyDE (Hypothetical Document Embeddings)
+        - Query transformation techniques
+        - Query optimization strategies
 
 #### Specialized Implementations
 
 12. [**Self Query RAG**](./07_Self_Query_RAG/)
 
-    - Self-querying mechanisms
-    - Query refinement techniques
+        - Self-querying mechanisms
+        - Query refinement techniques
 
 13. [**RAG Fusion**](./08_RAG_Fusion/)
 
-    - Multiple RAG model integration
-    - Result fusion strategies
+        - Multiple RAG model integration
+        - Result fusion strategies
 
 14. [**RAPTOR**](./09_RAPTOR/)
 
-    - Advanced reasoning implementation
-    - Performance optimization
+        - Advanced reasoning implementation
+        - Performance optimization
 
 15. [**ColBERT RAG**](./10_ColBERT_RAG/)
 
-    - ColBERT model integration
-    - Ragatouille retriever implementation
+        - ColBERT model integration
+        - Ragatouille retriever implementation
 
 16. [**Graph RAG**](./11_Graph_RAG/)
 
-    - Graph-based retrieval
-    - Knowledge graph integration
+        - Graph-based retrieval
+        - Knowledge graph integration
 
 17. [**Agnetic RAG**](./12_Agnetic_RAG/)
 
-    - Multi-document agent system
-    - Domain-specific implementations
+        - Multi-document agent system
+        - Domain-specific implementations
 
-18. [**Vision RAG**](./13_Vision_RAG/)
-    - GPT-4V integration
-    - Multi-modal retrieval implementation
+18. [**Vision RAG**](./13_Vision_RAG/) - GPT-4V integration - Multi-modal retrieval implementation
 
 ### 📂 Data Resources
 
@@ -138,16 +139,6 @@ Located in the [`data/`](./data/) directory:
 12. Explainable retrieval
 13. Graph RAG implementation
 14. RAPTOR integration
-
-### 🚧 Upcoming Features
-
-1. Retrieval with feedback loops
-2. Adaptive retrieval systems
-3. Iterative retrieval mechanisms
-4. Ensemble retrieval implementation
-5. Multi-modal integration
-6. Self RAG optimization
-7. Corrective RAG systems
 
 ## 🛠️ Tech Stack
 

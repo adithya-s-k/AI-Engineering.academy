@@ -293,6 +293,9 @@ nav:
           - Tool Pattern: Agents/patterns/tool_pattern.ipynb
           - Planning Pattern: Agents/patterns/planning_pattern.ipynb
           - Multi-Agent Pattern: Agents/patterns/multiagent_pattern.ipynb
+      - MCP:
+          - Introduction: Agents/MCP/README.md
+          - Build MCP Server: Agents/MCP/CreateMCPServe.md
       - Projects:
           - Multi-Document Agents: Agents/projects/multi_document_agents.ipynb
   - Projects:

@@ -9,6 +9,8 @@ permissions:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      GOOGLE_ANALYTICS_KEY: ${{ secrets.GOOGLE_ANALYTICS_KEY }}
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-python@v4
@@ -22,6 +24,9 @@ jobs:
       - run: pip install mkdocstrings-python
       - run: pip install -U mkdocs-jupyter
       - run: pip install mkdocs-exclude
-      - run: pip install mkdocs-same-dir
-      - run: pip install mkdocstrings==0.27.0
+      - run: pip install mkdocstrings
+      - run: pip install mkdocs-git-revision-date-localized-plugin
+      - run: pip install mkdocs-minify-plugin
+      - run: pip install mkdocs-material[imaging]
+      - run: pip install mkdocs-redirects
       - run: mkdocs gh-deploy --force

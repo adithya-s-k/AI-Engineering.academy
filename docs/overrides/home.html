@@ -1,0 +1,402 @@
+{#- This file was automatically generated - do not edit -#} {% extends
+"main.html" %} {% block tabs %} {{ super() }}
+<style>
+    /* Main layout adjustments */
+    .md-header {
+      position: initial;
+    }
+    .md-main__inner {
+      margin: 0;
+    }
+    .md-content {
+      display: none;
+    }
+    @media screen and (min-width: 60em) {
+      .md-sidebar--secondary {
+        display: none;
+      }
+    }
+    @media screen and (min-width: 76.25em) {
+      .md-sidebar--primary {
+        display: none;
+      }
+    }
+
+    /* Hero section */
+    .mdx-hero {
+      margin: 0 auto;
+      padding: 3rem 0;
+      text-align: center;
+      color: var(--md-typeset-color);
+    }
+
+    .mdx-hero__image {
+      margin-bottom: 2rem;
+      max-width: 100%;
+      height: auto;
+    }
+
+    .mdx-hero__content {
+      max-width: 38rem;
+      margin: 0 auto;
+      padding: 0 1rem;
+    }
+
+    .mdx-hero h1 {
+      margin-bottom: 1rem;
+      color: var(--md-primary-fg-color);
+      font-weight: 700;
+      font-size: 2.5rem;
+    }
+
+    .mdx-hero p {
+      margin: 1rem 0;
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
+    /* Button styling */
+    .mdx-hero .md-button {
+      margin: 0.5rem 0.5rem;
+      color: var(--md-primary-fg-color);
+      border: 1px solid currentColor;
+    }
+
+    .mdx-hero .md-button--primary {
+      background-color: var(--md-primary-fg-color);
+      color: var(--md-primary-bg-color);
+      border-color: var(--md-primary-color);
+    }
+
+    .mdx-hero .md-button:focus,
+    .mdx-hero .md-button:hover {
+      background-color: var(--md-accent-fg-color);
+      color: var(--md-default-bg-color);
+      border-color: var(--md-accent-fg-color);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Learning paths section */
+    .learning-paths {
+      margin: 4rem auto;
+      max-width: 1200px;
+      padding: 0 1rem;
+    }
+
+    .learning-paths-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--md-primary-color);
+    }
+
+    .path-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .path-card {
+      padding: 1.5rem;
+      border-radius: 8px;
+      background-color: var(--md-default-bg-color);
+      border: 1px solid var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    [data-md-color-scheme="slate"] .path-card {
+      background-color: var(--md-code-bg-color, #2d2e40);
+      border-color: var(--md-default-fg-color--lightest, rgba(255, 255, 255, 0.07));
+    }
+
+    .path-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+      background-color: var(--md-accent-fg-color--transparent, rgba(0, 121, 255, 0.1));
+    }
+
+    .path-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--md-accent-fg-color);
+    }
+
+    .path-title {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--md-typeset-color);
+    }
+
+    .path-description {
+      color: var(--md-typeset-color);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .path-link {
+      color: var(--md-accent-fg-color);
+      font-weight: 500;
+      text-decoration: none;
+      display: inline-block;
+      padding: 0.5rem 0;
+    }
+
+    .path-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Mind map section */
+    .mind-map-section {
+      margin: 4rem auto;
+      max-width: 1200px;
+      padding: 0 1rem;
+      text-align: center;
+    }
+
+    .mind-map-title {
+      margin-bottom: 2rem;
+      font-size: 2rem;
+      color: var(--md-primary-fg-color);
+    }
+
+    .mind-map-container {
+      margin: 0 auto;
+      max-width: 900px;
+      overflow: hidden;
+      border-radius: 8px;
+      border: 1px solid var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+      background-color: var(--md-default-bg-color);
+    }
+
+    [data-md-color-scheme="slate"] .mind-map-container {
+      background-color: var(--md-code-bg-color, #2d2e40);
+      border-color: var(--md-default-fg-color--lightest, rgba(255, 255, 255, 0.07));
+    }
+
+    /* SVG specific styling for dark mode */
+    [data-md-color-scheme="slate"] .mind-map-container svg text {
+      fill: var(--md-typeset-color);
+    }
+
+    [data-md-color-scheme="slate"] .mind-map-container svg circle[stroke] {
+      stroke: var(--md-accent-fg-color);
+    }
+
+    [data-md-color-scheme="slate"] .mind-map-container svg line {
+      stroke: var(--md-primary-fg-color);
+    }
+
+    [data-md-color-scheme="slate"] .mind-map-container svg circle[fill="var(--md-default-bg-color)"] {
+      fill: var(--md-code-bg-color);
+    }
+
+    /* Testimonials section */
+    .testimonials {
+      margin: 4rem auto;
+      max-width: 1200px;
+      padding: 0 1rem;
+    }
+
+    .testimonials-title {
+      text-align: center;
+      margin-bottom: 3rem;
+      font-size: 2rem;
+      color: var(--md-primary-fg-color);
+    }
+
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      padding: 1.5rem;
+      border-radius: 8px;
+      background-color: var(--md-default-bg-color);
+      border: 1px solid var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-md-color-scheme="slate"] .testimonial-card {
+      background-color: var(--md-code-bg-color, #2d2e40);
+      border-color: var(--md-default-fg-color--lightest, rgba(255, 255, 255, 0.07));
+    }
+
+    .testimonial-text {
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: var(--md-typeset-color);
+      line-height: 1.6;
+    }
+
+    .testimonial-author {
+      font-weight: 600;
+      color: var(--md-primary-fg-color);
+    }
+
+    .testimonial-role {
+      font-size: 0.9rem;
+      color: var(--md-typeset-color);
+      opacity: 0.8;
+    }
+
+    /* Call to action section */
+    .cta-section {
+      margin: 4rem auto;
+      max-width: 700px;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 8px;
+      background-color: var(--md-primary-fg-color--light, rgba(0, 121, 255, 0.1));
+      border: 1px solid var(--md-default-fg-color--lightest, rgba(0, 0, 0, 0.07));
+    }
+
+    /* Dark mode specific CTA styling */
+    [data-md-color-scheme="slate"] .cta-section {
+      background-color: var(--md-primary-fg-color--dark, rgba(0, 121, 255, 0.2));
+      border-color: var(--md-default-fg-color--lightest, rgba(255, 255, 255, 0.07));
+    }
+
+    .cta-title {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+      color: var(--md-primary-fg-color);
+    }
+
+    .cta-description {
+      margin-bottom: 1.5rem;
+      color: var(--md-typeset-color);
+      line-height: 1.6;
+    }
+
+    .social-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--md-default-bg-color);
+      color: var(--md-primary-fg-color);
+      transition: all 0.3s ease;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .social-link:hover {
+      background-color: var(--md-primary-fg-color);
+      color: var(--md-default-bg-color);
+      transform: translateY(-3px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    }
+
+    [data-md-color-scheme="slate"] .social-link {
+      background-color: var(--md-code-bg-color, #2d2e40);
+    }
+
+    [data-md-color-scheme="slate"] .social-link svg {
+      stroke: var(--md-primary-fg-color);
+    }
+
+    [data-md-color-scheme="slate"] .social-link:hover svg {
+      stroke: var(--md-default-bg-color);
+    }
+
+    /* Responsive adjustments */
+    @media screen and (max-width: 768px) {
+      .mdx-hero h1 {
+        font-size: 2rem;
+      }
+      
+      .mdx-hero p {
+        font-size: 1rem;
+      }
+      
+      .path-grid, 
+      .testimonial-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+
+  <section class="mdx-container">
+    <div class="md-grid md-typeset">
+      <div class="mdx-hero">
+        <div class="mdx-hero__image">
+          <img src="assets/banner.png" alt="AI Engineering Academy" width="70%" draggable="false" />
+        </div>
+        <div class="mdx-hero__content">
+          <!-- <h1>AI Engineering Academy</h1> -->
+          <p>Mastering Applied AI, One Concept at a Time</p>
+          <a href="{{ page.next_page.url | url }}" title="{{ page.next_page.title | e }}" class="md-button md-button--primary">
+            Start Learning
+          </a>
+          <!-- <a href="{{ 'contributing/' | url }}" title="Join Our Community" class="md-button">
+            Join Community
+          </a> -->
+        </div>
+      </div>
+
+
+      <!-- Learning Paths Section -->
+      <div class="learning-paths">
+        <h2 class="learning-paths-title">Structured Learning Paths</h2>
+        <div class="path-grid">
+          <div class="path-card">
+            <h3 class="path-title">Prompt Engineering</h3>
+            <p class="path-description">
+              Master the art of effectively communicating with AI models through carefully crafted prompts.
+            </p>
+            <a href="{{ 'PromptEngineering/' | url }}" class="path-link">Explore Path →</a>
+          </div>
+          <div class="path-card">
+            <h3 class="path-title">RAG Systems</h3>
+            <p class="path-description">
+              Learn to build systems that enhance AI responses with external knowledge retrieval.
+            </p>
+            <a href="{{ 'RAG/' | url }}" class="path-link">Explore Path →</a>
+          </div>
+          <div class="path-card">
+            <h3 class="path-title">Fine-tuning</h3>
+            <p class="path-description">
+              Customize AI models for your specific needs with advanced adaptation techniques.
+            </p>
+            <a href="{{ 'LLM/' | url }}" class="path-link">Explore Path →</a>
+          </div>
+          <div class="path-card">
+            <h3 class="path-title">Deployment</h3>
+            <p class="path-description">
+              Take your AI models from laptop to production with optimized deployment strategies.
+            </p>
+            <a href="{{ 'Deployment/' | url }}" class="path-link">Explore Path →</a>
+          </div>
+          <div class="path-card">
+            <h3 class="path-title">AI Agents</h3>
+            <p class="path-description">
+              Build autonomous AI systems with decision-making frameworks and multi-agent architectures.
+            </p>
+            <a href="{{ 'Agents/' | url }}" class="path-link">Explore Path →</a>
+          </div>
+          <div class="path-card">
+            <h3 class="path-title">Projects</h3>
+            <p class="path-description">
+              Apply your knowledge through hands-on projects that are portfolio-worthy.
+            </p>
+            <a href="{{ 'Projects/' | url }}" class="path-link">Explore Path →</a>
+          </div>
+        </div>
+      </div>
+</section>
+{% endblock %} {% block content %}{% endblock %} {% block footer %}{% endblock
+%}

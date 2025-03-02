@@ -88,7 +88,7 @@ plugins:
       minify_html: true
   - git-revision-date-localized:
       enable_creation_date: true
-#   - social
+  - social
 
 # Extensions
 markdown_extensions:

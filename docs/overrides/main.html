@@ -1,9 +1,105 @@
-{#- This file was automatically generated - do not edit -#} {% extends
-"base.html" %} {% block extrahead %}
+{% extends "base.html" %} {# SEO Optimization #} {% block site_meta %} {{
+super() }}
+<meta
+  name="description"
+  content="AI Engineering Academy - Structured learning paths for mastering applied AI with hands-on projects in prompt engineering, RAG, fine-tuning, and AI agents."
+/>
+<meta
+  name="keywords"
+  content="AI Engineering, prompt engineering, RAG, retrieval augmented generation, LLM fine-tuning, AI agents, applied AI"
+/>
+<meta name="author" content="Adithya S Kolavi" />
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://aiengineering.academy/" />
+<meta
+  property="og:title"
+  content="AI Engineering Academy - Mastering Applied AI"
+/>
+<meta
+  property="og:description"
+  content="A structured learning platform for AI engineering with clear paths in prompt engineering, RAG, fine-tuning, and agent development."
+/>
+<meta
+  property="og:image"
+  content="https://aiengineering.academy/assets/banner.png"
+/>
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:creator" content="@adithya_s_k" />
+<meta
+  name="twitter:title"
+  content="AI Engineering Academy - Mastering Applied AI"
+/>
+<meta
+  name="twitter:description"
+  content="A structured learning platform for AI engineering with clear paths in prompt engineering, RAG, fine-tuning, and agent development."
+/>
+<meta
+  name="twitter:image"
+  content="https://aiengineering.academy/assets/banner.png"
+/>
+
+<!-- Canonical URL -->
+<link rel="canonical" href="https://aiengineering.academy{{ page.url }}" />
+{% endblock %} {% block extrahead %}
 <link
   rel="stylesheet"
   href="{{ 'assets/stylesheets/custom.7c86dd97.min.css' | url }}"
 />
+
+<!-- PostHog Analytics -->
+<script>
+  !(function (t, e) {
+    var o, n, p, r;
+    e.__SV ||
+      ((window.posthog = e),
+      (e._i = []),
+      (e.init = function (i, s, a) {
+        function g(t, e) {
+          var o = e.split(".");
+          2 == o.length && ((t = t[o[0]]), (e = o[1])),
+            (t[e] = function () {
+              t.push([e].concat(Array.prototype.slice.call(arguments, 0)));
+            });
+        }
+        ((p = t.createElement("script")).type = "text/javascript"),
+          (p.async = !0),
+          (p.src = s.api_host + "/static/array.js"),
+          (r = t.getElementsByTagName("script")[0]).parentNode.insertBefore(
+            p,
+            r
+          );
+        var u = e;
+        for (
+          void 0 !== a ? (u = e[a] = []) : (a = "posthog"),
+            u.people = u.people || [],
+            u.toString = function (t) {
+              var e = "posthog";
+              return (
+                "posthog" !== a && (e += "." + a), t || (e += " (stub)"), e
+              );
+            },
+            u.people.toString = function () {
+              return u.toString(1) + ".people (stub)";
+            },
+            o =
+              "capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures getActiveMatchingSurveys getSurveys onSessionId".split(
+                " "
+              ),
+            n = 0;
+          n < o.length;
+          n++
+        )
+          g(u, o[n]);
+        e._i.push([i, s, a]);
+      }),
+      (e.__SV = 1));
+  })(document, window.posthog || []);
+  posthog.init("YOUR_POSTHOG_KEY", { api_host: "https://app.posthog.com" });
+</script>
 {% endblock %} {% block announce %} For updates follow
 <strong>@adithya_s_k</strong> on
 <a href="https://x.com/adithya_s_k">
@@ -14,4 +110,29 @@
 </a>
 {% endblock %} {% block scripts %} {{ super() }}
 <script src="{{ 'assets/javascripts/custom.9e5da760.min.js' | url }}"></script>
+
+<!-- Rich Snippets / Structured Data -->
+<script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "AI Engineering Academy",
+    "url": "https://aiengineering.academy",
+    "logo": "https://aiengineering.academy/assets/logo.png",
+    "description": "A structured learning platform for AI engineers with clear paths in prompt engineering, RAG, fine-tuning, deployment, and agent development.",
+    "sameAs": [
+      "https://github.com/adithya-s-k/AI-Engineering.academy",
+      "https://x.com/adithya_s_k"
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Adithya S Kolavi"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+</script>
 {% endblock %}

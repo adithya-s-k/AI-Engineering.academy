@@ -41,9 +41,42 @@ def traverse_docs(
                 yield relative_path, content, content_hash
 
 
+# async def summarize_content(client: AsyncOpenAI, path: str, content: str) -> str:
+#     """
+#     Summarize the content of a file.
+
+#     Args:
+#         client (AsyncOpenAI): The AsyncOpenAI client.
+#         path (str): The path of the file.
+#         content (str): The content of the file.
+
+#     Returns:
+#         str: A summary of the content.
+#     """
+#     try:
+#         response = await client.chat.completions.create(
+#             model="gpt-4o-mini",
+#             messages=[
+#                 {
+#                     "role": "system",
+#                     "content": "You are a helpful assistant that summarizes text.",
+#                 },
+#                 {"role": "user", "content": content},
+#                 {
+#                     "role": "user",
+#                     "content": "Please summarize the content in a few sentences so they can be used for SEO. Include core ideas, objectives, and important details and key points and key words",
+#                 },
+#             ],
+#             max_tokens=4000,
+#         )
+#         return response.choices[0].message.content
+#     except Exception as e:
+#         console.print(f"[bold red]Error summarizing {path}: {str(e)}[/bold red]")
+#         return ""
+
 async def summarize_content(client: AsyncOpenAI, path: str, content: str) -> str:
     """
-    Summarize the content of a file.
+    Summarize the content of a file with SEO optimization for AI Engineering Academy.
 
     Args:
         client (AsyncOpenAI): The AsyncOpenAI client.
@@ -51,7 +84,7 @@ async def summarize_content(client: AsyncOpenAI, path: str, content: str) -> str
         content (str): The content of the file.
 
     Returns:
-        str: A summary of the content.
+        str: An SEO-optimized summary of the content.
     """
     try:
         response = await client.chat.completions.create(
@@ -59,12 +92,50 @@ async def summarize_content(client: AsyncOpenAI, path: str, content: str) -> str
             messages=[
                 {
                     "role": "system",
-                    "content": "You are a helpful assistant that summarizes text.",
+                    "content": """You are an expert SEO content analyzer for AI Engineering Academy, a premier educational platform focused on teaching practical AI engineering skills, machine learning implementation, and MLOps best practices. 
+                    
+Your task is to create SEO-optimized meta descriptions that will help our content rank higher for relevant search queries in the AI Engineering domain.
+                    
+AI Engineering Academy specializes in:
+- Practical AI/ML system design and implementation
+- Machine learning engineering workflows
+- MLOps and production AI systems
+- AI engineering best practices and patterns
+- Large Language Model (LLM) fine-tuning and deployment
+- AI application architecture and scalability
+- Responsible AI engineering and ethics
+
+When analyzing content, identify and emphasize:
+1. Primary AI engineering concepts, tools, or methodologies discussed
+2. Practical applications and implementation strategies
+3. Technical skills being taught
+4. Target audience expertise level (beginner, intermediate, advanced)
+5. Key problems the content helps solve for AI practitioners
+""",
                 },
                 {"role": "user", "content": content},
                 {
                     "role": "user",
-                    "content": "Please summarize the content in a few sentences so they can be used for SEO. Include core ideas, objectives, and important details and key points and key words",
+                    "content": """Create an SEO-optimized description (160-170 characters) and a longer summary (3-4 sentences) for this content.
+                    
+For the description:
+- Include 2-3 high-value keywords related to AI engineering
+- Make it compelling for someone searching for practical AI knowledge
+- Ensure it accurately represents the actual content
+- Keep it between 160-170 characters (Google search snippet length)
+                    
+For the summary:
+- Highlight the practical AI engineering skills or knowledge gained
+- Include 5-7 relevant keywords that someone might search for when looking for this information
+- Mention specific tools, frameworks, or methodologies covered (if any)
+- Emphasize the problem-solving aspect for AI practitioners
+- Structure as 3-4 concise, information-rich sentences
+
+Return your response in this exact YAML format:
+description: "Your SEO-optimized description here (160-170 chars)"
+summary: "Your longer 3-4 sentence summary here with key AI engineering terms"
+keywords: ["keyword1", "keyword2", "keyword3", "keyword4", "keyword5"]
+"""
                 },
             ],
             max_tokens=4000,

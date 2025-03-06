@@ -1,646 +1,944 @@
+Agents\MCP\BegineersGuideToMCP.md:
+  hash: 5fe16af22eb6bed60cbfc9fdbdcb6834
+  summary: '```yaml
+
+    description: "Explore the Model Context Protocol (MCP) for advanced AI integration.
+    Enhance your AI engineering skills with practical workflow solutions for LLMs."
+
+    summary: "Gain essential insights into the Model Context Protocol (MCP), an open
+    standard for integrating large language models (LLMs) with external data. This
+    guide covers practical applications and configurations using tools like Claude
+    and Cursor, making it easier for AI practitioners to break down data silos. Learn
+    to build your own MCP servers with official SDKs, focusing on enhancing scalability
+    and efficiency in AI deployments. Solve integration challenges in AI development
+    and streamline workflows with context-aware capabilities."
+
+    keywords: ["Model Context Protocol", "AI integration", "large language models",
+    "MCP servers", "AI engineering", "Cursor", "Claude"]
+
+    ```'
+Agents\MCP\CreateMCPServe.md:
+  hash: 7481a023edd713b5e56dd9954880908f
+  summary: '```yaml
+
+    description: "Learn to create an MCP server in Python and enhance your AI application
+    capabilities. Master practical AI engineering skills with step-by-step guidance."
+
+    summary: "This beginner''s guide teaches you how to create a Model Context Protocol
+    (MCP) server in Python, equipping you with essential AI engineering skills. Explore
+    practical implementation techniques using the MCP Python SDK and understand how
+    to connect AI applications to external data sources and tools. Gain hands-on experience
+    with server creation, resource management, and tool integration to enhance your
+    AI system''s functionality. Perfect for aspiring AI practitioners looking to solve
+    real-world problems in machine learning and MLOps."
+
+    keywords: ["MCP server", "Python SDK", "AI engineering", "machine learning", "MLOps",
+    "practical implementation", "AI applications"]
+
+    ```'
 Agents\README.md:
   hash: 964b132b3c787a10fcf627c2a9034fc2
-  summary:
-    The AI Agents Engineering Guide from the AI Engineering Academy provides
-    an in-depth exploration of designing and deploying intelligent agents. It covers
-    essential patterns such as Reflection, Tool Usage, Planning, and Multi-Agent Systems,
-    which facilitate self-improvement, effective tool integration, strategic decision-making,
-    and collaborative AI systems. Practical projects, including multi-document agents,
-    showcase real-world applications like document processing and knowledge synthesis.
-    The guide emphasizes best practices in agent design, system integration, and testing.
-    Interested contributors are encouraged to participate through repository collaboration.
-    Key terms include AI agents, self-evaluation, planning strategies, and multi-agent
-    collaboration.
+  summary: '```yaml
+
+    description: "Master AI agents with practical design patterns and implementation
+    strategies. Explore multi-agent systems, tool integration, and self-improvement
+    tactics."
+
+    summary: "Enhance your AI engineering skills by learning to design and implement
+    intelligent agents using core patterns like Reflection, Tool Usage, and Planning.
+    This guide covers collaborative multi-agent systems, error handling, and strategic
+    decision-making to solve complex problems in AI deployments. Discover essential
+    methodologies and frameworks that will enable you to create scalable and effective
+    AI solutions for real-world applications."
+
+    keywords: ["AI agents", "machine learning", "multi-agent systems", "tool integration",
+    "self-improvement", "planning strategies", "AI engineering best practices"]
+
+    ```'
 Deployment\DeployLLMtoProd.md:
   hash: 523da3fc26fd481f27822e6b57ddfc1c
-  summary:
-    "Deploying Large Language Models (LLMs) like Llama 3.1 70B requires careful\
-    \ consideration of tools, infrastructure, and costs. This guide compares three\
-    \ prominent frameworks\u2014Text Generation Inference (TGI), vLLM, and SGlang\u2014\
-    highlighting their strengths such as TGI's ecosystem integration, vLLM's high\
-    \ throughput with Paged Attention, and SGlang's efficiency in low-latency applications.\
-    \ Key deployment strategies on Kubernetes for scalable solutions are discussed,\
-    \ alongside a cost comparison between hosting your LLM versus using third-party\
-    \ APIs like OpenAI. Important factors include hardware requirements, operational\
-    \ costs, and scalability options, guiding decision-making based on usage volume\
-    \ and privacy needs. Key terms include LLM deployment, Kubernetes scaling, cost\
-    \ analysis, and model integration."
+  summary: '```yaml
+
+    description: "Unlock practical AI engineering skills by mastering LLM deployment.
+    Compare TGI, vLLM, and SGlang for scalable production solutions."
+
+    summary: "This guide empowers AI practitioners to deploy Large Language Models
+    (LLMs) efficiently using frameworks like TGI, vLLM, and SGlang. Gain expertise
+    in Kubernetes scalability, inference optimization, and cost-effective solutions
+    for hosting AI models. Discover practical deployment techniques and key considerations
+    that enhance performance and responsiveness in production environments. Perfect
+    for engineers looking to fine-tune their workflow and ensure robust AI operations."
+
+    keywords: ["Large Language Models", "AI engineering", "Kubernetes", "TGI", "vLLM",
+    "SGlang", "inference optimization"]
+
+    ```'
 Deployment\README.md:
   hash: 7e282940a9ceec3c8575c0cbc0261b0a
-  summary:
-    The Model Deployment Guide from the AI Engineering Academy offers essential
-    insights into deploying AI models in production environments. It features a blog
-    on integrating open-source LLMs using tools like TGI, Vllm, and SGLang, and provides
-    resources on quantization techniques, including Activation-aware Weight Quantization
-    (AWQ) and GGUF format quantization. Contributions are welcomed in areas such as
-    deployment strategies, case studies, and performance optimization. The project
-    is licensed under the MIT License, with a promise of complete deployment guides
-    for production AI systems coming soon. Key topics include LLM deployment, quantization
-    strategies, and collaborative contributions.
+  summary: '```yaml
+
+    description: "Master model deployment in AI! Learn practical techniques on LLM
+    integration, quantization methods, and best practices for production environments."
+
+    summary: "This comprehensive Model Deployment section equips AI practitioners
+    with essential skills for deploying AI models in production settings. Explore
+    various techniques such as LLM to production, activation-aware weight quantization,
+    and GGUF format quantization. Gain hands-on experience with tools and methodologies
+    that streamline workflows while ensuring scalability and optimization. Whether
+    you''re a beginner or looking to enhance your production AI systems, this guide
+    provides the strategies you need to tackle deployment challenges effectively."
+
+    keywords: ["model deployment", "AI engineering", "LLM deployment", "quantization
+    techniques", "production AI", "MLOps", "practical AI skills"]
+
+    ```'
 LLM\Axolotl\README.md:
   hash: 31b419758c6adf7e378f0f495256b007
-  summary:
-    This blog explores the art of fine-tuning AI models using Axolotl, a powerful
-    tool designed for customizing Large Language Models (LLMs). Fine-tuning is essential
-    for adapting pre-trained models to specific tasks, such as generating structured
-    outputs or emulating styles like those of popular YouTubers. The article details
-    the importance of dataset preparation, model selection, and configuration settings,
-    while highlighting Axolotl's features, including model support, advanced techniques,
-    and scalability. A specific project, the YouTube Cloner, is showcased to illustrate
-    the fine-tuning process using LoRA techniques. Readers are encouraged to experiment
-    with fine-tuning leveraging Axolotl's robust framework, which simplifies and optimizes
-    model customization. Key topics include fine-tuning, Axolotl, dataset preparation,
-    LLMs, and project implementation.
+  summary: '```yaml
+
+    description: "Master fine-tuning Large Language Models with Axolotl! Learn practical
+    AI engineering techniques for custom AI models and efficient workflows."
+
+    summary: "Dive into the art of fine-tuning Large Language Models (LLMs) using
+    Axolotl, a versatile tool that simplifies AI customization. This tutorial covers
+    practical skills in dataset preparation, model selection, and configuration for
+    successful fine-tuning. Explore advanced methodologies like LoRA and qLora to
+    enhance your AI model''s performance. Perfect for AI practitioners eager to optimize
+    workflows and tackle specific tasks effectively."
+
+    keywords: ["fine-tuning", "Large Language Models", "Axolotl", "AI engineering",
+    "dataset preparation", "ML workflows", "LoRA"]
+
+    ```'
 LLM\Gemma\README.md:
   hash: 971cb6fefad49cca8090df6a3c8d1375
-  summary:
-    "This beginner's guide to fine-tuning the Gemma language model provides\
-    \ a comprehensive step-by-step tutorial for setting up the environment and customizing\
-    \ the model for specific tasks, such as code generation. Key topics covered include\
-    \ prerequisites like GPU requirements and essential Python packages, dataset preparation,\
-    \ and model training using the SFTTrainer from the `trl` library. The guide emphasizes\
-    \ the importance of formatting datasets correctly and explores advanced techniques\
-    \ such as integrating QLoRA (Quantization LoRA) for effective training. By the\
-    \ end, readers will learn how to save and share their finely-tuned model on the\
-    \ Hugging Face Model Hub. Key terms include Gemma models, fine-tuning, machine\
-    \ learning, datasets, code generation, and Hugging Face. \n\nThis content is ideal\
-    \ for those interested in leveraging advanced language models and artificial intelligence\
-    \ for practical applications."
+  summary: '```yaml
+
+    description: "Master fine-tuning the Gemma language model and enhance your AI
+    engineering skills with practical insights into ML workflows and deployment strategies."
+
+    summary: "This beginner''s guide provides a step-by-step approach to fine-tuning
+    Gemma, a state-of-the-art language model, enabling AI practitioners to improve
+    code generation and understanding tasks. Key skills include setting up a proper
+    environment using tools like Hugging Face, implementing low-rank adapters (LoRA),
+    and utilizing frameworks such as PyTorch. With a focus on practical applications
+    and supervised fine-tuning, users will effectively address specific challenges
+    in MLOps and AI model deployment."
+
+    keywords: ["fine-tuning", "Gemma", "machine learning", "MLOps", "Hugging Face",
+    "LoRA", "PyTorch"]
+
+    ```'
 LLM\HandsOnWithFinetuning\GRPO\hacker_guide_to_GRPO.md:
   hash: c6db98def505e76e9576f1a376c9e76f
-  summary:
-    The "Hacker Guide to GRPO" introduces Group Relative Policy Optimization
-    (GRPO), a novel method for fine-tuning Large Language Models (LLMs) that significantly
-    cuts computational overhead compared to traditional approaches like Proximal Policy
-    Optimization (PPO). This guide covers the initial setup, including required dependencies
-    and multi-GPU training, along with implementation details for GRPO using Python.
-    It emphasizes the method's group-relative reward mechanism, which enhances training
-    stability and efficiency, particularly for complex reasoning tasks. Key aspects
-    include detailed instructions on configuring training parameters, reward function
-    design, and memory management. Core keywords include GRPO, fine-tuning, reinforcement
-    learning, LLMs, and reward functions.
+  summary: '```yaml
+
+    description: "Unlock efficient LLM fine-tuning with GRPO and streamline your AI
+    engineering workflows. Perfect for ML practitioners on a budget!"
+
+    summary: "This guide to Group Relative Policy Optimization (GRPO) offers practical
+    insights into fine-tuning large language models while reducing computational overhead.
+    By implementing GRPO, AI engineers can efficiently leverage reinforcement learning
+    techniques without relying on complex setups. The content covers essential tools
+    such as transformers and reward functions, helping practitioners solve challenges
+    in AI model training and deployment effectively. Learn cutting-edge strategies
+    for scalable and sustainable AI engineering today."
+
+    keywords: ["LLM fine-tuning", "GRPO", "reinforcement learning", "AI engineering",
+    "machine learning", "transformers", "MLOps"]
+
+    ```'
 LLM\HandsOnWithFinetuning\SFT\SFT.md:
   hash: 68bde774b9dbda00a4291fa75c06f4cc
-  summary:
-    "This comprehensive guide explores Supervised Fine-Tuning (SFT) for Large
-    Language Models (LLMs), detailing its definition, process, applications, challenges,
-    and best practices. SFT enhances pre-trained LLMs' performance on specific tasks,
-    such as text classification, named entity recognition, and summarization, by utilizing
-    labeled datasets. Key techniques include data preparation, model selection, instruction
-    fine-tuning, and parameter-efficient fine-tuning methods like LoRA and QLoRA,
-    which optimize resource usage. The guide also covers hands-on examples using Hugging
-    Face libraries for practical implementation, making LLMs more accessible for specialized
-    applications and ensuring quality results. Key terms: Supervised Fine-Tuning,
-    Large Language Models, SFT, model deployment, instruction fine-tuning, data quality,
-    and parameter-efficient methods."
+  summary: '```yaml
+
+    description: "Master Supervised Fine-Tuning for Large Language Models (LLMs) and
+    enhance your AI engineering skills for practical applications in machine learning."
+
+    summary: "This comprehensive guide explores Supervised Fine-Tuning (SFT) for Large
+    Language Models, providing practical knowledge on enhancing AI applications. Learn
+    to utilize tools like Hugging Face and implement methodologies such as instruction
+    fine-tuning, LoRA, and Parameter-Efficient Fine-Tuning (PEFT). By addressing challenges
+    such as data quality and catastrophic forgetting, AI practitioners can adapt pre-trained
+    models to specific tasks, improving performance in areas like text classification
+    and summarization."
+
+    keywords: ["Supervised Fine-Tuning", "Large Language Models", "machine learning",
+    "Hugging Face", "instruction fine-tuning", "data quality", "AI applications"]
+
+    ```'
 LLM\LLMArchitecture\ParameterCount\README.md:
   hash: 5f9cb86938ab98b19f8bb591adc42586
-  summary:
-    "The article explores the architectural changes in the LLama3 transformer\
-    \ model, which features 8 billion parameters, enhancing its capabilities compared\
-    \ to LLama2, which had 7 billion parameters. Key differences include an increase\
-    \ in vocabulary size from 32,000 to 128,256 tokens, leading to a more extensive\
-    \ embedding layer, and modifications in the dimensions of the multi-layer perceptron\
-    \ (MLP) components. The model has been pretrained on 15 trillion tokens, fine-tuned\
-    \ on 10 million human-annotated instructions, and has a context length of up to\
-    \ 8,000. The analysis delves into the weight matrix dimensions and parameter breakdown\
-    \ for both models, highlighting LLama3's potential for more complex language tasks.\
-    \ However, challenges in fine-tuning for Indic languages due to tokenizer inefficiencies\
-    \ are also noted. \n\n**Key terms**: LLama3, transformer model, parameters, embedding\
-    \ layer, MLP, vocabulary size, fine-tuning, language processing, Indic languages."
+  summary: '```yaml
+
+    description: "Explore weight matrix changes in LLama3 vs. LLama2, enhancing your
+    AI engineering skills in model architecture and parameter optimization."
+
+    summary: "Dive into the intricacies of LLama3''s architecture, examining how parameter
+    increases and weight matrix changes impact performance in NLP tasks. This content
+    unpacks practical AI engineering skills, focusing on model optimization, large
+    language model deployment, and production readiness. Understand the significance
+    of embedding layers and MLP components while addressing challenges faced in fine-tuning
+    for diverse languages. Gain insights into responsible AI practices while leveraging
+    frameworks like Hugging Face for your applications."
+
+    keywords: ["LLama3", "weight matrix", "AI engineering", "NLP tasks", "parameter
+    optimization", "model architecture", "fine-tuning"]
+
+    ```'
 LLM\LLama2\README.md:
   hash: d41d8cd98f00b204e9800998ecf8427e
-  summary:
-    Of course! Please provide the content you would like me to summarize, and
-    I'll create an SEO-friendly summary for you.
+  summary: '```yaml
+
+    description: "Unlock practical AI engineering skills with MLOps workflows, LLM
+    fine-tuning, and production best practices to elevate your machine learning projects."
+
+    summary: "This content delves into the essential skills needed for AI engineering,
+    covering practical implementation strategies for machine learning and MLOps. Learn
+    about best practices in deploying large language models and ensuring scalable
+    AI architectures. Gain insights into key tools like TensorFlow and PyTorch, while
+    addressing challenges faced by AI practitioners in creating responsible and efficient
+    AI systems."
+
+    keywords: ["AI engineering", "machine learning", "MLOps", "LLM fine-tuning", "AI
+    application architecture", "scalability", "responsible AI"]
+
+    ```'
 LLM\LlamaFactory\README.md:
   hash: d41d8cd98f00b204e9800998ecf8427e
-  summary:
-    Sure! Please provide the content you would like me to summarize for SEO
-    purposes.
+  summary: '```yaml
+
+    description: "Master AI engineering with practical skills in machine learning,
+    MLOps, and LLM deployment. Elevate your AI projects to production-ready systems."
+
+    summary: "This content covers essential skills in AI engineering, focusing on
+    practical implementations of machine learning and MLOps best practices. Learn
+    to utilize frameworks like TensorFlow and PyTorch while tackling challenges in
+    AI application architecture and deployment. Enhance your expertise in fine-tuning
+    large language models and implementing responsible AI solutions for real-world
+    applications. Equip yourself with strategies to solve critical problems faced
+    by AI practitioners today."
+
+    keywords: ["AI engineering", "machine learning", "MLOps", "large language models",
+    "deployment", "responsible AI", "application architecture"]
+
+    ```'
 LLM\Mistral-7b\README.md:
   hash: f170e48105baa7e851128f171619a54f
-  summary:
-    This beginner's guide provides a comprehensive walkthrough on fine-tuning
-    the Mistral 7B Instruct model for code generation using Google Colab. Key steps
-    include setting up the environment, loading necessary libraries, formatting datasets
-    according to the model's requirements, and employing the SFTTrainer for supervised
-    fine-tuning. The guide emphasizes crucial prerequisites like GPU requirements
-    and Hugging Face account setup, while also detailing model parameters, training
-    strategies, and inference processes. Key phrases include "fine-tuning Mistral
-    7B," "code generation," "Google Colab," "Supervised Fine-tuning," and "Hugging
-    Face." Overall, it aims to equip both novices and experienced practitioners with
-    the tools and knowledge to leverage Mistral 7B for various natural language processing
-    tasks.
+  summary: '```yaml
+
+    description: "Unlock practical AI skills by fine-tuning the Mistral 7B Instruct
+    model in this beginner-friendly guide to AI engineering and machine learning workflows."
+
+    summary: "This comprehensive guide teaches you how to fine-tune the Mistral 7B
+    Instruct model for code generation using Google Colab, making it ideal for beginners
+    and AI practitioners. Gain hands-on experience with tools like PyTorch, Hugging
+    Face Transformers, and QLoRA, while developing skills in supervised fine-tuning
+    for improved model performance. The tutorial effectively addresses the common
+    challenges of implementing effective machine learning workflows, empowering you
+    to leverage advanced AI models in real-world applications."
+
+    keywords: ["Mistral 7B", "fine-tuning", "AI engineering", "machine learning",
+    "PyTorch", "Hugging Face", "supervised fine-tuning"]
+
+    ```'
 LLM\README.md:
   hash: b73fefb6dc44c5ac2db945d7267eb762
-  summary:
-    The Large Language Models (LLMs) section of the AI Engineering Academy
-    provides an in-depth exploration of LLMs, covering essential concepts, fine-tuning
-    methods, and practical applications for AI engineering. Key areas include theoretical
-    foundations like Supervised Fine-Tuning (SFT), Proximal Policy Optimization (PPO),
-    and advanced techniques such as Direct Preference Optimization (DPO) and Gated
-    Regularized Policy Optimization (GRPO). The module features hands-on guides for
-    popular models like Llama2, Mistral-7B, and Gemma, as well as resources for visual
-    language models. With a structured learning roadmap catering to beginner, intermediate,
-    and advanced levels, it serves as a comprehensive resource for engineers aiming
-    to advance their knowledge and skills in LLM implementation and optimization.
-    Key terms include fine-tuning, AI engineering, multimodal models, and model architecture
-    analysis.
+  summary: '```yaml
+
+    description: "Master Large Language Models with hands-on fine-tuning and implementation
+    techniques essential for AI engineering and machine learning success."
+
+    summary: "Unlock powerful AI engineering skills in our Large Language Models module,
+    covering advanced techniques like Supervised Fine-Tuning (SFT) and Direct Preference
+    Optimization (DPO). Learn to utilize frameworks such as Llama2 and Mistral-7B
+    for practical model development. This resource equips AI practitioners with the
+    knowledge to enhance model performance and implement responsible AI practices.
+    Perfect for beginners to advanced learners aiming to solve real-world AI challenges."
+
+    keywords: ["Large Language Models", "AI engineering", "machine learning", "fine-tuning",
+    "SFT", "DPO", "practical applications"]
+
+    ```'
 LLM\TheoryBehindFinetuning\DPO.md:
   hash: 5a135d6ff97fe1f590e546f22f1e65c0
-  summary:
-    Direct Preference Optimization (DPO) is an efficient method for fine-tuning
-    large language models (LLMs) by aligning them with human preferences, eliminating
-    the need for a separate reward model as seen in traditional Reinforcement Learning
-    from Human Feedback (RLHF). By directly optimizing model outputs based on pairwise
-    preferences, DPO simplifies the alignment process, enhancing efficiency and reducing
-    resource usage. Key advantages include its computational simplicity, direct optimization
-    of human values, and the potential for improved model performance in applications
-    like chatbots and content generation. DPO's mathematical foundation involves a
-    loss function that adjusts the probability of preferred responses, making it a
-    significant advancement in AI alignment strategies. Key terms include LLMs, human
-    preferences, optimization, and AI alignment.
+  summary: '```yaml
+
+    description: "Discover Direct Preference Optimization (DPO) for fine-tuning LLMs,
+    simplifying AI alignment and improving machine learning efficiency in real-world
+    applications."
+
+    summary: "Learn how Direct Preference Optimization (DPO) fine-tunes large language
+    models (LLMs) using human preferences. This method streamlines alignment without
+    a separate reward model, making AI engineering faster and more resource-efficient.
+    Key topics include DPO methodology, practical implementations, and a comparison
+    with traditional RLHF. Enhance your AI skills with a focus on machine learning
+    workflows and responsible AI engineering practices."
+
+    keywords: ["Direct Preference Optimization", "large language models", "machine
+    learning", "reinforcement learning", "AI alignment", "DPO methodology", "AI engineering"]
+
+    ```'
 LLM\TheoryBehindFinetuning\GRPO.md:
   hash: f0002a11586e665422916d06b77b1d0f
-  summary:
-    "Group Relative Policy Optimization (GRPO) is an innovative reinforcement
-    learning algorithm that enhances the training of large language models (LLMs)
-    for complex tasks like mathematical reasoning and code generation. By eliminating
-    the need for a separate value function, GRPO reduces memory usage and computational
-    resource demands, making it efficient for resource-constrained environments. The
-    algorithm operates by generating multiple answers for prompts, scoring them with
-    a reward model, and using the average score for advantage estimation. Key improvements
-    have been noted in models such as DeepSeek R1, which achieved significant performance
-    boosts in math and coding benchmarks. GRPO's unique approach allows for stable
-    training while maximizing efficiency, making it a pivotal advancement in AI model
-    training.
+  summary: '```yaml
 
+    description: "Discover Group Relative Policy Optimization (GRPO), a memory-efficient
+    method for training large language models in AI engineering and reinforcement
+    learning."
 
-    **Key Points**: GRPO, reinforcement learning, large language models, memory efficiency,
-    advantage estimation, mathematical reasoning, DeepSeek R1, resource optimization,
-    AI training."
+    summary: "This comprehensive analysis of Group Relative Policy Optimization (GRPO)
+    highlights practical skills in reinforcement learning, model training, and memory
+    efficiency. Learn how GRPO enhances large language models (LLMs) for complex reasoning
+    tasks like math problem-solving and code generation. With a focus on iterative
+    training methods and reduced computational resources, AI practitioners can effectively
+    implement GRPO using existing tools. This content empowers AI engineers to optimize
+    workflows while focusing on achieving high performance with lower memory usage."
+
+    keywords: ["Group Relative Policy Optimization", "reinforcement learning", "large
+    language models", "AI training methods", "memory efficiency", "model optimization",
+    "problem-solving AI"]
+
+    ```'
 LLM\TheoryBehindFinetuning\ORPO.md:
   hash: fd2032d9fa6ebfd289a62da863836110
-  summary:
-    'Odds Ratio Preference Optimization (ORPO) is an innovative method for
-    fine-tuning large language models (LLMs) like GPT-3 and Llama-2 to align their
-    outputs more closely with human preferences. By integrating preference alignment
-    directly into Supervised Fine-Tuning (SFT) using odds ratios, ORPO simplifies
-    the traditional methods of Reinforcement Learning from Human Feedback (RLHF) and
-    Direct Preference Optimization (DPO), reducing complexity and computational costs.
-    Key advantages include increased efficiency, simplicity in implementation, and
-    strong performance on benchmarks. ORPO requires datasets with preferred and dispreferred
-    responses, making it crucial for ensuring accurate and helpful model outputs.
-    Relevant keywords include "ORPO," "fine-tuning," "large language models," "human
-    preferences," "odds ratio," and "AI alignment." For more information, key resources
-    are the arXiv paper [ORPO: Monolithic Preference Optimization without Reference
-    Model](https://arxiv.org/abs/2403.07691) and related blogs.'
+  summary: '```yaml
+
+    description: "Discover Odds Ratio Preference Optimization (ORPO) for fine-tuning
+    LLMs, improve AI responses, and streamline your machine learning workflows."
+
+    summary: "In this in-depth analysis of Odds Ratio Preference Optimization (ORPO),
+    you''ll learn a novel approach for fine-tuning large language models like GPT-3
+    and Llama-2. This method simplifies alignment with human preferences, providing
+    efficient training solutions for AI practitioners. Explore practical applications
+    and methodologies applicable to machine learning engineering, including supervised
+    fine-tuning and odds ratio calculations. Gain valuable insights into reducing
+    training costs and complexity while improving model performance."
+
+    keywords: ["Odds Ratio Preference Optimization", "fine-tuning LLMs", "machine
+    learning workflows", "AI alignment", "supervised fine-tuning", "GPT-3", "practical
+    AI engineering"]
+
+    ```'
 LLM\TheoryBehindFinetuning\PPO.md:
   hash: 3a9808c938b7c862764cfc0744cd03e3
-  summary:
-    "Proximal Policy Optimization (PPO) is a reinforcement learning algorithm\
-    \ crucial for fine-tuning large language models (LLMs) to align with human preferences\
-    \ through Reinforcement Learning from Human Feedback (RLHF). The process involves\
-    \ pre-training LLMs, collecting human feedback on model responses, training a\
-    \ reward model, and then using PPO to ensure stable updates that enhance the quality\
-    \ of generated outputs while minimizing drastic changes. Key advantages of PPO\
-    \ include its stability and efficiency, making it suitable for applications in\
-    \ chatbots and content generation. However, it requires careful hyperparameter\
-    \ tuning and is computationally intensive. Overall, PPO's mathematical formulation,\
-    \ which employs a clipped objective for controlled updates, underpins its effectiveness\
-    \ in improving LLM alignment with user preferences. \n\n**Keywords:** Proximal\
-    \ Policy Optimization, PPO, reinforcement learning, large language models, LLMs,\
-    \ human feedback, RLHF, stability, efficiency, fine-tuning, reward model."
+  summary: '```yaml
+
+    description: "Discover Proximal Policy Optimization (PPO), a key reinforcement
+    learning technique for fine-tuning Large Language Models (LLMs) in AI engineering."
+
+    summary: "Explore Proximal Policy Optimization (PPO), an essential reinforcement
+    learning technique for fine-tuning Large Language Models (LLMs) in AI applications.
+    Through the Reinforcement Learning from Human Feedback (RLHF) methodology, practitioners
+    learn to implement and optimize conversational AI systems effectively. Key skills
+    include understanding policy gradient methods, stability in training, and applying
+    mathematical formulations in practical scenarios. This content addresses challenges
+    faced by AI engineers aiming to enhance model alignment with human preferences
+    using PPO."
+
+    keywords: ["Proximal Policy Optimization", "reinforcement learning", "Large Language
+    Models", "AI engineering", "RLHF", "policy gradient methods", "model alignment"]
+
+    ```'
 LLM\TheoryBehindFinetuning\PreTrain.md:
   hash: cafca8158f7ca8abe62de569e498352b
-  summary:
-    Pre-training Large Language Models (LLMs) like GPT-3 and BERT involves
-    training on vast amounts of text data using self-supervised learning, enabling
-    models to grasp language patterns, syntax, and world knowledge without task-specific
-    data. The two main pre-training objectives are Autoregressive Language Models
-    (e.g., GPT) that predict the next word based on context and Masked Language Models
-    (e.g., BERT) that predict hidden words within a sentence. Utilizing transformer
-    architecture and self-attention mechanisms, LLMs are able to perform complex tasks,
-    including reasoning and translation, demonstrating emergent behaviors without
-    direct training. This foundational approach enhances the efficiency of NLP applications
-    across various tasks. Key terms include pre-training, LLMs, transformer models,
-    Autoregressive Models, Masked Language Models, self-supervision, and emergent
-    behavior.
+  summary: '```yaml
+
+    description: "Master pre-training for Large Language Models (LLMs) and learn practical
+    AI engineering strategies in NLP and scalable AI application design."
+
+    summary: "Explore crucial concepts of pre-training Large Language Models (LLMs)
+    including self-supervision and transformer architecture. Gain practical skills
+    in NLP, model fine-tuning, and understanding autoregressive and masked language
+    models. This content leverages tools like Hugging Face Transformers to facilitate
+    efficient AI workflows and help practitioners tackle real-world language processing
+    challenges. Enhance your AI engineering expertise with insights on improving model
+    performance and addressing emergent capabilities in LLMs."
+
+    keywords: ["pre-training", "Large Language Models", "NLP", "transformer architecture",
+    "fine-tuning", "self-supervision", "Hugging Face"]
+
+    ```'
 LLM\TheoryBehindFinetuning\SFT.md:
   hash: 827c09d75b1831bc9cc69ef194698eb8
-  summary:
-    Supervised fine-tuning enhances pre-trained Large Language Models (LLMs)
-    like GPT-3 and BERT by training them on labeled datasets for specific tasks, such
-    as text classification, question-answering, and summarization. This process, known
-    as Supervised Fine-Tuning (SFT), tailors models for greater accuracy in niche
-    applications while maintaining efficiency, often requiring only a few hundred
-    to thousands of examples. Key techniques include instruction fine-tuning and parameter-efficient
-    methods like LoRA to optimize training resources. By addressing common challenges
-    like catastrophic forgetting and data quality, supervised fine-tuning unlocks
-    the full potential of LLMs in diverse domains, making them invaluable tools for
-    businesses and developers. Important keywords include supervised fine-tuning,
-    Large Language Models, task-specific adaptation, and efficiency.
+  summary: '```yaml
+
+    description: "Explore supervised fine-tuning for LLMs and enhance your AI engineering
+    skills. Learn practical techniques for productive machine learning applications."
+
+    summary: "Gain practical skills in supervised fine-tuning for Large Language Models
+    (LLMs), making them task-specific for applications like chatbots and translation.
+    This content covers critical methodologies, including data preparation, parameter-efficient
+    fine-tuning, and evaluation techniques to maximize model performance. Learn how
+    to effectively adapt pre-trained models, overcoming common challenges in AI deployment
+    for more efficient workflows in machine learning engineering."
+
+    keywords: ["supervised fine-tuning", "Large Language Models", "machine learning",
+    "AI engineering skills", "parameter-efficient methods", "data preparation", "model
+    evaluation"]
+
+    ```'
 Projects\README.md:
   hash: 1754c66f6ab6e06cbad260c59b6cdf92
-  summary:
-    The Applied AI Projects repository showcases practical implementations
-    in artificial intelligence, featuring projects like the YouTube Cloner, which
-    explores Language Models' ability to emulate YouTubers' speaking styles using
-    LLaMA2 and Mistral 7B. This project includes features such as content style emulation,
-    dataset curation, and model fine-tuning. The repository follows a structured format
-    for each project, ensuring clear documentation and ease of use for contributors.
-    Users can easily clone the repository, install requirements, and access detailed
-    project documentation. Contributions are welcome, and the project is licensed
-    under the MIT License. Key terms include artificial intelligence, machine learning,
-    content emulation, and open-source contributions.
+  summary: '```yaml
+
+    description: "Explore hands-on AI projects focusing on Language Models, model
+    fine-tuning, and implementation strategies for practical AI engineering skills."
+
+    summary: "Dive into our Applied AI Projects repository, where you can enhance
+    your AI engineering skills through practical implementations like the YouTube
+    Cloner. This project utilizes cutting-edge tools such as LLaMA2 and Mistral 7B
+    for language model fine-tuning and content emulation. Gain insights into workflows,
+    dataset curation, and model deployment while addressing key challenges in machine
+    learning engineering. Perfect for AI practitioners eager to advance their knowledge
+    in scalable AI systems and production-ready solutions."
+
+    keywords: ["practical AI projects", "machine learning engineering", "fine-tuning
+    language models", "scalable AI systems", "MLOps workflows", "AI implementation
+    strategies", "AI engineering skills"]
+
+    ```'
 Projects\YT_Clones\README.md:
   hash: bf06822f4d53573910068e5b37dd5520
-  summary:
-    The YouTube Cloner project explores the capabilities of Language Models
-    (LLMs) in emulating the speaking styles of popular YouTubers, aiming to replicate
-    their tone, pacing, and content style through data-driven techniques. Key objectives
-    include dataset curation by scraping YouTube channels, extracting audio, generating
-    transcripts, and fine-tuning models like Llama2 on this curated content. The project
-    highlights the Fireship clone as a case study, demonstrating successful content
-    generation that captures the fast-paced, informative style of Fireship's coding
-    tutorials. Keywords include YouTube Cloner, Language Models, dataset curation,
-    model fine-tuning, Fireship, AI content generation, and YouTube emulation.
+  summary: '```yaml
+
+    description: "Explore cutting-edge AI engineering techniques by fine-tuning LLMs
+    to clone YouTube styles. Learn practical applications for model training and evaluation."
+
+    summary: "This project demonstrates practical AI engineering skills in fine-tuning
+    large language models (LLMs) to mimic the speaking styles of popular YouTubers.
+    Through dataset curation, model fine-tuning, and testing, participants gain hands-on
+    experience with tools like Llama2 and the Hugging Face platform. By mastering
+    unique content generation strategies, AI practitioners can enhance their workflows
+    in machine learning engineering and MLOps. Discover how to leverage LLMs to create
+    engaging, context-aware content while solving challenges in style replication."
+
+    keywords: ["AI engineering", "LLM fine-tuning", "machine learning", "content generation",
+    "dataset curation", "MLOps", "Hugging Face"]
+
+    ```'
 PromptEngineering\Advanced_Prompting.md:
   hash: a4c8c6a695c1c4a7e8ffea2920ff3e8a
-  summary:
-    Explore advanced prompting techniques for AI interaction in our comprehensive
-    guide, covering innovative methods like Chain of Thought (CoT), Self-Consistency,
-    ReAct Prompting, Multimodal Prompting, and Real-Time Optimization. Each technique
-    enhances the AI's reasoning capabilities, facilitates complex problem-solving,
-    and refines responses through dynamic adjustments. Key concepts include generating
-    multiple reasoning paths, integrating knowledge, and utilizing directional prompts
-    to guide desired outputs. Perfect for both beginners and advanced users, this
-    guide offers practical examples and implementation strategies to improve AI performance,
-    ensuring contextually accurate and reliable results. Key terms include prompt
-    engineering, AI reasoning, CoT rollouts, and knowledge generation.
+  summary: '```yaml
+
+    description: "Explore advanced prompting techniques for AI engineering, enhancing
+    reasoning and performance in machine learning models and applications."
+
+    summary: "This comprehensive guide on advanced prompting techniques offers practical
+    insights into optimizing AI interactions through methods like Chain of Thought
+    (CoT) and ReAct prompting. Gain valuable skills in fine-tuning large language
+    models and enhancing context-aware responses. Utilizing frameworks such as generated
+    knowledge prompting, learn to solve complex AI problems and improve model accuracy.
+    Ideal for AI practitioners looking to elevate their machine learning engineering
+    workflows."
+
+    keywords: ["prompt engineering", "machine learning", "Chain of Thought", "ReAct
+    prompting", "AI model optimization", "large language models", "knowledge integration"]
+
+    ```'
 PromptEngineering\Basic_Prompting.md:
   hash: 4ffc7764fc2f4bdd30a7060517d2b717
-  summary:
-    This practical guide on basic prompting techniques outlines essential strategies
-    for effective AI interactions, including zero-shot, one-shot, few-shot, role-based,
-    prompt reframing, and prompt combination. The objective is to improve the quality
-    of AI responses by providing clear, structured instructions tailored to specific
-    needs. Key points include being specific in instructions, starting simply, and
-    testing various approaches while avoiding common pitfalls like complexity and
-    vagueness. The guide also features a quick reference table to help users choose
-    the right technique based on their specific requirements. Key terms include prompt
-    engineering, AI interaction, and effective querying techniques.
+  summary: '```yaml
+
+    description: "Master prompt engineering techniques for AI models, including zero-shot,
+    one-shot, and role-based prompting to enhance your AI interactions effectively."
+
+    summary: "This guide teaches essential prompt engineering techniques for AI practitioners
+    to improve AI interactions. Gain practical skills in zero-shot, one-shot, few-shot,
+    and role-based prompting. Learn how to craft effective prompts that enhance response
+    quality and consistency. Tackle common pitfalls and refine your approach for better
+    AI model outputs in real-world applications."
+
+    keywords: ["prompt engineering", "AI interactions", "zero-shot prompting", "one-shot
+    prompting", "few-shot prompting", "role-based prompting", "AI model outputs"]
+
+    ```'
 PromptEngineering\README.md:
   hash: 1bc5f20a81855e16e88a24ff6d2e5b80
-  summary:
-    Prompt engineering is the skill of crafting effective instructions for
-    guiding AI language models, enhancing their performance and tailoring outputs
-    to specific needs. This emerging discipline involves techniques such as basic
-    and advanced prompting, optimization, and ethical considerations to mitigate biases
-    and improve user experience. Key aspects include versatility, iterative refinement,
-    and customization, enabling diverse applications in text generation, image recognition,
-    and conversational AI. The repository offers a structured approach to learning
-    prompt engineering, with resources covering basic concepts, advanced techniques,
-    prompt templates, and evaluation methods, making it accessible for both technical
-    experts and non-experts alike. Core keywords include "prompt engineering," "AI
-    models," "language models," "prompt optimization," and "ethical AI."
+  summary: '```yaml
+
+    description: "Master prompt engineering for AI and LLMs to enhance model performance
+    and versatility. Unlock practical skills for generative AI applications!"
+
+    summary: "Dive into prompt engineering and learn how to craft effective prompts
+    for Large Language Models (LLMs) to improve AI output quality. This content covers
+    practical techniques such as zero-shot prompting, few-shot learning, and role
+    prompting, providing valuable insights for AI practitioners. Gain hands-on experience
+    with tools like the OpenAI API and learn to mitigate biases while enhancing usability.
+    Perfect for engineers seeking to optimize AI workflows and improve responses in
+    generative AI applications."
+
+    keywords: ["prompt engineering", "Large Language Models", "AI optimization", "zero-shot
+    prompting", "OpenAI API", "generative AI", "bias mitigation"]
+
+    ```'
 PromptEngineering\Understanding_OpenAI_API.md:
   hash: 53dc8984a62ae3a6e2d7e3a768e19a0a
-  summary:
-    "This article delves into the world of Large Language Model (LLM) APIs,\
-    \ detailing how developers can leverage OpenAI-compatible APIs from various providers,\
-    \ including Groq, Mistral AI, Hugging Face, Google Vertex AI, Microsoft Azure,\
-    \ and Anthropic. It highlights key parameters like temperature, top_p, max tokens,\
-    \ and function calling that influence the output generated by these models. Additionally,\
-    \ it explains the roles involved in API interactions\u2014system, user, and assistant\u2014\
-    and provides code examples for using different LLM APIs effectively. With a focus\
-    \ on seamless integration and enhanced interactivity, this guide is essential\
-    \ for developers looking to optimize their applications with AI capabilities.\
-    \ Key terms include LLM APIs, OpenAI, compatibility, temperature parameter, and\
-    \ model responses."
+  summary: '```yaml
+
+    description: "Explore LLM APIs for AI engineering! Master OpenAI API usage and
+    learn to implement AI models with tools like Groq, Hugging Face, and more."
+
+    summary: "Unlock practical skills in AI engineering by mastering LLM APIs and
+    their applications. This guide covers essential parameters like temperature and
+    max tokens, along with hands-on examples using tools such as OpenAI, Groq, and
+    Mistral AI. Learn how to streamline AI workflows and improve your application
+    integration by utilizing responsible AI practices. Enhance your understanding
+    of machine learning engineering with our step-by-step instructions for API calls
+    and functionalities."
+
+    keywords: ["LLM APIs", "OpenAI", "AI engineering", "machine learning", "MLOps",
+    "AI application integration", "responsible AI practices"]
+
+    ```'
 PromptEngineering\hand_on_with_advanced_prompt_engineering.md:
   hash: 73a16b0da0b0d28d157dd3bbd20d0c7f
-  summary:
-    "This comprehensive guide on prompt engineering techniques is based on
-    NirDiamant's repository and covers a wide range of concepts and methodologies
-    essential for effective AI communication. It introduces fundamental concepts like
-    basic prompt structures, zero-shot prompting, and few-shot learning, along with
-    advanced strategies such as task decomposition, negative prompting, and ethical
-    considerations. The guide emphasizes practical implementations using tools like
-    OpenAI's GPT and LangChain, promoting efficient prompt optimization, clarity,
-    and security in AI applications. Key topics include prompt templates, role prompting,
-    multilingual prompting, and evaluating prompt effectiveness, making it an essential
-    resource for developers and researchers in AI and language modeling. Keywords:
-    prompt engineering, AI communication, OpenAI, LangChain, few-shot learning, ethical
-    considerations, prompt optimization."
+  summary: '```yaml
+
+    description: "Master prompt engineering techniques for AI systems! Learn hands-on
+    with OpenAI''s models and LangChain for effective AI implementations."
+
+    summary: "Explore comprehensive prompt engineering techniques that enhance AI
+    systems'' performance and usability. This guide covers practical skills such as
+    zero-shot prompting, few-shot learning, and instruction engineering using OpenAI''s
+    GPT models and LangChain. Gain valuable insights into crafting effective prompts
+    that improve clarity, task decomposition, and ethical considerations while enhancing
+    AI-driven problem-solving capabilities. Perfect for AI practitioners seeking to
+    elevate their engineering expertise and implementation strategies."
+
+    keywords: ["prompt engineering", "AI systems", "OpenAI", "LangChain", "machine
+    learning", "zero-shot prompting", "ethical AI"]
+
+    ```'
 RAG\00_RAG_from_Scratch\README.md:
   hash: 3978a3e6fe96a1c0586558111c9707e6
   summary:
-    "This guide provides a comprehensive tutorial on building a Retrieval-Augmented\
-    \ Generation (RAG) system from scratch using Python. It covers two main steps:\
-    \ Knowledge Base Creation\u2014including chunking documents into manageable pieces,\
-    \ embedding them for semantic similarity, and indexing them in a vector database\u2014\
-    and the Generation Part, where user queries are processed to retrieve relevant\
-    \ chunked documents that form the context for a language model (LLM) response.\
-    \ Key concepts include utilizing the Sentence Transformers library for embeddings,\
-    \ calculating dot products for similarity, and integrating OpenAI\u2019s GPT model\
-    \ for generating answers. The tutorial uses practical examples, such as loading\
-    \ Wikipedia content, to demonstrate RAG implementation. This approach enhances\
-    \ response accuracy by combining relevant background information with LLM capabilities.\
-    \ \n\n**Keywords:** Retrieval-Augmented Generation, RAG system, Python, knowledge\
-    \ base, embedding model, document embedding, similarity search, OpenAI, LLM, semantic\
-    \ search."
+    "```yaml\ndescription: \"Learn to build a Retrieval-Augmented Generation\
+    \ (RAG) system with Python\u2014focusing on AI models, embeddings, and practical\
+    \ machine learning solutions.\"\nsummary: \"This guide provides practical skills\
+    \ in building a Retrieval-Augmented Generation (RAG) system from scratch using\
+    \ Python. You will gain knowledge in document processing, embedding models, and\
+    \ vector databases while leveraging tools like sentence-transformers and Wikipedia\
+    \ API. This hands-on approach addresses key challenges in AI engineering, such\
+    \ as efficient document retrieval and response generation using large language\
+    \ models (LLMs). Master MLOps best practices through real-world implementation\
+    \ strategies to enhance your AI projects.\"\nkeywords: [\"Retrieval-Augmented\
+    \ Generation\", \"RAG system\", \"machine learning\", \"Python\", \"embedding\
+    \ models\", \"MLOps\", \"AI engineering\"]\n```"
 RAG\01_BM25_RAG\README.md:
   hash: 3ad746d3f25f791f323da25360d61d08
-  summary:
-    "BM25 Retrieval-Augmented Generation (BM25 RAG) is an innovative technique\
-    \ that merges the BM25 algorithm for efficient document retrieval with large language\
-    \ models for text generation. This approach enhances the accuracy and relevance\
-    \ of generated responses by leveraging a probabilistic retrieval model. Key features\
-    \ include probabilistic document ranking, term frequency saturation, document\
-    \ length normalization, and contextual relevance, allowing for improved interpretability\
-    \ and scalability. The system is user-friendly, enabling data ingestion and querying\
-    \ via a simple server API, and requires minimal dependencies. Notable benefits\
-    \ include improved accuracy, effective handling of long-tail queries, and reduced\
-    \ computational overhead since it doesn't rely on document embeddings. Ideal for\
-    \ applications requiring precise information retrieval, BM25 RAG is built for\
-    \ Python and designed to facilitate contributions and collaboration. \n\n**Keywords**:\
-    \ BM25, Retrieval-Augmented Generation, information retrieval, large language\
-    \ models, accuracy, contextual relevance, scalability, Jupyter Notebook, API,\
-    \ Python."
+  summary: '```yaml
+
+    description: "Explore BM25 Retrieval-Augmented Generation for powerful AI engineering.
+    Learn to enhance ML accuracy with probabilistic retrieval and LLM integration."
+
+    summary: "Master practical AI engineering skills with BM25 RAG, a method that
+    optimizes text generation through effective document retrieval. Dive into critical
+    tools like probabilistic retrieval models and understand how to implement advanced
+    workflows in machine learning. This content addresses key challenges faced by
+    AI practitioners, such as improving response accuracy and handling long-tail queries.
+    Unlock the potential of combining retrieval systems with large language models
+    for superior AI applications."
+
+    keywords: ["BM25", "Retrieval-Augmented Generation", "probabilistic retrieval",
+    "machine learning", "LLM", "text generation", "AI engineering"]
+
+    ```'
 RAG\01_Basic_RAG\README.md:
   hash: 8a47e690564ad60e077253b13881bab5
-  summary:
-    Retrieval-Augmented Generation (RAG) is an innovative AI technique that
-    combines large language models with effective information retrieval from knowledge
-    bases, enhancing the accuracy and relevance of generated responses. This approach
-    addresses limitations of traditional models by integrating a retrieval step, allowing
-    for contextually grounded answers to user queries. Key features include improved
-    accuracy, scalability for large knowledge bases, and adaptability across various
-    applications like question answering and summarization. The RAG workflow involves
-    document processing, embedding generation, and a generation step through advanced
-    language models. To implement RAG, users require Python, Jupyter Notebook, and
-    an LLM API key. This empowers businesses and researchers to create more reliable
-    and context-aware AI systems.
+  summary: '```yaml
+
+    description: "Discover RAG, the cutting-edge AI engineering technique combining
+    retrieval and generation for accurate, context-aware responses in ML applications."
+
+    summary: "Learn to implement Retrieval-Augmented Generation (RAG) to enhance large
+    language models with real-time data retrieval capabilities. This content covers
+    essential AI engineering methodologies, including document preprocessing, vector
+    embeddings, and efficient querying strategies. By mastering RAG, practitioners
+    can address challenges in generating precise, contextually relevant responses
+    for diverse applications like customer support and research. Tools discussed include
+    Python, Jupyter Notebooks, and popular LLM APIs."
+
+    keywords: ["Retrieval-Augmented Generation", "large language models", "AI engineering",
+    "document processing", "embeddings", "machine learning", "RAG"]
+
+    ```'
 RAG\01_Data_Ingestion\README.md:
   hash: 8b87a544f498ec359778c6e42dee974e
-  summary:
-    'Data chunking is essential for enhancing Retrieval-Augmented Generation
-    (RAG) systems by breaking large documents into manageable, coherent pieces for
-    efficient indexing and retrieval. Effective chunking improves retrieval accuracy,
-    enhances embedding generation, and manages token limits for language models. Six
-    diverse chunking methods are outlined: RecursiveCharacterTextSplitter, TokenTextSplitter,
-    KamradtSemanticChunker, KamradtModifiedChunker, ClusterSemanticChunker, and LLMSemanticChunker,
-    each designed for various use cases. The document serves as a comprehensive guide
-    for integrating these methods into RAG workflows, helping users choose the appropriate
-    approach based on document type and retrieval system requirements. Key phrases
-    include "data chunking," "RAG systems," "semantic chunking," and "document retrieval."'
+  summary: '```yaml
+
+    description: "Master data chunking for RAG systems in AI engineering. Learn effective
+    chunking methods to boost retrieval accuracy and enhance ML model performance."
+
+    summary: "This guide provides practical insights into data chunking methods crucial
+    for Retrieval-Augmented Generation (RAG) systems. Gain knowledge in AI engineering
+    skills like TokenTextSplitter and KamradtSemanticChunker to improve retrieval
+    accuracy and efficiency. We delve into methods that address token limits and semantic
+    coherence, empowering AI practitioners to implement robust solutions for enhanced
+    machine learning workflows. Discover best practices for chunking that optimize
+    both accuracy and performance in production AI systems."
+
+    keywords: ["data chunking", "RAG systems", "machine learning", "TokenTextSplitter",
+    "AI engineering", "semantic chunking", "ML workflows"]
+
+    ```'
 RAG\01_RAG_Evaluation\README.md:
   hash: a24acdde3c9e0f4e314e5dc4cf2efa18
-  summary:
-    This document evaluates Retrieval-Augmented Generation (RAG) systems, emphasizing
-    the significance of comprehensive evaluation in optimizing performance, accuracy,
-    and response quality. It details the RAG evaluation workflow, including critical
-    metrics such as RAGAS, DeepEval, and Trulens, which assess aspects like faithfulness,
-    answer relevancy, context utilization, and bias detection. Best practices for
-    RAG evaluation encourage regular benchmarking, human involvement, and tailored
-    domain-specific metrics. A robust evaluation framework is essential for ensuring
-    RAG systems provide trustworthy and relevant responses while facilitating continuous
-    improvement. Key terms include RAG evaluation, performance metrics, retrieval
-    effectiveness, and quality assurance.
+  summary: '```yaml
+
+    description: "Discover essential evaluation techniques for Retrieval-Augmented
+    Generation (RAG) systems in AI engineering to enhance performance and effectiveness."
+
+    summary: "Unlock practical AI engineering skills with our in-depth guide on evaluating
+    Retrieval-Augmented Generation (RAG) systems. Learn about key metrics such as
+    Faithfulness, Answer Relevancy, and Context Precision, crucial for optimizing
+    performance. This content provides actionable insights into tools and methodologies
+    that help AI practitioners detect issues like bias and hallucinations, reinforcing
+    best practices in MLOps and responsible AI. Enhance your expertise in evaluating
+    AI systems to deliver high-quality, trustworthy responses."
+
+    keywords: ["RAG systems", "AI engineering", "evaluation metrics", "MLOps", "responsible
+    AI", "machine learning", "performance optimization"]
+
+    ```'
 RAG\01_RAG_Observability\README.md:
   hash: 5cd5dc58a70cda6e580d73bff931c1cd
-  summary:
-    This guide provides a comprehensive setup for a Retrieval-Augmented Generation
-    (RAG) pipeline using Llama Index, focusing on integrating observability through
-    Arize Phoenix. It covers essential prerequisites, installation steps, and configurations
-    for embedding models and vector storage for efficient document retrieval and query
-    processing. Key topics include installing necessary packages, setting up the Arize
-    Phoenix app for monitoring, configuring OpenAI API access, and implementing OpenTelemetry
-    for tracing. Users can learn to interact with Llama Index and OpenAI models for
-    advanced search capabilities while adopting best practices for performance monitoring.
-    Important keywords include RAG pipeline, Llama Index, Arize Phoenix, OpenAI, document
-    retrieval, and OpenTelemetry.
+  summary: '```yaml
+
+    description: "Learn to set up a Retrieval-Augmented Generation (RAG) pipeline
+    with effective AI observability using Arize Phoenix and Llama Index for advanced
+    AI solutions."
+
+    summary: "In this comprehensive guide, you will gain practical skills in configuring
+    a Retrieval-Augmented Generation (RAG) pipeline using Llama Index and Arize Phoenix.
+    Learn essential techniques for AI observability, model monitoring, and efficient
+    document retrieval. This content covers key methodologies like OpenTelemetry and
+    includes tools such as OpenAI, FastEmbed, and Qdrant. By mastering these concepts,
+    you''ll effectively address critical challenges faced by AI practitioners in production
+    environments."
+
+    keywords: ["AI engineering", "machine learning", "observability", "RAG pipeline",
+    "Llama Index", "Arize Phoenix", "OpenTelemetry"]
+
+    ```'
 RAG\02_ReRanker_RAG\README.md:
   hash: b95e546e9e833b8b2655854786854a37
-  summary:
-    The flowchart outlines a systematic process for document retrieval and
-    response generation through a series of steps. The core idea is to enhance the
-    performance of document processing using embeddings, indexing, and re-ranking.
-    The key objectives include splitting documents into manageable chunks, converting
-    these chunks and queries into embeddings for efficient indexing, and performing
-    similarity searches to retrieve the most relevant information. Re-ranking of the
-    top retrieved chunks is conducted using a dedicated model, ultimately forming
-    a context that enhances response generation through a language model (LLM). Key
-    terms include document processing, chunking, embedding models, vector databases,
-    similarity search, top-K retrieval, and response generation. This structured approach
-    ensures more accurate and relevant responses to user queries.
+  summary: '```yaml
+
+    description: "Master AI ranking techniques with our comprehensive guide on document
+    processing, embeddings, and effective re-ranking in AI systems."
+
+    summary: "Unlock practical AI engineering skills with our in-depth exploration
+    of document processing, embeddings, and re-ranking methodologies. Learn to implement
+    robust workflows for vector databases and similarity search using advanced techniques
+    to enhance AI retrieval systems. This content equips practitioners with the tools
+    to effectively manage query processing and improve response quality in large language
+    model applications. Elevate your AI expertise and tackle challenges such as context
+    formation and information accuracy in AI models."
+
+    keywords: ["document processing", "embeddings", "re-ranking", "similarity search",
+    "vector database", "LLM", "AI engineering"]
+
+    ```'
 RAG\03_Hybrid_RAG\README.md:
   hash: f4d2ebfe45dd5258a5b4253a7e4b3a99
-  summary:
-    The Sentence Window Retriever-Based Retrieval-Augmented Generation (RAG)
-    approach enhances the context-awareness and coherence of AI-generated responses
-    by integrating efficient information retrieval with large language models. Key
-    features include efficient vector similarity search, context preservation through
-    document structure indexing, and a flexible context window that allows for adjustable
-    context expansion during retrieval. This method reduces hallucination, improves
-    coherence by incorporating surrounding chunks, and maintains original document
-    structure, making it ideal for advanced applications in question-answering and
-    content generation. Emphasizing scalability and efficient storage, this approach
-    addresses critical limitations of traditional RAG systems.
+  summary: '```yaml
+
+    description: "Enhance AI responses with the Sentence Window Retriever-Based RAG
+    approach. Learn document processing, embedding, and intelligent context retrieval."
+
+    summary: "The Sentence Window Retriever-Based RAG approach streamlines AI document
+    processing by enabling effective retrieval and generation. This practical guide
+    covers embedding, vector databases, and context preservation, empowering AI practitioners
+    to develop coherent and context-aware responses. Designed for advanced AI applications,
+    it addresses common issues like coherence and response accuracy. Explore key methodologies
+    for improved AI systems and enhance your implementation skills."
+
+    keywords: ["AI engineering", "RAG framework", "document processing", "vector databases",
+    "embedding models", "context retrieval", "coherence"]
+
+    ```'
 RAG\04_Sentence_Window_RAG\README.md:
   hash: a34af532879cced87d483bece0ec9005
-  summary:
-    "The Sentence Window Retriever-Based RAG (Retrieval-Augmented Generation)
-    approach enhances AI-generated responses by combining large language models with
-    efficient information retrieval techniques. It addresses limitations of traditional
-    RAG systems by maintaining coherence and contextual relationships across text
-    chunks. Key features include efficient retrieval through vector similarity search,
-    context preservation, and adjustable context windows for tailored results. Benefits
-    encompass improved coherence, reduced hallucination in content generation, and
-    optimized storage, making it ideal for advanced applications in question-answering,
-    document analysis, and content generation. This method ultimately ensures high-quality,
-    context-rich responses, enhancing user experience in AI interactions. Key terms:
-    Sentence Window, RAG, context-awareness, information retrieval, vector database,
-    coherence, AI generation."
+  summary: '```yaml
+
+    description: "Enhance AI responses with the Sentence Window Retriever-Based RAG
+    approach. Learn efficient AI retrieval, embedding, and document coherence techniques."
+
+    summary: "The Sentence Window Retriever-Based RAG approach enhances context awareness
+    and coherence in AI responses by utilizing effective information retrieval techniques.
+    This method teaches practical skills in embedding models, vector databases, and
+    context expansion, specifically for applications in question-answering and content
+    generation. By preserving document structure and enabling adaptable context windows,
+    practitioners can improve response accuracy while reducing hallucination. This
+    innovative methodology addresses key problems faced by AI practitioners, including
+    maintaining coherence across large datasets."
+
+    keywords: ["AI engineering", "RAG framework", "information retrieval", "context
+    expansion", "embedding models", "vector databases", "machine learning"]
+
+    ```'
 RAG\05_Auto_Merging_RAG\README.md:
   hash: f12d1738066377201d7c41f106805d4b
-  summary:
-    The Auto Merging Retriever is an advanced implementation of the Retrieval-Augmented
-    Generation (RAG) framework, aimed at enhancing AI-generated responses by merging
-    smaller contexts into comprehensive ones. This innovative approach promotes context
-    coherence through a hierarchical document representation and dynamic context expansion,
-    ensuring relevant chunks are combined based on user queries. Key features include
-    efficient base retrieval using vector similarity searches, improved response quality,
-    and adaptability across various document types. Evaluations indicate that it performs
-    comparably to traditional retrieval methods, with a slight edge in user preference.
-    Implementing the Auto Merging Retriever requires a large language model, embedding
-    and vector databases, and the LlamaIndex library. Key terms include retrieval-augmented
-    generation, context coherence, hierarchical representation, and dynamic context
-    merging.
+  summary: '```yaml
+
+    description: "Explore the Auto Merging Retriever for improved AI context generation.
+    Master practical AI engineering and RAG frameworks to enhance coherence."
+
+    summary: "Gain practical AI engineering skills by implementing the Auto Merging
+    Retriever, a dynamic approach in Retrieval-Augmented Generation (RAG) systems.
+    This method leverages hierarchical document parsing, vector similarity searches,
+    and context expansion to ensure coherent AI-generated responses. Learn to utilize
+    tools like LlamaIndex and vector databases to address challenges in maintaining
+    context coherence and enhancing response quality in AI applications."
+
+    keywords: ["AI engineering", "Retrieval-Augmented Generation", "context generation",
+    "hierarchical parsing", "vector similarity", "LlamaIndex", "machine learning"]
+
+    ```'
 RAG\06_HyDE_RAG\README.md:
   hash: d7948b7ce4050450d4c0f32a267ce598
-  summary:
-    The project implements a Retrieval-Augmented Generation (RAG) system enhanced
-    with Hypothetical Document Embeddings (HyDE), aimed at improving the semantic
-    understanding of complex queries. By generating hypothetical documents that represent
-    user query intent, HyDE enhances retrieval accuracy, particularly for nuanced
-    inquiries. The workflow involves preprocessing documents, embedding hypothetical
-    responses, conducting similarity searches in a vector database, and forming context
-    for final response generation using LLMs. This innovative approach offers improved
-    handling of out-of-distribution queries, reduced sensitivity to phrasing, and
-    seamless integration with existing RAG pipelines, representing a significant advancement
-    in information retrieval and question-answering technologies. Key terms include
-    RAG, HyDE, embeddings, similarity search, and document retrieval.
+  summary: '```yaml
+
+    description: "Explore Retrieval-Augmented Generation (RAG) with Hypothetical Document
+    Embeddings (HyDE) to enhance AI query accuracy and relevance."
+
+    summary: "This project introduces a novel approach to Retrieval-Augmented Generation
+    (RAG) using Hypothetical Document Embeddings (HyDE). AI practitioners will learn
+    practical skills in document preprocessing, vector database creation, and advanced
+    similarity search techniques. By employing this method, users enhance semantic
+    understanding and retrieval accuracy, improving responses to complex queries.
+    Discover how this innovative architecture can be integrated with existing AI workflows
+    to solve nuanced information retrieval challenges."
+
+    keywords: ["Retrieval-Augmented Generation", "Hypothetical Document Embeddings",
+    "AI query accuracy", "similarity search", "information retrieval", "document processing",
+    "AI workflows"]
+
+    ```'
 RAG\06_Query_Transformation_RAG\README.md:
   hash: ef07ac20eb0cd6ff735666034d9dbc57
-  summary:
-    The Query Transform Cookbook outlines essential techniques for transforming
-    and decomposing user queries to enhance information retrieval and response quality
-    in AI applications. Key methods include Routing for tool selection, Query Rewriting
-    to generate variations of queries, Sub-Questions Generation to tackle complex
-    queries through decomposition, and ReAct Agent Tool Picking for dynamic tool selection.
-    Each technique is supported by diagrams and implementation details, allowing developers
-    to integrate these modular components into robust RAG systems. Core keywords include
-    query transformation, AI applications, information retrieval, and query optimization.
-    For more detailed implementations, refer to the LlamaIndex documentation.
+  summary: '```yaml
+
+    description: "Discover essential query transformation techniques for AI applications,
+    including routing and rewriting, to enhance retrieval and accuracy in ML systems."
+
+    summary: "The Query Transform Cookbook equips AI practitioners with practical
+    techniques for transforming user queries to improve information retrieval. Learn
+    methods like Routing, Query Rewriting, and Sub-Questions Generation, utilizing
+    tools such as LLMs and ReAct. Gain skills to optimize AI systems, enhancing relevance
+    and accuracy. This comprehensive guide addresses common challenges in query processing,
+    empowering developers to build robust AI solutions."
+
+    keywords: ["AI engineering", "query transformation", "machine learning", "information
+    retrieval", "LLM", "ReAct framework", "AI systems"]
+
+    ```'
 RAG\07_Self_Query_RAG\README.md:
   hash: ae134a3318bdfbe99761fdf9dc31b318
-  summary:
-    Self-Query RAG is an advanced Retrieval-Augmented Generation (RAG) approach
-    that enhances traditional systems by integrating metadata extraction and intelligent
-    query parsing. It addresses the challenges of handling complex queries with both
-    semantic and metadata constraints through a structured workflow that involves
-    document chunking, metadata extraction, and hybrid retrieval methods. Key features
-    include improved retrieval accuracy, efficient filtering, and enhanced context
-    formation, allowing for precise and contextually relevant responses in AI-driven
-    question-answering. This innovative method leverages large language models (LLMs)
-    for superior query understanding, making it ideal for applications requiring nuanced
-    and detailed information retrieval.
+  summary: '```yaml
+
+    description: "Discover the Self-Query RAG technique to enhance AI retrieval systems
+    with intelligent query parsing and metadata extraction for optimal knowledge gain."
+
+    summary: "Learn practical AI engineering skills through the Self-Query RAG approach,
+    which combines metadata extraction and intelligent query parsing for improved
+    retrieval accuracy. This methodology addresses complex query challenges by leveraging
+    large language models (LLMs) and hybrid retrieval techniques. By implementing
+    structured information filtering, practitioners can efficiently search through
+    vast datasets while generating relevant responses, thus optimizing their AI systems.
+    Enhance your understanding of AI workflows, metadata filtering, and intelligent
+    search strategies to solve real-world AI problems."
+
+    keywords: ["Retrieval-Augmented Generation", "Self-Query RAG", "AI engineering",
+    "machine learning", "metadata filtering", "large language models", "hybrid retrieval"]
+
+    ```'
 RAG\08_RAG_Fusion\README.md:
   hash: 39726a1b8edd397f560b4113ed46454f
-  summary:
-    RAG-Fusion is an innovative approach to Retrieval-Augmented Generation
-    (RAG) that enhances information retrieval and text generation by capturing user
-    intent more effectively. It achieves this through multi-query generation, advanced
-    reranking techniques like Reciprocal Rank Fusion (RRF), and comprehensive context
-    formation for improved response accuracy. Key benefits include enhanced query
-    understanding, improved retrieval precision, reduced hallucination, and scalability
-    for various applications. This robust architecture supports multiple embedding
-    models and language models, making RAG-Fusion a versatile solution for question-answering
-    systems and document summarization tasks. Key terms include document processing,
-    embedding generation, vector search, and context formation.
+  summary: '```yaml
+
+    description: "Discover RAG-Fusion, an advanced AI technique enhancing retrieval
+    and generation. Master document processing, query expansion, and RRF for better
+    AI solutions."
+
+    summary: "RAG-Fusion offers AI practitioners practical skills in retrieval-augmented
+    generation, focusing on multi-query generation and reciprocal rank fusion techniques.
+    Users will learn to implement document chunking, vector embeddings, and advanced
+    reranking strategies for improved context in AI responses. This methodology reduces
+    model hallucination and enhances retrieval accuracy, providing comprehensive solutions
+    for question-answering and summarization tasks."
+
+    keywords: ["RAG-Fusion", "retrieval-augmented generation", "query expansion",
+    "reciprocal rank fusion", "document chunking", "vector embeddings", "AI response
+    generation"]
+
+    ```'
 RAG\09_RAPTOR\README.md:
   hash: dbd69657f2d7264bca7ba245dbc1cbbd
-  summary:
-    RAPTOR (Recursive Abstractive Processing for Tree Organized Retrieval)
-    is an innovative approach to Retrieval-Augmented Generation (RAG) that enhances
-    document retrieval by creating a hierarchical representation of content. By transforming
-    large document sets into organized summaries, RAPTOR improves context relevance
-    and retrieval efficiency, effectively handling complex queries. Key features include
-    multi-level summarization, scalable tree structures, and efficient information
-    retrieval through tree traversal. This method significantly enhances AI-powered
-    question-answering systems by providing more accurate and contextually relevant
-    responses. Core keywords include RAPTOR, hierarchical document representation,
-    retrieval-augmented generation, multi-level summarization, and efficient retrieval.
+  summary: '```yaml
+
+    description: "Discover RAPTOR, an innovative approach to Retrieval-Augmented Generation,
+    enhancing AI document retrieval and improving machine learning workflows."
+
+    summary: "RAPTOR revolutionizes information retrieval in AI by implementing a
+    hierarchical tree structure that enhances document summarization and clustering.
+    This technique effectively addresses challenges related to large datasets and
+    complex queries, allowing AI practitioners to achieve improved context relevance.
+    Learn practical AI engineering skills such as embedding creation and tree traversal,
+    utilizing powerful methodologies to optimize responses in question-answering systems.
+    Explore best practices for scalable AI solutions and efficient retrieval workflows."
+
+    keywords: ["Retrieval-Augmented Generation", "hierarchical document structure",
+    "Machine Learning", "AI engineering", "document summarization", "embedding models",
+    "information retrieval"]
+
+    ```'
 RAG\10_ColBERT_RAG\README.md:
   hash: 24c193cd12ae9058a6184873e807928f
-  summary:
-    ColBERT (Contextualized Late Interaction over BERT) revolutionizes traditional
-    dense embedding models by employing a token-level embedding approach that enhances
-    document retrieval. Unlike standard models that create a single vector for entire
-    documents or queries, ColBERT generates embeddings for each token, allowing for
-    more precise similarity comparisons. Its unique late interaction mechanism calculates
-    relevance scores by performing MaxSim operations between query and document tokens,
-    resulting in better match accuracy and retrieval performance. Key features of
-    ColBERT include token-level processing, late interaction for nuanced matching,
-    and integration within a Retrieval-Augmented Generation (RAG) pipeline. Core keywords
-    include ColBERT, token-level embeddings, late interaction, MaxSim, document retrieval,
-    and relevance scoring.
+  summary: '```yaml
+
+    description: "Explore ColBERT''s innovative approach to AI engineering with token-level
+    embeddings and late interaction, enhancing ML model retrieval efficiency."
+
+    summary: "ColBERT revolutionizes AI engineering with its token-level embedding
+    and late interaction methodologies, effectively addressing query-document relevance.
+    This approach enables practitioners to optimize their use of BERT for precise
+    semantic matching in machine learning workflows. By implementing tools like vector
+    indexing and MaxSim operations, AI professionals can enhance retrieval accuracy
+    and system performance. Gain the skills to build scalable AI systems and improve
+    MLOps best practices in your projects."
+
+    keywords: ["ColBERT", "token-level embeddings", "late interaction", "AI engineering",
+    "machine learning", "BERT", "MLOps"]
+
+    ```'
 RAG\11_Graph_RAG\README.md:
   hash: 6f9088596f99889bb938071e3b79b5e0
-  summary:
-    GraphRAG (Graph-based Retrieval Augmented Generation) revolutionizes information
-    retrieval and generation by merging graph-based data structures with large language
-    models (LLMs). This innovative approach aims to address limitations found in traditional
-    RAG systems, such as understanding complex relationships and handling broader
-    contexts. Key features include hierarchical information representation, community-based
-    organization for scalability, and enhanced contextuality that leads to reduced
-    hallucination in responses. The method involves document preprocessing, entity
-    extraction, graph construction, and multi-level retrieval, ultimately providing
-    flexible and contextually relevant answers tailored to diverse user queries. With
-    its focus on efficient handling of large datasets and improved thematic awareness,
-    GraphRAG paves the way for more intelligent AI systems.
+  summary: '```yaml
+
+    description: "Discover GraphRAG: a cutting-edge AI engineering approach integrating
+    graph structures and LLMs for enhanced retrieval and contextual understanding."
+
+    summary: "GraphRAG enhances retrieval-augmented generation by utilizing graph-based
+    methods to improve context comprehension and thematic awareness in AI systems.
+    This advanced technique focuses on document preprocessing, community detection,
+    and iterative refinement, making it ideal for tackling complex queries in diverse
+    datasets. Learn how to implement efficient AI workflows with applications in information
+    retrieval, graph construction, and scalable AI solutions. Gain essential skills
+    in entity extraction and embedding generation for effective machine learning practices."
+
+    keywords: ["GraphRAG", "retrieval-augmented generation", "AI engineering", "community
+    detection", "document preprocessing", "embedding generation", "LLM"]
+
+    ```'
 RAG\12_Agnetic_RAG\README.md:
   hash: 78483989cdd11c35ffd6d0c672f04b4f
-  summary:
-    "Multi-Document Agentic Retrieval Augmented Generation (RAG) is an innovative
-    approach that enhances information retrieval and generation by employing specialized
-    agents to process queries involving multiple documents. This system addresses
-    traditional RAG limitations, such as handling complex queries, providing context-aware
-    responses, and efficiently processing diverse datasets. Key features include a
-    hierarchical agent structure, dynamic tool selection for retrieval and summarization,
-    and enhanced comparative analysis between sources. The method improves context
-    understanding, scalability, and reduces misinformation in AI-generated responses.
-    Overall, Multi-Document Agentic RAG promises a more nuanced and responsive solution
-    for advanced AI systems and complex knowledge inquiries. Keywords: Multi-Document
-    RAG, agent-based systems, information retrieval, large language models, contextual
-    responses."
+  summary: '```yaml
+
+    description: "Discover Multi-Document Agentic RAG: revolutionizing information
+    retrieval with agent-based systems and LLMs for efficient AI engineering solutions."
+
+    summary: "Learn to implement the Multi-Document Agentic RAG approach, enhancing
+    retrieval-augmented generation with specialized document agents. Gain practical
+    skills in AI system design, multi-agent collaboration, and synchronous query processing.
+    Address challenges in context-aware responses and comparative analysis across
+    diverse datasets using advanced methodologies. Equip yourself with the tools needed
+    for scalable AI engineering and improved information synthesis in real-world applications."
+
+    keywords: ["AI engineering", "machine learning", "multi-agent systems", "LLM deployment",
+    "information retrieval", "context-aware responses", "scalable AI solutions"]
+
+    ```'
 RAG\README.md:
   hash: 82976bdb25042636ecd5a9244910747e
-  summary:
-    "This comprehensive guide provides a structured approach to implementing\
-    \ Retrieval Augmented Generation (RAG) systems, covering everything from foundational\
-    \ concepts to advanced techniques. Key modules include basic and advanced implementations,\
-    \ data ingestion, evaluation metrics, and observability features, allowing users\
-    \ to optimize their RAG systems effectively. The tech stack features Llama-index\
-    \ for orchestration, Qdrant as the vector database, and Arize Phoenix for system\
-    \ observability. Main techniques such as intelligent reranking, context enrichment,\
-    \ and hybrid retrieval are highlighted for improving performance and retrieval\
-    \ accuracy. This repository is an essential resource for developers seeking to\
-    \ enhance AI responses through effective data retrieval strategies. Key terms\
-    \ include RAG, augmentation, retrieval, embeddings, and performance evaluation.\
-    \ \n\n"
+  summary: '```yaml
+
+    description: "Master RAG systems with our comprehensive guide on retrieval-augmented
+    generation, AI workflows, and practical implementation strategies for AI practitioners."
+
+    summary: "This guide offers AI practitioners a step-by-step roadmap to effectively
+    implement Retrieval Augmented Generation (RAG) systems. Gain hands-on skills in
+    AI workflows, from basic setups to advanced techniques, including BM25 algorithms
+    and query transformation. Learn how to employ tools like Qdrant and techniques
+    for effective evaluation using RAGAS and Deepeval. Unlock solutions for improving
+    AI response quality while mastering responsible AI engineering practices."
+
+    keywords: ["Retrieval Augmented Generation", "AI workflows", "BM25 algorithm",
+    "Qdrant", "RAGAS", "query transformation", "responsible AI engineering"]
+
+    ```'
 README.md:
   hash: 26252584f267b0d16b324168e28359e2
-  summary:
-    AI Engineering Academy aims to simplify the learning journey in applied
-    artificial intelligence by providing structured learning paths that cover essential
-    concepts and hands-on projects. The academy offers courses in areas such as Prompt
-    Engineering, Retrieval Augmented Generation (RAG), Fine-tuning, Deployment, and
-    AI Agents, focusing on practical, production-ready skills. With a community-driven
-    approach, students can learn alongside peers and industry experts while actively
-    contributing to the curriculum. Key features include structured pathways, hands-on
-    practice, and real-world applications, making AI accessible for learners at all
-    levels. Visit [AI Engineering Academy](https://aiengineering.academy/) to embark
-    on your AI learning journey today.
+  summary: '```yaml
+
+    description: "Master practical AI engineering skills with our curated paths on
+    ML workflows, deployment, and ethics. Improve your AI implementation today!"
+
+    summary: "At AI Engineering Academy, you will gain hands-on experience in practical
+    AI skills, including machine learning engineering, MLOps, and prompt engineering.
+    Our structured learning paths cover essential concepts, tools like RAG and deployment
+    strategies, and best practices to ensure production-ready AI systems. Join our
+    community to collaborate with peers and enhance your understanding of responsible
+    AI practices and ethics."
+
+    keywords: ["AI engineering", "machine learning", "MLOps", "prompt engineering",
+    "deployment strategies", "responsible AI", "production AI systems"]
+
+    ```'
 blog\index.md:
   hash: 87a1cae2936c47994c493692bc366928
-  summary:
-    Sure! Please provide the specific content or blog that you would like me
-    to summarize for SEO.
+  summary: '```yaml
+
+    description: "Master practical AI engineering skills, from ML workflows to responsible
+    AI practices, and elevate your machine learning projects to new heights."
+
+    summary: "This blog dives into essential AI engineering techniques, empowering
+    practitioners to design, implement, and scale robust machine learning systems.
+    By exploring MLOps best practices and the fine-tuning of large language models,
+    readers will gain practical knowledge of AI application architecture and responsible
+    AI engineering. Ideal for intermediate to advanced users, the content tackles
+    challenges faced by AI teams and provides actionable strategies for improving
+    workflow efficiency and ensuring ethical practices in AI deployment."
+
+    keywords: ["AI engineering", "machine learning", "MLOps", "responsible AI", "large
+    language models", "AI best practices", "AI application architecture"]
+
+    ```'
 blog\posts\introducing-ai-engineering-academy.md:
   hash: 52d600be1e4c04dbf3b46ea0e7b18be1
-  summary:
-    "AI Engineering Academy is an open-source learning platform designed to
-    help aspiring AI engineers master applied AI through a structured curriculum.
-    Our mission is to organize knowledge, bridge the gap between theory and application,
-    and foster collaboration within the AI community. The academy offers a comprehensive
-    roadmap covering foundational concepts, core AI topics, advanced applications,
-    and practical skills, all enhanced by hands-on, project-based learning. Whether
-    you're a beginner, intermediate learner, or professional, AI Engineering Academy
-    provides the resources and community support needed to thrive in the rapidly evolving
-    field of artificial intelligence. Explore more at [AI Engineering Academy](https://www.neuratrial.com/).
-    Keywords: applied AI, open-source learning, structured curriculum, project-based
-    learning, AI community."
+  summary: '```yaml
+
+    description: "Master practical AI engineering skills and workflows at AI Engineering
+    Academy. Join our community to learn ML, MLOps, and real-world application strategies."
+
+    summary: "AI Engineering Academy offers a structured learning path for developing
+    practical AI engineering skills, including machine learning, MLOps, and data science
+    methodologies. Students can engage in project-based learning to build hands-on
+    experience with deployment strategies and scalable AI applications. Connect with
+    industry experts and fellow learners to enhance understanding and collaboration
+    in the ever-evolving AI landscape. Join us to tackle real-world challenges and
+    elevate your AI proficiency."
+
+    keywords: ["AI engineering", "machine learning", "MLOps", "practical AI", "data
+    science", "project-based learning", "scalable applications"]
+
+    ```'
 index.md:
   hash: 4841d189205433b3231042f23fd82a8d
-  summary:
-    AI Engineering Academy focuses on mastering applied artificial intelligence
-    through a structured learning approach. The academy aims to equip learners with
-    essential AI concepts and practical skills, fostering expertise in engineering
-    applications of AI technology. Key offerings include detailed coursework and resources
-    designed to enhance understanding and application of AI principles. Key terms
-    include "applied AI," "AI concepts," "engineering applications," and "mastering
-    AI."
+  summary: '```yaml
+
+    description: "Master practical AI engineering skills at AI Engineering Academy!
+    Learn Machine Learning, MLOps, and system design for effective AI implementation."
+
+    summary: "At AI Engineering Academy, enhance your skills in practical AI engineering,
+    focusing on machine learning workflows, MLOps, and AI application architecture.
+    Our curriculum covers key methodologies such as system design and large language
+    model (LLM) deployment, equipping practitioners with the necessary tools for effective
+    AI solutions. Whether you''re a beginner or advanced practitioner, we tackle real-world
+    problems, preparing you to create scalable and responsible AI systems."
+
+    keywords: ["AI engineering", "machine learning", "MLOps", "system design", "AI
+    application architecture", "Large Language Models", "responsible AI"]
+
+    ```'

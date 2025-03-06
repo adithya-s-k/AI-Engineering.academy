@@ -76,6 +76,7 @@ plugins:
       allow_errors: true
       ignore_patterns:
         - "archives/*"
+  - social
   - mkdocstrings:
       default_handler: python
       handlers:
@@ -88,7 +89,7 @@ plugins:
       minify_html: true
   - git-revision-date-localized:
       enable_creation_date: true
-  - social
+  - mkdocs-video
 
 # Extensions
 markdown_extensions:

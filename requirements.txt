@@ -10,6 +10,7 @@ mkdocs-minify-plugin
 mkdocs-material[imaging]
 mkdocs-redirects
 mkdocs-jupyter
+mkdocs-video
 # Requirements for plugins
 babel~=2.10
 colorama~=0.4

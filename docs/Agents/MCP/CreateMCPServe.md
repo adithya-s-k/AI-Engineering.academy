@@ -2,7 +2,7 @@
 
 ---
 
-### Introduction
+### Beginners Guide to creating an MCP server
 
 The Model Context Protocol (MCP) is an open standard that helps AI applications, especially large language models (LLMs), connect with external data sources and tools. By creating your own MCP server in Python, you can tailor these connections to suit your specific needs, such as accessing custom databases or files. This guide will walk you through the process step by step, including a practical implementation from scratch.
 
@@ -357,10 +357,12 @@ To try these servers yourself:
 
 3.  **Interact with It**: In another terminal, use the MCP Inspector:
     Follow the prompts to request resources (e.g., `"current_time"`) or call tools (e.g., `"add"` with `a=3, b=4`).
-    ```bash
+
+    ````bash
     mcp inspector
 
         ```
+    ````
 
 The inspector lets you see what the server offers and test its capabilities.
 

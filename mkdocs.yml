@@ -45,20 +45,20 @@ theme:
     - toc.follow
     # - toc.integrate
   palette:
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: black
-      accent: indigo
-      toggle:
-        icon: material/brightness-7
-        name: Switch to dark mode
+    # - media: "(prefers-color-scheme: light)"
+    #   scheme: default
+    #   primary: black
+    #   accent: indigo
+    #   toggle:
+    #     icon: material/brightness-7
+    #     name: Switch to dark mode
     - media: "(prefers-color-scheme: dark)"
       scheme: slate
       primary: black
       accent: cyan
-      toggle:
-        icon: material/brightness-4
-        name: Switch to light mode
+      # toggle:
+      #   icon: material/brightness-4
+      #   name: Switch to light mode
   font:
     text: Roboto
     code: Roboto Mono
@@ -144,11 +144,10 @@ not_in_nav: |
   /tutorials/**/*.md
 
 # Page tree
-
 nav:
   - Home: index.md
   - Prompt Engineering:
-      - Introduciton: PromptEngineering/README.md
+      - Whats Prompting?: PromptEngineering/README.md
       - Understanding OpenAI API: PromptEngineering/Understanding_OpenAI_API.md
       - Basic Prompt Engineering: PromptEngineering/Basic_Prompting.md
       - Advance Prompt Engineering: PromptEngineering/Advanced_Prompting.md
@@ -156,92 +155,92 @@ nav:
       - Function Calling: PromptEngineering/function_calling.ipynb
       - Hands on with Adv Prompting: PromptEngineering/hand_on_with_advanced_prompt_engineering.md
   - RAG:
-      - Introduction: RAG/README.md
+      - Everything about RAG: RAG/README.md
       - Embedding and Similarity:
-          - Introduction: RAG/00_RAG_from_Scratch/Understanding_embeddings_and_similarity.ipynb
+          - What are Embeddings: RAG/00_RAG_from_Scratch/Understanding_embeddings_and_similarity.ipynb
       - RAG Techniques:
           - RAG from Scratch:
-              - Overview: RAG/00_RAG_from_Scratch/README.md
-              - Implementation: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
+              - RAG for Noobs: RAG/00_RAG_from_Scratch/README.md
+              - RAG from Scratch: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
           - Basic RAG:
-              - Overview: RAG/01_Basic_RAG/README.md
-              - Implementation: RAG/01_Basic_RAG/notebook.ipynb
-              - Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
+              - Intro to RAG: RAG/01_Basic_RAG/README.md
+              - Hands on with RAG: RAG/01_Basic_RAG/notebook.ipynb
+              - RAG Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
           - BM25 RAG:
-              - Overview: RAG/01_BM25_RAG/README.md
-              - Implementation: RAG/01_BM25_RAG/notebook.ipynb
+              - intro to BM25: RAG/01_BM25_RAG/README.md
+              - BM25(scratch): RAG/01_BM25_RAG/notebook.ipynb
           - Data Ingestion:
-              - Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
-              - Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb
-              - Data Ingestion: RAG/01_Data_Ingestion/data_ingestion.ipynb
+              - RAG Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
+              - RAG  Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb
+              - RAG  Data Ingestion: RAG/01_Data_Ingestion/data_ingestion.ipynb
           - RAG Evaluation:
-              - Overview: RAG/01_RAG_Evaluation/README.md
+              - Intro to Evals: RAG/01_RAG_Evaluation/README.md
               - RAGAS: RAG/01_RAG_Evaluation/RAGAS.ipynb
               - DeepEval: RAG/01_RAG_Evaluation/deepeval.ipynb
               - TruLens: RAG/01_RAG_Evaluation/trulens.ipynb
               - Notebook: RAG/01_RAG_Evaluation/notebook.ipynb
           - RAG Observability:
-              - Overview: RAG/01_RAG_Observability/README.md
-              - Implementation: RAG/01_RAG_Observability/notebook.ipynb
+              - Intro to Observability: RAG/01_RAG_Observability/README.md
+              - Observability(Arize Phoenix): RAG/01_RAG_Observability/notebook.ipynb
           - ReRanker RAG:
-              - Implementation: RAG/02_ReRanker_RAG/notebook.ipynb
-              - Evaluation: RAG/02_ReRanker_RAG/notebook_eval.ipynb
+              - ReRanker RAG(Llamaindex): RAG/02_ReRanker_RAG/notebook.ipynb
+              - Evaluation(RAGAS): RAG/02_ReRanker_RAG/notebook_eval.ipynb
           - Hybrid RAG:
               - Qdrant Hybrid Search: RAG/03_Hybrid_RAG/_Qdrant_Hybrid_Search.ipynb
-              - Implementation: RAG/03_Hybrid_RAG/qdrant_hybrid.ipynb
+              - Hybrid RAG(Llamaindex): RAG/03_Hybrid_RAG/qdrant_hybrid.ipynb
           - Sentence Window RAG:
-              - Implementation: RAG/04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb
+              - Sentence Window RAG(Llamaindex): RAG/04_Sentence_Window_RAG/Sentence_window_retrieval.ipynb
           - Auto Merging RAG:
-              - Implementation: RAG/05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb
+              - AutoMerging RAG(Llamaindex): RAG/05_Auto_Merging_RAG/Auto-merging_Retrieval.ipynb
           - HyDE RAG:
-              - Implementation: RAG/06_HyDE_RAG/HyDEQueryTransformDemo.ipynb
+              - HyDE RAG(Llamaindex): RAG/06_HyDE_RAG/HyDEQueryTransformDemo.ipynb
           - Query Transformation RAG:
-              - Implementation: RAG/06_Query_Transformation_RAG/query_transform_cookbook.ipynb
+              - Query Transformation(Llamaindex): RAG/06_Query_Transformation_RAG/query_transform_cookbook.ipynb
           - Self Query RAG:
-              - Implementation: RAG/07_Self_Query_RAG/Self_Query_RAG.ipynb
+              - Self Query RAG(Llamaindex): RAG/07_Self_Query_RAG/Self_Query_RAG.ipynb
           - RAG Fusion:
-              - Implementation: RAG/08_RAG_Fusion/ragfusion.ipynb
+              - RAG Fusion(Llamaindex): RAG/08_RAG_Fusion/ragfusion.ipynb
           - RAPTOR:
-              - Implementation: RAG/09_RAPTOR/raptor.ipynb
+              - RAPTOR(Llamaindex): RAG/09_RAPTOR/raptor.ipynb
           - ColBERT RAG:
-              - Implementation: RAG/10_ColBERT_RAG/ColBert_RAG.ipynb
-              - Ragatouille Retriever: RAG/10_ColBERT_RAG/ragatouille_retriever.ipynb
+              - ColBERT(Llamaindex): RAG/10_ColBERT_RAG/ColBert_RAG.ipynb
+              - Colbert(Ragatouille Retriever): RAG/10_ColBERT_RAG/ragatouille_retriever.ipynb
           - Graph RAG:
-              - Implementation: RAG/11_Graph_RAG/GraphRAG_v1.ipynb
+              - Graph RAG(Microsoft): RAG/11_Graph_RAG/GraphRAG_v1.ipynb
           - Agentic RAG:
-              - Implementation: RAG/12_Agnetic_RAG/multi_document_agents.ipynb
+              - Agentic RAG(Llamaindex): RAG/12_Agnetic_RAG/multi_document_agents.ipynb
           - Vision RAG:
-              - Implementation: RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
+              - Visison RAG(Llamaindex): RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
   - LLM:
-      - Introduction: LLM/README.md
+      - All about LLMs: LLM/README.md
       - Finetuning Techniques:
-          - PreTraining: LLM/TheoryBehindFinetuning/PreTrain.md
+          - PreTraining LLMs: LLM/TheoryBehindFinetuning/PreTrain.md
           - SFT:
-              - Theory: LLM/TheoryBehindFinetuning/SFT.md
-              - Hands on: LLM/HandsOnWithFinetuning/SFT/SFT.md
-              - Implementation: LLM/HandsOnWithFinetuning/SFT/SFT_finetuning_notebook.ipynb
-          - PPO: LLM/TheoryBehindFinetuning/PPO.md
-          - DPO: LLM/TheoryBehindFinetuning/DPO.md
-          - ORPO: LLM/TheoryBehindFinetuning/ORPO.md
-          - GRPO:
-              - Theory: LLM/TheoryBehindFinetuning/GRPO.md
-              - Hands on: LLM/HandsOnWithFinetuning/GRPO/hacker_guide_to_GRPO.md
-              - Implementation: LLM/HandsOnWithFinetuning/GRPO/Qwen_0_5b__GRPO.ipynb
+              - Theory behind SFT: LLM/TheoryBehindFinetuning/SFT.md
+              - Hands on with SFT: LLM/HandsOnWithFinetuning/SFT/SFT.md
+              - Finetune Any LLM with SFT: LLM/HandsOnWithFinetuning/SFT/SFT_finetuning_notebook.ipynb
+          - PPO(Proximal Policy Optimization): LLM/TheoryBehindFinetuning/PPO.md
+          - DPO(Direct Preference Optimization): LLM/TheoryBehindFinetuning/DPO.md
+          - ORPO(Odds Ratio Preference Optimization): LLM/TheoryBehindFinetuning/ORPO.md
+          - GRPO(Group Relative Policy Optimization):
+              - Theory Behind GRPO: LLM/TheoryBehindFinetuning/GRPO.md
+              - Hands on with GRPO: LLM/HandsOnWithFinetuning/GRPO/hacker_guide_to_GRPO.md
+              - Qwen 0.6 with GRPO: LLM/HandsOnWithFinetuning/GRPO/Qwen_0_5b__GRPO.ipynb
       - LLM Finetuning Hands on:
           - Gemma:
-              - Overview: LLM/Gemma/README.md
-              - Implementation: LLM/Gemma/Gemma_finetuning_notebook.ipynb
+              - Finetune Gemma Overview: LLM/Gemma/README.md
+              - Finetune Gemma: LLM/Gemma/Gemma_finetuning_notebook.ipynb
           - Llama2:
-              - Implementation: LLM/LLama2/Llama2_finetuning_notebook.ipynb
-              - QLora: LLM/LLama2/Llama_2_Fine_Tuning_using_QLora.ipynb
+              - Finetune LLama 2: LLM/LLama2/Llama2_finetuning_notebook.ipynb
+              - Finetune LLama 2(QLoRA): LLM/LLama2/Llama_2_Fine_Tuning_using_QLora.ipynb
           - Llama3:
-              - Implementation: LLM/Llama3_finetuning_notebook.ipynb
+              - Finetune LLama 3: LLM/Llama3_finetuning_notebook.ipynb
           - Mistral:
-              - Overview: LLM/Mistral-7b/README.md
-              - Implementation: LLM/Mistral-7b/Mistral_finetuning_notebook.ipynb
-              - Evaluation: LLM/Mistral-7b/LLM_evaluation_harness_for_Arc_Easy_and_SST.ipynb
-              - DPO Fine-tuning: LLM/Mistral-7b/notebooks_DPO_fine_tuning.ipynb
-              - SFT Trainer: LLM/Mistral-7b/notebooks_SFTTrainer TRL.ipynb
+              - Finetune Mistral: LLM/Mistral-7b/README.md
+              - Finetune Mistral: LLM/Mistral-7b/Mistral_finetuning_notebook.ipynb
+              - Evaluation Mistral: LLM/Mistral-7b/LLM_evaluation_harness_for_Arc_Easy_and_SST.ipynb
+              - DPO Fine-tuning Mistral: LLM/Mistral-7b/notebooks_DPO_fine_tuning.ipynb
+              - SFT Trainer Mistral: LLM/Mistral-7b/notebooks_SFTTrainer TRL.ipynb
               - ChatML Inference: LLM/Mistral-7b/notebooks_chatml_inference.ipynb
               - Mixtral: LLM/Mixtral/Mixtral_fine_tuning.ipynb
       - VLM:
@@ -259,12 +258,12 @@ nav:
   - Agents:
       - Overview: Agents/README.md
       - Patterns:
-          - Reflection Pattern: Agents/patterns/reflection_pattern.ipynb
-          - Tool Pattern: Agents/patterns/tool_pattern.ipynb
-          - Planning Pattern: Agents/patterns/planning_pattern.ipynb
-          - Multi-Agent Pattern: Agents/patterns/multiagent_pattern.ipynb
+          - Agent Reflection Pattern: Agents/patterns/reflection_pattern.ipynb
+          - Agent Tool Pattern: Agents/patterns/tool_pattern.ipynb
+          - Agent Planning Pattern: Agents/patterns/planning_pattern.ipynb
+          - Agent Multi-Agent Pattern: Agents/patterns/multiagent_pattern.ipynb
       - MCP:
-          - Introduction: Agents/MCP/README.md
+          - Beginners Guide to MCP: Agents/MCP/BegineersGuideToMCP.md
           - Build MCP Server: Agents/MCP/CreateMCPServe.md
       - Projects:
           - Multi-Document Agents: Agents/projects/multi_document_agents.ipynb

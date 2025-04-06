@@ -21,3 +21,4 @@ openai
 typer
 instructor
 python-dotenv
+mkdocs-git-revision-date-localized-plugin

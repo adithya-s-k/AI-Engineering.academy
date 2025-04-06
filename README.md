@@ -123,10 +123,9 @@ Apply your knowledge through hands-on projects
 
 <p align="center">
   <h3>📈 Project Growth</h3>
-  <a href="https://adithyask.com">
     <img src="https://api.star-history.com/svg?repos=adithya-s-k/AI-Engineering.academy&type=Date" alt="Star History Chart">
-  </a>
 </p>
+
 
 ## 🤝 Contributing
 

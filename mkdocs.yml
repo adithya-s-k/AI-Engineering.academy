@@ -165,11 +165,12 @@ nav:
               - RAG from Scratch: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
           - Basic RAG:
               - Intro to RAG: RAG/01_Basic_RAG/README.md
-              - Hands on with RAG: RAG/01_Basic_RAG/notebook.ipynb
+              - Basic RAG from Scratch: RAG/01_Basic_RAG/basic_rag_scratch.ipynb
+              - Hands on with RAG(llamaindex): RAG/01_Basic_RAG/notebook.ipynb
               - RAG Evaluation: RAG/01_Basic_RAG/notebook_eval.ipynb
           - BM25 RAG:
               - intro to BM25: RAG/01_BM25_RAG/README.md
-              - BM25(scratch): RAG/01_BM25_RAG/notebook.ipynb
+              - BM25(llamaindex): RAG/01_BM25_RAG/notebook.ipynb
           - Data Ingestion:
               - RAG Data Chunking: RAG/01_Data_Ingestion/data_chunking.ipynb
               - RAG  Data Embedding: RAG/01_Data_Ingestion/data_embedding.ipynb

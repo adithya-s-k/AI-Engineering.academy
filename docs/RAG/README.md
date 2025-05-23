@@ -8,7 +8,7 @@ Welcome to the comprehensive guide for implementing RAG systems! This repository
 
 #### Fundamentals
 
-1.  [**RAG from Scratch**](./00_RAG_from_Scratch/)
+1.  [**RAG from Scratch**](./00_RAG_Base/)
 
         - Complete implementation guide from ground up
         - RAG in 10 lines of code
@@ -181,7 +181,7 @@ Welcome to the RAG System Roadmap! RAG systems are gaining traction in natural l
 
 | ⭐ Module Name | 📝 Description |
 |-------------|-------------|
-| [00_RAG_from_Scratch](./00_RAG_from_Scratch) | A comprehensive guide or approach to building RAG systems from the ground up, covering all aspects of RAG implementation. |
+| [00_RAG_Base](./00_RAG_Base) | A comprehensive guide or approach to building RAG systems from the ground up, covering all aspects of RAG implementation. |
 | [01_Basic_RAG](./01_Basic_RAG) | A fundamental implementation of retrieval-augmented generation, combining a retrieval system with a language model. |
 | [01_BM25_RAG](./01_BM25_RAG) | Utilizes the BM25 algorithm for retrieval, effective for keyword-based retrieval in RAG systems. |
 | [01_Data_Ingestion](./01_Data_Ingestion) | Focuses on preparing and importing data into the system, including cleaning, formatting, and indexing. |

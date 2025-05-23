@@ -510,7 +510,7 @@ PromptEngineering\hand_on_with_advanced_prompt_engineering.md:
     learning", "zero-shot prompting", "ethical AI"]
 
     ```'
-RAG\00_RAG_from_Scratch\README.md:
+RAG\00_RAG_Base\README.md:
   hash: 3978a3e6fe96a1c0586558111c9707e6
   summary:
     "```yaml\ndescription: \"Learn to build a Retrieval-Augmented Generation\

@@ -158,11 +158,11 @@ nav:
   - RAG:
       - Everything about RAG: RAG/README.md
       - Embedding and Similarity:
-          - What are Embeddings: RAG/00_RAG_from_Scratch/Understanding_embeddings_and_similarity.ipynb
+          - What are Embeddings: RAG/00_RAG_Base/Understanding_embeddings_and_similarity.ipynb
       - RAG Techniques:
           - RAG from Scratch:
-              - RAG for Noobs: RAG/00_RAG_from_Scratch/README.md
-              - RAG from Scratch: RAG/00_RAG_from_Scratch/RAG_in_10_lines.ipynb
+              - RAG for Noobs: RAG/00_RAG_Base/README.md
+              - RAG from Scratch: RAG/00_RAG_Base/RAG_in_10_lines.ipynb
           - Basic RAG:
               - Intro to RAG: RAG/01_Basic_RAG/README.md
               - Basic RAG from Scratch: RAG/01_Basic_RAG/basic_rag_scratch.ipynb

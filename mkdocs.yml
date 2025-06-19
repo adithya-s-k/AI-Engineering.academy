@@ -213,6 +213,8 @@ nav:
               - Agentic RAG(Llamaindex): RAG/12_Agnetic_RAG/multi_document_agents.ipynb
           - Vision RAG:
               - Visison RAG(Llamaindex): RAG/13_Vision_RAG/gpt4v_multi_modal_retrieval.ipynb
+          - CAG:
+              - Cache Augmented Generation(CAG): RAG/14_CAG/CAG.ipynb
   - LLM:
       - All about LLMs: LLM/README.md
       - Finetuning Techniques:

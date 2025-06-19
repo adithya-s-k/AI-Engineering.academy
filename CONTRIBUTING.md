@@ -78,6 +78,9 @@ Our documentation is built using MkDocs with the Material theme. To compile and 
    pip install -r requirements.txt
    ```
 
+   If you are a Windows user, ensure that you download GTK3-Windows-Runtime-Environment, which can be downloaded from the below link.
+   `https://github.com/tschoonj/GTK-for-Windows-Runtime-Environment-Installer/releases`
+
 3. **Run the Local Server**:
    Start the MkDocs development server:
    ```bash

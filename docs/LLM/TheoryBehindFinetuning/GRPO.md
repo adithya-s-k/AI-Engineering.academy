@@ -38,46 +38,34 @@ To address these limitations, Group Relative Policy Optimization (GRPO) was intr
 
 GRPO addresses PPO's limitations by introducing a novel reinforcement learning algorithm that simplifies advantage estimation and reduces memory usage. The key innovation lies in its approach to advantage calculation: instead of relying on a separate value function network, GRPO generates multiple responses for each prompt and uses the mean reward of these responses as the baseline. This group-based method reduces variance in advantage estimates and significantly lowers memory usage, making it suitable for training large models on resource-constrained hardware.
 
-GRPO was first applied in the training of DeepSeek R1, an open-source model challenging OpenAI’s o1 in advanced reasoning, as noted in various analyses ([DeepSeek R1: Understanding GRPO and Multi-Stage Training | by BavalpreetSinghh | Jan, 2025 | Artificial Intelligence in Plain English](https://ai.plainenglish.io/deepseek-r1-understanding-grpo-and-multi-stage-training-5e0bbc28a281?gi=19b30e60eaaa)). Its effectiveness in improving performance on benchmarks like GSM8K and MATH highlights its potential to revolutionize LLM training for reasoning tasks.
+GRPO was first applied in the training of DeepSeek R1, an open-source model challenging OpenAI's o1 in advanced reasoning, as noted in various analyses ([DeepSeek R1: Understanding GRPO and Multi-Stage Training | by BavalpreetSinghh | Jan, 2025 | Artificial Intelligence in Plain English](https://ai.plainenglish.io/deepseek-r1-understanding-grpo-and-multi-stage-training-5e0bbc28a281?gi=19b30e60eaaa)). Its effectiveness in improving performance on benchmarks like GSM8K and MATH highlights its potential to revolutionize LLM training for reasoning tasks.
 
 **Mathematical Formulation of GRPO**
 
 To understand GRPO's mechanics, consider the following formulation, as detailed in resources like The Math Behind DeepSeek: A Deep Dive into Group Relative Policy Optimization (GRPO) | by Sahin Ahmed, Data Scientist | Jan, 2025 | Medium:
 
-- For each prompt , generate responses , where .
-  `s_j`
-  `K_j`
-  `a_{jk}`
-  `k = 1, 2, ..., K_j`
-- Each response is scored using a reward model, yielding a reward .
-  `a_{jk}`
-  `R_{jk}`
-- Calculate the mean reward for the group, .
-  `\bar{R}_j = \frac{1}{K_j} \sum_{k=1}^{K_j} R_{jk}`
-- The advantage for each response is , reflecting how much better or worse the response is compared to the group average.
-  `A_{jk} = R_{jk} - \bar{R}_j`
+- For each prompt $s_j$, generate $K_j$ responses $a_{jk}$, where $k = 1, 2, ..., K_j$.
+- Each response $a_{jk}$ is scored using a reward model, yielding a reward $R_{jk}$.
+- Calculate the mean reward for the group: 
+  $$\bar{R}_j = \frac{1}{K_j} \sum_{k=1}^{K_j} R_{jk}$$
+- The advantage for each response is $A_{jk} = R_{jk} - \bar{R}_j$, reflecting how much better or worse the response is compared to the group average.
 
 The policy update is guided by the following loss function:
 
-`\mathcal{L} = - \sum_{j=1}^M \sum_{k=1}^{K_j} \left( \frac{\pi_{\theta}(a_{jk} | s_j)}{\pi_{\theta_{\text{old}}}(a_{jk} | s_j)} A_{jk} \right) + \beta \sum_{j=1}^M \text{KL}(\pi_{\theta}( \cdot | s_j) || \pi_{\theta_{\text{old}}}( \cdot | s_j))`
+$$\mathcal{L} = - \sum_{j=1}^M \sum_{k=1}^{K_j} \left( \frac{\pi_{\theta}(a_{jk} | s_j)}{\pi_{\theta_{\text{old}}}(a_{jk} | s_j)} A_{jk} \right) + \beta \sum_{j=1}^M \text{KL}(\pi_{\theta}( \cdot | s_j) || \pi_{\theta_{\text{old}}}( \cdot | s_j))$$
 
 Here:
 
-- `M` is the number of prompts.
-- `\pi_{\theta}` is the new policy parameterized by .
-  `\theta`
-- `\pi_{\theta_{\text{old}}}` is the old policy.
-- `\beta` is a coefficient controlling the strength of the KL divergence penalty, ensuring the new policy doesn't deviate too far from the old one for stability.
+- $M$ is the number of prompts.
+- $\pi_{\theta}$ is the new policy parameterized by $\theta$.
+- $\pi_{\theta_{\text{old}}}$ is the old policy.
+- $\beta$ is a coefficient controlling the strength of the KL divergence penalty, ensuring the new policy doesn't deviate too far from the old one for stability.
 
-The importance ratio
+The importance ratio:
 
-`\frac{\pi_{\theta}(a_{jk} | s_j)}{\pi_{\theta_{\text{old}}}(a_{jk} | s_j)}`
+$$\frac{\pi_{\theta}(a_{jk} | s_j)}{\pi_{\theta_{\text{old}}}(a_{jk} | s_j)}$$
 
-for a sequence
-
-`a_{jk}`
-
-is computed as the product of the ratios for each token in the sequence, reflecting the policy's probability distribution over the entire response.
+for a sequence $a_{jk}$ is computed as the product of the ratios for each token in the sequence, reflecting the policy's probability distribution over the entire response.
 
 **Implementation Steps of GRPO**
 
@@ -86,19 +74,14 @@ Implementing GRPO involves the following steps, as observed in its application t
 1. **Data Preparation**: Collect a batch of prompts, typically in chain-of-thought format for reasoning tasks, such as questions from GSM8K and MATH datasets.
 2. **Response Generation**: For each prompt, generate multiple responses (e.g., 64 samples per question, as used in DeepSeekMath) using the current policy, with a maximum length of 1024 tokens.
 3. **Reward Scoring**: Use a reward model to assign rewards to each response. The reward model, initially trained on a base model like DeepSeekMath-Base 7B with a learning rate of 2e-5, evaluates response quality based on accuracy and formatting, as noted in AWS | Community | Deep dive into Group Relative Policy Optimization (GRPO).
-4. **Advantage Calculation**: For each prompt, calculate the mean reward of its responses and compute the advantage for each response.
-
-   `\bar{R}_j`
-
-   `A_{jk} = R_{jk} - \bar{R}_j`
-
+4. **Advantage Calculation**: For each prompt, calculate the mean reward $\bar{R}_j$ of its responses and compute the advantage for each response: $A_{jk} = R_{jk} - \bar{R}_j$
 5. **Policy Update**: Update the policy parameters to minimize the loss function, with a learning rate of 1e-6 for the policy model, a KL coefficient of 0.04, and a batch size of 1024. Perform a single update per exploration stage to ensure stability, as seen in the training details of DeepSeek R1 ([DeepSeek R1: Understanding GRPO and Multi-Stage Training | by BavalpreetSinghh | Jan, 2025 | Artificial Intelligence in Plain English](https://ai.plainenglish.io/deepseek-r1-understanding-grpo-and-multi-stage-training-5e0bbc28a281?gi=19b30e60eaaa)).
 
 This process is iterative, with GRPO improving the model by leveraging data generated during training, making it an online learning algorithm.
 
 **Comparison with Other Policy Optimization Methods**
 
-To contextualize GRPO, compare it with other methods, as summarized in the following table based on insights from [A vision researcher’s guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/) and [r/ChatGPTPro on Reddit: GRPO (Group Relative Policy Optimization) explanation compared to PPO](https://www.reddit.com/r/ChatGPTPro/comments/1ibph6u/grpo_group_relative_policy_optimization/):
+To contextualize GRPO, compare it with other methods, as summarized in the following table based on insights from [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/) and [r/ChatGPTPro on Reddit: GRPO (Group Relative Policy Optimization) explanation compared to PPO](https://www.reddit.com/r/ChatGPTPro/comments/1ibph6u/grpo_group_relative_policy_optimization/):
 
 | **Method** | **Value Function** | **Advantage Estimation**                     | **Stability Mechanism**        | **Memory Usage**             |
 | ---------- | ------------------ | -------------------------------------------- | ------------------------------ | ---------------------------- |
@@ -114,7 +97,7 @@ To contextualize GRPO, compare it with other methods, as summarized in the follo
 
 **Case Study: Application in DeepSeek R1**
 
-DeepSeek R1, an open-source model challenging OpenAI’s o1 in advanced reasoning, utilized GRPO to achieve remarkable results. Introduced in the DeepSeekMath paper, GRPO was applied to DeepSeekMath-Instruct 7B, using a subset of English instruction tuning data (~144K questions). The training details included:
+DeepSeek R1, an open-source model challenging OpenAI's o1 in advanced reasoning, utilized GRPO to achieve remarkable results. Introduced in the DeepSeekMath paper, GRPO was applied to DeepSeekMath-Instruct 7B, using a subset of English instruction tuning data (~144K questions). The training details included:
 
 - Learning rate for policy model: 1e-6
 - KL coefficient: 0.04
@@ -142,7 +125,7 @@ These results highlight GRPO's effectiveness in enhancing mathematical reasoning
 **Potential Disadvantages**:
 
 - **Variance in Group Rewards**: If the group size is small, the mean reward might not be a good estimator, leading to higher variance, as mentioned in community discussions ([r/ChatGPTPro on Reddit: GRPO (Group Relative Policy Optimization) explanation compared to PPO](https://www.reddit.com/r/ChatGPTPro/comments/1ibph6u/grpo_group_relative_policy_optimization/)).
-- **Dependence on Reward Model**: The quality of the reward model is critical, as inaccurate rewards can affect performance, a concern highlighted in [A vision researcher’s guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/).
+- **Dependence on Reward Model**: The quality of the reward model is critical, as inaccurate rewards can affect performance, a concern highlighted in [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/).
 
 **Conclusion and Future Directions**
 
@@ -157,5 +140,5 @@ This comprehensive analysis provides a detailed understanding of GRPO, from its 
 - [DeepSeek R1: Understanding GRPO and Multi-Stage Training | by BavalpreetSinghh | Jan, 2025 | Artificial Intelligence in Plain English](https://ai.plainenglish.io/deepseek-r1-understanding-grpo-and-multi-stage-training-5e0bbc28a281?gi=19b30e60eaaa)
 - [The Math Behind DeepSeek: A Deep Dive into Group Relative Policy Optimization (GRPO) | by Sahin Ahmed, Data Scientist | Jan, 2025 | Medium](https://medium.com/@sahin.samia/the-math-behind-deepseek-a-deep-dive-into-group-relative-policy-optimization-grpo-8a75007491ba)
 - [A Deep Dive into Group Relative Policy Optimization (GRPO) Method: Enhancing Mathematical Reasoning in Open Language Models - MarkTechPost](https://www.marktechpost.com/2024/06/28/a-deep-dive-into-group-relative-policy-optimization-grpo-method-enhancing-mathematical-reasoning-in-open-language-models/)
-- [A vision researcher’s guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/)
+- [A vision researcher's guide to some RL stuff: PPO & GRPO - Yuge (Jimmy) Shi](https://yugeten.github.io/posts/2025/01/ppogrpo/)
 - [r/ChatGPTPro on Reddit: GRPO (Group Relative Policy Optimization) explanation compared to PPO](https://www.reddit.com/r/ChatGPTPro/comments/1ibph6u/grpo_group_relative_policy_optimization/)

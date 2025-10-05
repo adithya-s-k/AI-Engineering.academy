@@ -1,136 +1,162 @@
-# Training NanoGPT on Modal: Character-Level Language Modeling
+# Training NanoGPT on Modal: Your First GPU Training Pipeline
 
 📄 **[View Complete Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/TrainNanoGPTModal.py)**
 
-This tutorial walks you through training a character-level GPT model using Andrej Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT) on Modal's serverless GPU infrastructure. We'll train on the Shakespeare dataset and generate text samples.
+So you want to train a GPT model but don't want to deal with the headache of setting up infrastructure? Let me show you how I do it with Modal and nanoGPT.
 
-## Why NanoGPT on Modal?
+## Why Start with NanoGPT?
 
-**NanoGPT** is an excellent educational implementation of GPT that's simple, clean, and fast. It's perfect for understanding transformer training from scratch.
+Here's the thing about nanoGPT - if you've ever wondered how GPT actually works under the hood, this is the best place to start. Andrej Karpathy built this as an educational implementation that's simple enough to understand but powerful enough to actually train real models.
 
-**Modal** lets you run this training on powerful GPUs without managing infrastructure—write code locally, execute remotely.
+It's only ~300 lines of clean PyTorch code. No abstractions hiding what's really happening. Just pure, understandable transformer training.
 
-## What You'll Learn
+And honestly? It's become the go-to for anyone learning how to train language models from scratch. Plus, since it's just a regular Python repo, it's perfect for showing you how to take *any* existing codebase and run it on Modal's GPUs.
 
-- Setting up Modal for GPU training
-- Running existing codebases (nanoGPT) on Modal with minimal changes
-- Managing data preparation, training, and inference as separate functions
-- Using Modal volumes for persistent storage
+Think of this as your "Hello World" for GPU training on Modal. Once you get this working, you'll know how to run pretty much anything on serverless GPUs.
 
----
+## What We're Building
 
-## Prerequisites
+We'll train a character-level GPT on Shakespeare's collected works (because why not make our model speak like the Bard?). The pipeline has three stages:
 
-### 1. Install Modal
+1. **Prep the data** - Download and tokenize Shakespeare (runs on CPU, saves money)
+2. **Train the model** - Fire up a GPU and train our tiny GPT
+3. **Generate text** - Watch our model write Shakespeare-esque text
+
+The best part? You write all this code locally, and with one command, it runs on a beefy A100 GPU in the cloud. No SSH, no Docker, no infrastructure headaches.
+
+## Getting Set Up
+
+### Install Modal
+
+First things first:
 
 ```bash
 pip install modal
 ```
 
-### 2. Authenticate with Modal
+### Authenticate
+
+Then authenticate (only need to do this once):
 
 ```bash
 modal setup
 ```
 
-Or use API keys:
+This opens your browser and handles the OAuth flow. If you're running this in CI/CD or prefer API keys:
 
 ```bash
 export MODAL_TOKEN_ID=<your_token_id>
 export MODAL_TOKEN_SECRET=<your_token_secret>
 ```
 
-### 3. Clone NanoGPT Repository
+### Clone NanoGPT
+
+Now grab nanoGPT. We need it locally because we're going to copy it into our Modal container:
 
 ```bash
 cd /path/to/your/project
 git clone https://github.com/karpathy/nanoGPT.git
 ```
 
-> **Note:** The Modal script expects a `nanoGPT/` directory in the same location as the Python script. The entire directory will be copied into the Modal container image.
-
----
-
-## Project Structure
+Your folder should look like this:
 
 ```
 ServerLessFinetuning/
-├── TrainNanoGPTModal.py    # Your Modal script
-└── nanoGPT/                 # Cloned nanoGPT repository
+├── TrainNanoGPTModal.py    # Your Modal script (we'll create this)
+└── nanoGPT/                 # The cloned repo
     ├── train.py
     ├── sample.py
     ├── data/
-    │   └── shakespeare_char/
-    │       └── prepare.py
     └── config/
-        └── train_shakespeare_char.py
 ```
 
----
+> **Important:** The Modal script needs to see the `nanoGPT/` folder in the same directory. When Modal builds your container image, it'll copy this entire directory into it.
 
 ## Understanding the Modal Script
+
+Alright, let me walk you through how this works. I'll explain each piece and why it matters.
 
 ### App and Volume Setup
 
 ```python
 from modal import App, Image as ModalImage, Volume
 
+# Create the Modal app - this is your project's namespace
 app = App("nanogpt-training")
+
+# Create or get existing volume for persistent storage
+# If "nanogpt-outputs" doesn't exist, Modal creates it for you
 volume = Volume.from_name("nanogpt-outputs", create_if_missing=True)
 
+# Define where to mount the volume in our containers
+# This dict maps container paths to Modal volumes
 VOLUME_CONFIG = {
-    "/data": volume,
+    "/data": volume,  # Mount 'volume' at /data inside the container
 }
 ```
 
-**What's happening:**
-- `App`: Every Modal project starts with an app
-- `Volume`: Persistent storage for model checkpoints and outputs
-- The volume is mounted at `/data` in all functions that use it
+So here's what's happening:
 
-> **💡 Important:** Volumes persist across function calls. Data stored in `/data` will be available even after your function terminates.
+- **App**: Every Modal project needs an app. Think of it as your project container - all your functions live under this app.
+- **Volume**: This is persistent storage that survives across runs. When your GPU instance shuts down (and it will, to save you money), you need somewhere to keep your model checkpoints. Volumes stick around even after your functions finish.
+- **VOLUME_CONFIG**: This dict tells Modal "hey, mount this volume at `/data` in my containers". You can mount multiple volumes at different paths if you want.
 
-### Image Configuration
+The cool thing about volumes? They persist across function calls. So when you train your model and save it to `/data/out`, you can load it later in a completely different function. It just works.
+
+### The Container Image
+
+This is crucial - we need to tell Modal what our container should look like:
 
 ```python
 NANOGPT_IMAGE = (
+    # Start with a lightweight Debian base + Python 3.11
     ModalImage.debian_slim(python_version="3.11")
+
+    # Install all the Python packages nanoGPT needs
+    # Modal uses pip under the hood
     .pip_install(
-        "torch",
-        "numpy",
-        "transformers",
-        "datasets",
-        "tiktoken",
-        "tqdm",
+        "torch",          # PyTorch for the model
+        "numpy",          # Numerical operations
+        "transformers",   # Hugging Face utilities
+        "datasets",       # For loading datasets
+        "tiktoken",       # OpenAI's tokenizer
+        "tqdm",          # Progress bars
     )
+
+    # Copy your local nanoGPT directory into the container
+    # local_path: where it is on your machine
+    # remote_path: where it goes in the container
+    # copy=True: actually copy the files (vs just mounting)
     .add_local_dir(local_path="nanoGPT", remote_path="/root/nanoGPT", copy=True)
+
+    # Set the working directory - all commands run from here
     .workdir("/root/nanoGPT")
 )
 ```
 
-**What's happening:**
-- Starts with Debian slim + Python 3.11
-- Installs PyTorch and dependencies
-- **Copies your local `nanoGPT/` directory into the image** at `/root/nanoGPT`
-- Sets working directory to `/root/nanoGPT`
+Let me break this down:
 
-> **⚠️ Critical:** The `.add_local_dir()` method copies files from your local machine into the container image. Make sure the `nanoGPT` directory exists locally before running!
+1. **Start with a minimal base** - Debian slim keeps things lightweight and fast
+2. **Install dependencies** - Everything nanoGPT needs to run
+3. **Copy your local code** - This is the magic! `.add_local_dir()` takes the nanoGPT repo from your machine and bakes it into the container image
+4. **Set working directory** - So when we run `python train.py`, we're already in `/root/nanoGPT`
 
----
+The first time Modal builds this, it'll take a few minutes (installing PyTorch takes time). But Modal caches the entire image, so every subsequent run is instant. You only rebuild when you change the image definition - like adding a new package or updating nanoGPT.
 
 ## The Three-Stage Pipeline
 
-### Stage 1: Data Preparation
+### Stage 1: Preparing the Data
 
 ```python
 @app.function(
-    image=NANOGPT_IMAGE,
-    timeout=10 * 60,  # 10 minutes
+    image=NANOGPT_IMAGE,      # Use the image we defined above
+    timeout=10 * 60,           # 10 minutes timeout (in seconds)
+    # Notice: No GPU specified! This runs on CPU to save money
 )
 def prepare_data():
     """
-    Prepare the Shakespeare dataset for character-level training.
-    This downloads the data and creates train.bin and val.bin files.
+    Download and prep the Shakespeare dataset.
+    Creates train.bin and val.bin files.
     """
     import subprocess
 
@@ -138,50 +164,62 @@ def prepare_data():
     print("PREPARING SHAKESPEARE DATASET")
     print("=" * 80)
 
-    # Run the prepare script
+    # Run nanoGPT's data preparation script
+    # This downloads Shakespeare text and tokenizes it
     result = subprocess.run(
-        ["python", "data/shakespeare_char/prepare.py"], capture_output=True, text=True
+        ["python", "data/shakespeare_char/prepare.py"],
+        capture_output=True,  # Capture output so we can print it
+        text=True             # Get output as string, not bytes
     )
 
+    # Print what happened
     print(result.stdout)
     if result.stderr:
         print("STDERR:", result.stderr)
 
+    # If the script failed, raise an error
     if result.returncode != 0:
         raise RuntimeError(f"Data preparation failed with code {result.returncode}")
 
     print("✓ Data preparation completed!")
+
+    # Return a dict with status info
+    # (Modal functions can return JSON-serializable data)
     return {"status": "completed", "dataset": "shakespeare_char"}
 ```
 
-**What it does:**
-- Runs on CPU (no GPU needed for data prep)
-- Downloads Shakespeare text dataset
-- Tokenizes and creates `train.bin` and `val.bin` files
-- Files are stored in the image (not volume), so they're available to the training function
+Notice what we're NOT specifying? A GPU. This function runs on CPU because we don't need a GPU just to download and tokenize text. Why pay for GPU time when we don't need it?
 
-> **Note:** No GPU is specified, so this runs on CPU. Perfect for data processing tasks!
+This function:
+1. Downloads the Shakespeare text (~1MB)
+2. Tokenizes it at the character level
+3. Creates `train.bin` and `val.bin` files
+
+These files stay in the container's filesystem (not the volume) since they're small and the training function needs them.
 
 ### Stage 2: Training
 
+Now here's where the fun begins:
+
 ```python
 @app.function(
-    image=NANOGPT_IMAGE,
-    gpu=GPU_TYPE,  # "a100-40gb" by default
-    volumes=VOLUME_CONFIG,
-    timeout=2 * HOURS,
+    image=NANOGPT_IMAGE,           # Our container image with nanoGPT
+    gpu=GPU_TYPE,                   # "a100-40gb" by default - NOW we need a GPU!
+    volumes=VOLUME_CONFIG,          # Mount our volume at /data
+    timeout=2 * HOURS,              # Give it 2 hours max
 )
 def train(
-    max_iters: int = 1000,
-    eval_interval: int = 500,
-    batch_size: int = 64,
-    block_size: int = 256,
-    n_layer: int = 6,
-    n_head: int = 6,
-    n_embd: int = 384,
-    learning_rate: float = 1e-3,
+    # All hyperparameters as function arguments - makes experimenting easy!
+    max_iters: int = 1000,          # How many training steps
+    eval_interval: int = 500,       # Check validation loss every N steps
+    batch_size: int = 64,           # Samples per batch
+    block_size: int = 256,          # Context length (characters)
+    n_layer: int = 6,               # Number of transformer layers
+    n_head: int = 6,                # Attention heads per layer
+    n_embd: int = 384,              # Hidden dimension size
+    learning_rate: float = 1e-3,    # Optimizer learning rate
 ):
-    """Train a character-level GPT on Shakespeare data."""
+    """Train a character-level GPT on Shakespeare."""
     import subprocess
     import os
     import shutil
@@ -190,17 +228,19 @@ def train(
     print("TRAINING NANOGPT ON SHAKESPEARE")
     print("=" * 80)
 
-    # Make sure data is prepared
+    # Safety check: make sure data is prepared
+    # If not, run prepare_data locally in this container
     if not os.path.exists("data/shakespeare_char/train.bin"):
         print("Data not found, preparing it first...")
-        prepare_data.local()
+        prepare_data.local()  # .local() runs in this same container
 
-    # Build training command
+    # Build the training command with all our hyperparameters
+    # We're basically calling: python train.py config.py --max_iters=1000 ...
     cmd = [
         "python",
-        "train.py",
-        "config/train_shakespeare_char.py",
-        f"--max_iters={max_iters}",
+        "train.py",                              # nanoGPT's training script
+        "config/train_shakespeare_char.py",      # Base config file
+        f"--max_iters={max_iters}",              # Override config with our params
         f"--eval_interval={eval_interval}",
         f"--batch_size={batch_size}",
         f"--block_size={block_size}",
@@ -208,30 +248,35 @@ def train(
         f"--n_head={n_head}",
         f"--n_embd={n_embd}",
         f"--learning_rate={learning_rate}",
-        "--out_dir=/data/out",  # Save to volume!
-        "--dataset=shakespeare_char",
-        "--compile=False",
+        "--out_dir=/data/out",                   # Save to volume (persists!)
+        "--dataset=shakespeare_char",            # Which dataset to use
+        "--compile=False",                       # Skip torch.compile for faster startup
     ]
 
     print(f"Running: {' '.join(cmd)}")
+    # Run the training - output streams to console in real-time
     result = subprocess.run(cmd, capture_output=False, text=True)
 
+    # Check if training succeeded
     if result.returncode != 0:
         raise RuntimeError(f"Training failed with code {result.returncode}")
 
-    # Copy meta.pkl to output directory for sampling
+    # Copy meta.pkl (character encoding info) to output dir
+    # We'll need this for sampling later
     meta_src = "data/shakespeare_char/meta.pkl"
     meta_dst = "/data/out/meta.pkl"
     if os.path.exists(meta_src):
         shutil.copy(meta_src, meta_dst)
 
-    # Commit the volume to save the checkpoint
+    # THIS IS CRITICAL - persist everything to the volume!
+    # Without this, your checkpoint disappears when the container shuts down
     volume.commit()
 
     print("\n" + "=" * 80)
     print("✓ Training completed! Model saved to /data/out")
     print("=" * 80)
 
+    # Return info about the training run
     return {
         "status": "completed",
         "max_iters": max_iters,
@@ -239,31 +284,33 @@ def train(
     }
 ```
 
-**Key points:**
-- Runs on A100 GPU (configurable via `GPU_TYPE`)
-- Uses the `/data` volume to persist model checkpoints
-- If data isn't prepared, calls `prepare_data.local()` to run it
-- **`volume.commit()`** is crucial—it saves checkpoint to persistent storage
-- All hyperparameters are exposed as function arguments
+Few things to note here:
 
-> **💾 Volume Commit:** Always call `volume.commit()` after writing files you want to persist!
+1. **GPU specification**: We're requesting an A100-40GB. Modal spins one up just for this function.
+2. **Hyperparameters as arguments**: Makes it super easy to experiment - just pass different values when you call the function.
+3. **`volume.commit()`**: This is crucial! It persists everything you wrote to `/data` back to the volume. Forget this and your checkpoint disappears when the container shuts down.
+4. **Fallback data prep**: If the data isn't ready, we call `prepare_data.local()` to run it first.
 
-### Stage 3: Sampling (Inference)
+The training runs just like it would locally, except it's happening on a beefy GPU in the cloud.
+
+### Stage 3: Generating Samples
+
+Now let's see what our model learned:
 
 ```python
 @app.function(
-    image=NANOGPT_IMAGE,
-    gpu=GPU_TYPE,
-    volumes=VOLUME_CONFIG,
-    timeout=10 * 60,
+    image=NANOGPT_IMAGE,      # Same image as training
+    gpu=GPU_TYPE,              # Need GPU for inference
+    volumes=VOLUME_CONFIG,     # Mount volume to access saved checkpoint
+    timeout=10 * 60,           # 10 minutes should be plenty
 )
 def sample(
-    num_samples: int = 5,
-    max_new_tokens: int = 500,
-    temperature: float = 0.8,
-    start: str = "\n",
+    num_samples: int = 5,           # How many texts to generate
+    max_new_tokens: int = 500,      # Length of each sample
+    temperature: float = 0.8,        # Randomness (0.1=boring, 1.5=wild)
+    start: str = "\n",               # Starting prompt
 ):
-    """Generate text samples from the trained model."""
+    """Generate text samples from our trained model."""
     import subprocess
     import os
     import shutil
@@ -272,38 +319,45 @@ def sample(
     print("GENERATING SAMPLES FROM TRAINED MODEL")
     print("=" * 80)
 
-    # Check if model files exist
+    # Sanity check: make sure the checkpoint exists
+    # (It should be in the volume from training)
     if os.path.exists("/data/out/ckpt.pt"):
         print("✓ Found checkpoint: /data/out/ckpt.pt")
     else:
         print("✗ Checkpoint not found: /data/out/ckpt.pt")
+        # Could raise an error here, but we'll let sample.py handle it
 
-    # Ensure meta.pkl is in the data directory
+    # nanoGPT's sample.py looks for meta.pkl in the data directory
+    # So we need to copy it from the volume to where it expects it
     os.makedirs("data/shakespeare_char", exist_ok=True)
     if os.path.exists("/data/out/meta.pkl") and not os.path.exists(
         "data/shakespeare_char/meta.pkl"
     ):
         shutil.copy("/data/out/meta.pkl", "data/shakespeare_char/meta.pkl")
+        print("✓ Copied meta.pkl to expected location")
 
-    # Build sampling command
+    # Build the sampling command
     cmd = [
         "python",
-        "sample.py",
-        "--out_dir=/data/out",  # Read from volume
-        f"--num_samples={num_samples}",
-        f"--max_new_tokens={max_new_tokens}",
-        f"--temperature={temperature}",
-        f"--start={start}",
-        "--compile=False",
+        "sample.py",                           # nanoGPT's sampling script
+        "--out_dir=/data/out",                 # Where to find the checkpoint
+        f"--num_samples={num_samples}",        # How many samples to generate
+        f"--max_new_tokens={max_new_tokens}",  # Length of each sample
+        f"--temperature={temperature}",         # Sampling temperature
+        f"--start={start}",                    # Starting prompt
+        "--compile=False",                     # Skip compilation
     ]
 
     print(f"Running: {' '.join(cmd)}")
+    # Run sampling and capture output (we want to return it)
     result = subprocess.run(cmd, capture_output=True, text=True)
 
+    # Print the generated text
     print(result.stdout)
     if result.stderr:
         print("STDERR:", result.stderr)
 
+    # Check if sampling succeeded
     if result.returncode != 0:
         raise RuntimeError(f"Sampling failed with code {result.returncode}")
 
@@ -311,166 +365,165 @@ def sample(
     print("✓ Sampling completed!")
     print("=" * 80)
 
+    # Return the generated samples
     return {"status": "completed", "samples": result.stdout}
 ```
 
-**Key points:**
-- Loads checkpoint from `/data/out` (the volume)
-- Copies `meta.pkl` for character encoding
-- Generates samples using trained model
-- Temperature controls randomness (higher = more creative)
-
----
+This loads the checkpoint from our volume and generates text. The `temperature` parameter controls creativity - higher values mean more random (and often more interesting) outputs. At 0.1, the model plays it safe and picks the most likely next character. At 1.5, it gets wild and experimental.
 
 ## Running the Pipeline
 
-### Option 1: Run Everything (Full Pipeline)
+There are two ways to run this:
+
+### Option 1: Run Everything at Once
 
 ```python
-@app.local_entrypoint()
+@app.local_entrypoint()  # This decorator makes it the main entry point
 def main():
-    """Run the complete pipeline: prepare data -> train -> sample"""
+    """Run the complete pipeline: data prep -> train -> sample"""
     print("🚀 Starting nanoGPT pipeline...")
 
-    # Prepare data
+    # Step 1: Prepare data (runs on CPU)
     print("📁 Preparing dataset...")
-    prepare_data.remote()
+    prepare_data.remote()  # .remote() runs this on Modal's infrastructure
 
-    # Train model
+    # Step 2: Train model (runs on GPU)
     print("🏋️ Training model...")
-    train.remote(max_iters=1000, eval_interval=250, batch_size=64)
+    train.remote(
+        max_iters=1000,      # Override default params
+        eval_interval=250,
+        batch_size=64
+    )
 
-    # Generate samples
+    # Step 3: Generate samples (runs on GPU)
     print("✨ Generating samples...")
-    sample.remote(num_samples=3, max_new_tokens=300)
+    sample.remote(
+        num_samples=3,        # Just 3 samples
+        max_new_tokens=300    # 300 characters each
+    )
 
     print("🎉 Pipeline completed!")
 ```
 
-**Run it:**
+Then just:
 
 ```bash
 modal run TrainNanoGPTModal.py
 ```
 
-> **Note:** `.remote()` executes the function on Modal's infrastructure. The full pipeline runs sequentially.
+The `.remote()` calls tell Modal to run these functions on their infrastructure, not locally. Modal handles spinning up containers, mounting volumes, and tearing everything down when done.
 
-### Option 2: Run Individual Steps
+### Option 2: Run Steps Individually
 
-**Prepare data only:**
+Sometimes you want more control:
+
 ```bash
+# Just prepare the data
 modal run TrainNanoGPTModal.py::prepare_data
-```
 
-**Train only:**
-```bash
-modal run TrainNanoGPTModal.py::train
-```
+# Train with custom parameters
+modal run TrainNanoGPTModal.py::train --max-iters=2000 --batch-size=128
 
-**Sample only:**
-```bash
+# Generate samples
 modal run TrainNanoGPTModal.py::sample
 ```
 
-**Custom training parameters:**
-```bash
-modal run TrainNanoGPTModal.py::train --max-iters=2000 --batch-size=128 --learning-rate=0.0003
-```
+This is great for experimentation. You can prepare data once, then train multiple times with different hyperparameters.
 
----
+## Playing with Configuration
 
-## Configuration Options
-
-### GPU Type
+### GPU Types
 
 ```python
-GPU_TYPE = "a100-40gb"  # Options: "a100-40gb", "a100-80gb", "l40s", "t4"
+GPU_TYPE = "a100-40gb"  # Default - fast and powerful
 ```
 
-- **T4**: Budget option, good for testing
-- **L40S**: Great price/performance
-- **A100-40GB**: Fast training
-- **A100-80GB**: For larger models
+Your options:
+- **T4**: ~$0.50/hr - Great for testing, slower training
+- **L40S**: ~$1/hr - Good price/performance balance
+- **A100-40GB**: ~$2.50/hr - Fast training
+- **A100-80GB**: ~$3.50/hr - For larger models
+
+For testing nanoGPT, honestly a T4 is fine. Switch to A100 when you're doing real runs.
 
 ### Training Hyperparameters
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `max_iters` | 1000 | Number of training iterations |
-| `eval_interval` | 500 | Evaluate every N steps |
-| `batch_size` | 64 | Batch size for training |
-| `block_size` | 256 | Context length (max sequence length) |
+| Parameter | Default | What it does |
+|-----------|---------|--------------|
+| `max_iters` | 1000 | How many training steps |
+| `eval_interval` | 500 | Check validation loss every N steps |
+| `batch_size` | 64 | Samples per batch |
+| `block_size` | 256 | Context length (chars the model sees) |
 | `n_layer` | 6 | Number of transformer layers |
-| `n_head` | 6 | Number of attention heads |
-| `n_embd` | 384 | Embedding dimension |
-| `learning_rate` | 1e-3 | Learning rate |
+| `n_head` | 6 | Attention heads per layer |
+| `n_embd` | 384 | Hidden dimension size |
+| `learning_rate` | 1e-3 | Step size for optimizer |
+
+Want to train faster? Reduce `max_iters` to 100 while testing. Want better results? Increase `n_layer` and `n_embd` (but you'll need more memory).
 
 ### Sampling Parameters
 
-| Parameter | Default | Description |
-|-----------|---------|-------------|
-| `num_samples` | 5 | How many text samples to generate |
+| Parameter | Default | What it does |
+|-----------|---------|--------------|
+| `num_samples` | 5 | How many texts to generate |
 | `max_new_tokens` | 500 | Length of each sample |
-| `temperature` | 0.8 | Sampling temperature (0.1-1.5) |
+| `temperature` | 0.8 | Randomness (0.1=boring, 1.5=wild) |
 | `start` | "\n" | Starting prompt |
 
----
+## Local vs Remote Execution
 
-## Running Locally vs. Modal
-
-### Local Execution
+Inside your functions, you can choose where things run:
 
 ```python
-# Inside the function, call .local() instead of .remote()
-prepare_data.local()  # Runs on your local machine
+# Run locally on your machine
+prepare_data.local()
+
+# Run remotely on Modal
+prepare_data.remote()
 ```
 
-### Remote Execution (Modal)
+**Use local when:**
+- Debugging
+- Testing small changes
+- You have a GPU locally and want to use it
 
-```python
-prepare_data.remote()  # Runs on Modal's infrastructure
-```
+**Use remote when:**
+- Production training
+- You need specific GPU types
+- You don't want to manage infrastructure (most of the time!)
 
-> **When to use local:**
-> - Debugging
-> - Testing small changes
-> - When you have local GPU
->
-> **When to use remote:**
-> - Production training
-> - Need specific GPU types
-> - Don't want to manage infrastructure
+## Adding Secrets
 
----
+Need Hugging Face tokens or WandB API keys?
 
-## Environment Variables and Secrets
+### Option 1: .env file
 
-If you need Hugging Face access or other secrets:
-
-### Create a .env file
+Create a `.env` file:
 
 ```bash
 HF_TOKEN=your_huggingface_token
 WANDB_API_KEY=your_wandb_key
 ```
 
-### Update the function decorator
+Then update your function:
 
 ```python
 @app.function(
     image=NANOGPT_IMAGE,
     gpu=GPU_TYPE,
     volumes=VOLUME_CONFIG,
-    secrets=[modal.Secret.from_dotenv()],  # Add this line
+    secrets=[modal.Secret.from_dotenv()],  # Add this
     timeout=2 * HOURS,
 )
 def train(...):
     import os
-    # Now you can access: os.environ["HF_TOKEN"]
+    hf_token = os.environ["HF_TOKEN"]
     ...
 ```
 
-### Or use Modal Secrets
+### Option 2: Modal Secrets
+
+More secure for production:
 
 ```bash
 modal secret create my-secrets HF_TOKEN=xxx WANDB_API_KEY=yyy
@@ -480,420 +533,96 @@ modal secret create my-secrets HF_TOKEN=xxx WANDB_API_KEY=yyy
 secrets=[modal.Secret.from_name("my-secrets")]
 ```
 
----
+## When Things Go Wrong
 
-## Common Issues and Solutions
+### "nanoGPT directory not found"
 
-### Issue 1: "nanoGPT directory not found"
-
-**Solution:** Make sure you've cloned nanoGPT in the same directory:
+Make sure you cloned it in the right place:
 
 ```bash
 git clone https://github.com/karpathy/nanoGPT.git
 ls  # Should show: nanoGPT/  TrainNanoGPTModal.py
 ```
 
-### Issue 2: "Checkpoint not found during sampling"
+### "Checkpoint not found during sampling"
 
-**Solution:** Make sure training completed successfully and you called `volume.commit()`. Check if `/data/out/ckpt.pt` exists in the volume.
+Training didn't complete or you forgot `volume.commit()`. Check your training logs.
 
-### Issue 3: "CUDA out of memory"
+### "CUDA out of memory"
 
-**Solution:** Reduce batch size or switch to larger GPU:
+Your batch size is too big for the GPU:
 
 ```bash
 modal run TrainNanoGPTModal.py::train --batch-size=32
 ```
 
-Or change `GPU_TYPE = "a100-80gb"` in the script.
+Or switch to a bigger GPU by changing `GPU_TYPE = "a100-80gb"`.
 
-### Issue 4: Training taking too long
+### Training Taking Forever
 
-**Solution:** Reduce iterations for testing:
+For testing, reduce iterations:
 
 ```bash
 modal run TrainNanoGPTModal.py::train --max-iters=100
 ```
 
----
+100 iterations won't give you great results, but it'll let you verify everything works.
 
-## Monitoring Training
+## Monitoring Your Training
 
-Modal provides a web UI to monitor your functions:
+When you run `modal run`, you'll get a URL like:
 
-1. After running `modal run`, you'll see a URL like:
-   ```
-   View run at https://modal.com/apps/...
-   ```
+```
+View run at https://modal.com/apps/...
+```
 
-2. Click it to see:
-   - Real-time logs
-   - GPU utilization
-   - Cost tracking
-   - Function status
+Click it to see:
+- Real-time logs streaming
+- GPU utilization graphs
+- How much you're spending
+- Function status
 
----
+It's actually a really nice dashboard. I keep it open while training to make sure my GPU utilization is high (means I'm not wasting money).
 
 ## Cost Optimization Tips
 
-1. **Use smaller GPUs for testing:**
+1. **Use CPU for data prep**: We already do this! Data preparation on CPU, training on GPU.
+
+2. **Start with cheap GPUs**: Use T4 for testing, A100 for real runs.
+
+3. **Set timeouts**: Don't let a buggy script run forever:
    ```python
-   GPU_TYPE = "t4"  # Cheapest option
+   timeout=1 * HOURS  # Kill it after an hour
    ```
 
-2. **Set appropriate timeouts:**
-   ```python
-   timeout=1 * HOURS  # Don't let it run indefinitely
-   ```
+4. **Clean up old checkpoints**: Volumes are free up to 50GB, but still, no need to hoard.
 
-3. **Use CPU for data prep:**
-   - Data preparation doesn't need GPU
-   - Training and sampling do
+## What's Next?
 
-4. **Monitor volume usage:**
-   - Volumes are free up to a limit
-   - Clean up old checkpoints regularly
+Now that you've got the basics down with nanoGPT, you can:
 
----
+- **Experiment with hyperparameters**: Try different learning rates, model sizes
+- **Use your own data**: Replace Shakespeare with your favorite books, code, whatever
+- **Add WandB tracking**: Log your experiments properly
+- **Try the other tutorials**: The Gemma tutorial shows production-scale fine-tuning with LoRA, and the Llama tutorial covers multi-GPU training
 
-## Complete Script
+The pattern is always the same:
+1. Write your code locally
+2. Define your Modal image
+3. Wrap your functions with `@app.function()`
+4. Run with `modal run`
 
-```python
-"""
-Simple Modal script to run nanoGPT training on serverless GPUs.
-
-This demonstrates how you can take a local repository (nanoGPT) and run it
-on Modal with minimal changes - just copy the code into the image and run!
-
-Usage:
-    # Prepare Shakespeare dataset and train a small GPT
-    modal run TrainNanoGPTModal.py
-
-    # Or run individual steps:
-    modal run TrainNanoGPTModal.py::prepare_data
-    modal run TrainNanoGPTModal.py::train
-    modal run TrainNanoGPTModal.py::sample
-"""
-
-from modal import App, Image as ModalImage, Volume
-
-# =============================================================================
-# CONFIGURATION
-# =============================================================================
-
-HOURS = 60 * 60
-GPU_TYPE = "a100-40gb"  # Can be: a100-40gb, a100-80gb, l40s, t4, etc.
-
-# =============================================================================
-# MODAL APP AND VOLUME SETUP
-# =============================================================================
-
-app = App("nanogpt-training")
-volume = Volume.from_name("nanogpt-outputs", create_if_missing=True)
-
-VOLUME_CONFIG = {
-    "/data": volume,
-}
-
-# =============================================================================
-# IMAGE SETUP - Copy local nanoGPT repo into the image
-# =============================================================================
-
-# Simple approach: copy the entire nanoGPT directory into the image
-NANOGPT_IMAGE = (
-    ModalImage.debian_slim(python_version="3.11")
-    .pip_install(
-        "torch",
-        "numpy",
-        "transformers",
-        "datasets",
-        "tiktoken",
-        "tqdm",
-    )
-    # Copy the nanoGPT directory from local filesystem into the image
-    # copy=True because we have .workdir() after this
-    .add_local_dir(local_path="nanoGPT", remote_path="/root/nanoGPT", copy=True)
-    .workdir("/root/nanoGPT")
-)
-
-# =============================================================================
-# DATA PREPARATION FUNCTION
-# =============================================================================
-
-
-@app.function(
-    image=NANOGPT_IMAGE,
-    timeout=10 * 60,  # 10 minutes
-)
-def prepare_data():
-    """
-    Prepare the Shakespeare dataset for character-level training.
-    This downloads the data and creates train.bin and val.bin files.
-    """
-    import subprocess
-
-    print("=" * 80)
-    print("PREPARING SHAKESPEARE DATASET")
-    print("=" * 80)
-
-    # Run the prepare script
-    result = subprocess.run(
-        ["python", "data/shakespeare_char/prepare.py"], capture_output=True, text=True
-    )
-
-    print(result.stdout)
-    if result.stderr:
-        print("STDERR:", result.stderr)
-
-    if result.returncode != 0:
-        raise RuntimeError(f"Data preparation failed with code {result.returncode}")
-
-    print("✓ Data preparation completed!")
-    return {"status": "completed", "dataset": "shakespeare_char"}
-
-
-# =============================================================================
-# TRAINING FUNCTION
-# =============================================================================
-
-
-@app.function(
-    image=NANOGPT_IMAGE,
-    gpu=GPU_TYPE,
-    volumes=VOLUME_CONFIG,
-    timeout=2 * HOURS,
-)
-def train(
-    max_iters: int = 1000,
-    eval_interval: int = 500,
-    batch_size: int = 64,
-    block_size: int = 256,
-    n_layer: int = 6,
-    n_head: int = 6,
-    n_embd: int = 384,
-    learning_rate: float = 1e-3,
-):
-    """
-    Train a character-level GPT on Shakespeare data.
-
-    This runs the nanoGPT training script with customizable hyperparameters.
-    The trained model checkpoint will be saved to the Modal volume.
-
-    Args:
-        max_iters: Number of training iterations
-        eval_interval: How often to evaluate
-        batch_size: Batch size for training
-        block_size: Context length
-        n_layer: Number of transformer layers
-        n_head: Number of attention heads
-        n_embd: Embedding dimension
-        learning_rate: Learning rate
-    """
-    import subprocess
-    import os
-
-    print("=" * 80)
-    print("TRAINING NANOGPT ON SHAKESPEARE")
-    print("=" * 80)
-    print(f"Max iterations: {max_iters}")
-    print(f"Batch size: {batch_size}")
-    print(f"Block size: {block_size}")
-    print(f"Layers: {n_layer}, Heads: {n_head}, Embedding: {n_embd}")
-    print("=" * 80)
-
-    # Make sure data is prepared
-    if not os.path.exists("data/shakespeare_char/train.bin"):
-        print("Data not found, preparing it first...")
-        prepare_data.local()
-
-    # Build training command with arguments
-    cmd = [
-        "python",
-        "train.py",
-        "config/train_shakespeare_char.py",
-        f"--max_iters={max_iters}",
-        f"--eval_interval={eval_interval}",
-        f"--batch_size={batch_size}",
-        f"--block_size={block_size}",
-        f"--n_layer={n_layer}",
-        f"--n_head={n_head}",
-        f"--n_embd={n_embd}",
-        f"--learning_rate={learning_rate}",
-        "--out_dir=/data/out",  # Save outputs to volume
-        "--dataset=shakespeare_char",  # Important: tells sample.py where to find meta.pkl
-        "--compile=False",  # Disable compilation for faster startup
-    ]
-
-    print(f"Running: {' '.join(cmd)}")
-    print()
-
-    # Run training
-    result = subprocess.run(cmd, capture_output=False, text=True)
-
-    if result.returncode != 0:
-        raise RuntimeError(f"Training failed with code {result.returncode}")
-
-    # Copy meta.pkl to output directory for sampling
-    import shutil
-
-    meta_src = "data/shakespeare_char/meta.pkl"
-    meta_dst = "/data/out/meta.pkl"
-    if os.path.exists(meta_src):
-        shutil.copy(meta_src, meta_dst)
-        print(f"✓ Copied {meta_src} to {meta_dst}")
-
-    # Commit the volume to save the checkpoint
-    volume.commit()
-
-    print("\n" + "=" * 80)
-    print("✓ Training completed! Model saved to /data/out")
-    print("=" * 80)
-
-    return {
-        "status": "completed",
-        "max_iters": max_iters,
-        "output_dir": "/data/out",
-    }
-
-
-# =============================================================================
-# SAMPLING FUNCTION
-# =============================================================================
-
-
-@app.function(
-    image=NANOGPT_IMAGE,
-    gpu=GPU_TYPE,
-    volumes=VOLUME_CONFIG,
-    timeout=10 * 60,
-)
-def sample(
-    num_samples: int = 5,
-    max_new_tokens: int = 500,
-    temperature: float = 0.8,
-    start: str = "\n",
-):
-    """
-    Generate text samples from the trained model.
-
-    Args:
-        num_samples: Number of samples to generate
-        max_new_tokens: Length of each sample
-        temperature: Sampling temperature (higher = more random)
-        start: Starting prompt for generation
-    """
-    import subprocess
-    import os
-
-    os.environ["TORCH_USE_CUDA_DSA"] = "1"
-
-    print("=" * 80)
-    print("GENERATING SAMPLES FROM TRAINED MODEL")
-    print("=" * 80)
-    print(f"Num samples: {num_samples}")
-    print(f"Max tokens: {max_new_tokens}")
-    print(f"Temperature: {temperature}")
-    print(f"Start prompt: {repr(start)}")
-    print("=" * 80)
-
-    # Check if model files exist
-    if os.path.exists("/data/out/ckpt.pt"):
-        print("✓ Found checkpoint: /data/out/ckpt.pt")
-    else:
-        print("✗ Checkpoint not found: /data/out/ckpt.pt")
-
-    if os.path.exists("/data/out/meta.pkl"):
-        print("✓ Found meta file: /data/out/meta.pkl")
-    else:
-        print("✗ Meta file not found: /data/out/meta.pkl")
-        print("  Sampling will use GPT-2 encoding which will fail!")
-
-    print()
-
-    # Ensure meta.pkl exists in the data directory for sample.py to find
-    # sample.py looks for meta.pkl in data/{dataset}/meta.pkl first, then falls back to out_dir
-    import shutil
-
-    os.makedirs("data/shakespeare_char", exist_ok=True)
-
-    # Copy meta.pkl from volume to data directory if it exists
-    if os.path.exists("/data/out/meta.pkl") and not os.path.exists(
-        "data/shakespeare_char/meta.pkl"
-    ):
-        shutil.copy("/data/out/meta.pkl", "data/shakespeare_char/meta.pkl")
-        print("✓ Copied meta.pkl to data/shakespeare_char/")
-
-    # Build sampling command
-    cmd = [
-        "python",
-        "sample.py",
-        "--out_dir=/data/out",  # Read model from volume
-        f"--num_samples={num_samples}",
-        f"--max_new_tokens={max_new_tokens}",
-        f"--temperature={temperature}",
-        f"--start={start}",
-        "--compile=False",
-    ]
-
-    print(f"Running: {' '.join(cmd)}")
-    print()
-
-    # Run sampling
-    result = subprocess.run(cmd, capture_output=True, text=True)
-
-    print(result.stdout)
-    if result.stderr:
-        print("STDERR:", result.stderr)
-
-    if result.returncode != 0:
-        raise RuntimeError(f"Sampling failed with code {result.returncode}")
-
-    print("\n" + "=" * 80)
-    print("✓ Sampling completed!")
-    print("=" * 80)
-
-    return {"status": "completed", "samples": result.stdout}
-
-
-# =============================================================================
-# LOCAL ENTRYPOINT - Run everything in sequence
-# =============================================================================
-
-
-@app.local_entrypoint()
-def main():
-    """Run the complete pipeline: prepare data -> train -> sample"""
-    print("🚀 Starting nanoGPT pipeline...")
-
-    # Prepare data
-    print("📁 Preparing dataset...")
-    prepare_data.remote()
-
-    # Train model
-    print("🏋️ Training model...")
-    train.remote(max_iters=1000, eval_interval=250, batch_size=64)
-
-    # Generate samples
-    print("✨ Generating samples...")
-    sample.remote(num_samples=3, max_new_tokens=300)
-
-    print("🎉 Pipeline completed!")
-```
-
----
-
-## Next Steps
-
-- **Experiment with hyperparameters:** Try different learning rates, model sizes
-- **Use your own dataset:** Replace Shakespeare with custom text data
-- **Monitor with WandB:** Add Weights & Biases integration for experiment tracking
-- **Try other Modal examples:** Check out the Gemma and Llama tutorials for production-scale fine-tuning
+That's it. No Docker, no Kubernetes, no infrastructure headaches. Just write Python and run it on GPUs.
 
 ---
 
 ## Resources
 
-- [NanoGPT GitHub](https://github.com/karpathy/nanoGPT)
-- [Modal Documentation](https://modal.com/docs)
-- [Modal GPU Types](https://modal.com/docs/guide/gpu)
-- [Andrej Karpathy's YouTube Tutorial](https://www.youtube.com/watch?v=kCc8FmEb1nY)
+- [NanoGPT GitHub](https://github.com/karpathy/nanoGPT) - The repo we're using
+- [Modal Documentation](https://modal.com/docs) - When you want to dig deeper
+- [Modal GPU Types](https://modal.com/docs/guide/gpu) - All available GPUs and pricing
+- [Andrej Karpathy's Tutorial](https://www.youtube.com/watch?v=kCc8FmEb1nY) - Watch him build nanoGPT from scratch
+
+---
+
+Got questions? Hit me up on Twitter [@adithya_s_k](https://x.com/adithya_s_k) or check out the other tutorials in this series!

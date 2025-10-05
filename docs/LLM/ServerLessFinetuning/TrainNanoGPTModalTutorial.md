@@ -1,5 +1,7 @@
 # Training NanoGPT on Modal: Character-Level Language Modeling
 
+📄 **[View Complete Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/TrainNanoGPTModal.py)**
+
 This tutorial walks you through training a character-level GPT model using Andrej Karpathy's [nanoGPT](https://github.com/karpathy/nanoGPT) on Modal's serverless GPU infrastructure. We'll train on the Shakespeare dataset and generate text samples.
 
 ## Why NanoGPT on Modal?

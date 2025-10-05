@@ -1,5 +1,7 @@
 # Fine-tuning Gemma 3-4B with Unsloth on Modal: End-to-End Vision-Language Training
 
+📄 **[View Complete Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/FinetuneGemmaUnslothModal.py)**
+
 This comprehensive tutorial covers fine-tuning Google's Gemma 3-4B vision-language model using Unsloth on Modal's serverless infrastructure. We'll train on LaTeX OCR dataset, evaluate the model, and deploy it for inference using vLLM.
 
 ## Why Unsloth?
@@ -62,12 +64,12 @@ WANDB_API_KEY=xxxxxxxxxxxxx
 #### Option 2: Create Modal Secret
 
 ```bash
-modal secret create adithya-hf-wandb \
+modal secret create secrets-hf-wandb \
   HUGGINGFACE_TOKEN=hf_xxxxxxxxxxxxx \
   WANDB_API_KEY=xxxxxxxxxxxxx
 ```
 
-> **Note:** The script expects a secret named `adithya-hf-wandb`. Either create one with this name or modify `huggingface_secret = Secret.from_name("adithya-hf-wandb")` in the code.
+> **Note:** The script expects a secret named `secrets-hf-wandb`. Either create one with this name or modify `huggingface_secret = Secret.from_name("secrets-hf-wandb")` in the code.
 
 ---
 
@@ -140,7 +142,7 @@ VOLUME_CONFIG = {
 }
 
 # Secret for HuggingFace and W&B access
-huggingface_secret = Secret.from_name("adithya-hf-wandb")
+huggingface_secret = Secret.from_name("secrets-hf-wandb")
 ```
 
 **What's happening:**
@@ -1077,12 +1079,12 @@ Effective batch size = `per_device_train_batch_size × gradient_accumulation_ste
 
 ### Issue 1: "Secret not found"
 
-**Error:** `Secret "adithya-hf-wandb" not found`
+**Error:** `Secret "secrets-hf-wandb" not found`
 
 **Solution:**
 
 ```bash
-modal secret create adithya-hf-wandb \
+modal secret create secrets-hf-wandb \
   HUGGINGFACE_TOKEN=hf_xxx \
   WANDB_API_KEY=xxx
 ```

@@ -1,5 +1,7 @@
 # Multi-GPU Fine-tuning with Axolotl on Modal: Training Llama 70B at Scale
 
+📄 **[View Complete Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/FinetuneLlamaAxolotlGPUModal.py)**
+
 This advanced tutorial covers distributed multi-GPU training using Axolotl on Modal. We'll fine-tune Llama models (8B to 70B) across 2-8 GPUs using DeepSpeed and FSDP for maximum efficiency.
 
 ## Why Axolotl?
@@ -53,12 +55,12 @@ You'll need:
 #### Create Modal Secret
 
 ```bash
-modal secret create adithya-hf-wandb \
+modal secret create secrets-hf-wandb \
   HUGGINGFACE_TOKEN=hf_xxxxxxxxxxxxx \
   WANDB_API_KEY=xxxxxxxxxxxxx
 ```
 
-> **Note:** The script references `Secret.from_name("adithya-hf-wandb")`. Either create this secret or modify the code to use your secret name.
+> **Note:** The script references `Secret.from_name("secrets-hf-wandb")`. Either create this secret or modify the code to use your secret name.
 
 ---
 
@@ -109,7 +111,7 @@ VOLUME_CONFIG = {
     "/data": exp_volume,
 }
 
-huggingface_secret = Secret.from_name("adithya-hf-wandb")
+huggingface_secret = Secret.from_name("secrets-hf-wandb")
 ```
 
 ### Constants
@@ -1148,7 +1150,7 @@ If it works locally, ensure HF token is in Modal secrets.
 
 ```bash
 # Create the secret
-modal secret create adithya-hf-wandb \
+modal secret create secrets-hf-wandb \
   HUGGINGFACE_TOKEN=hf_xxx \
   WANDB_API_KEY=xxx
 

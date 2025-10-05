@@ -14,7 +14,7 @@ exp_volume = Volume.from_name("Finetuned_Gemma_3_4b_it", create_if_missing=True)
 VOLUME_CONFIG = {
     "/data": exp_volume,
 }
-huggingface_secret = Secret.from_name("adithya-hf-wandb")
+huggingface_secret = Secret.from_name("secrets-hf-wandb")
 
 
 # =============================================================================

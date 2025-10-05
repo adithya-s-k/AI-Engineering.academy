@@ -22,7 +22,7 @@ exp_volume = Volume.from_name("Finetuned_Llama_70b_Axolotl", create_if_missing=T
 VOLUME_CONFIG = {
     "/data": exp_volume,
 }
-huggingface_secret = Secret.from_name("adithya-hf-wandb")
+huggingface_secret = Secret.from_name("secrets-hf-wandb")
 
 
 # =============================================================================

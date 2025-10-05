@@ -1,39 +1,71 @@
-# Multi-GPU Fine-tuning with Axolotl on Modal: Training Llama 70B at Scale
+# Fine-tuning Llama 8-70B with Axolotl on Modal: Multi-GPU Training Made Simple
 
 📄 **[View Complete Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/FinetuneLlamaAxolotlGPUModal.py)**
 
-This advanced tutorial covers distributed multi-GPU training using Axolotl on Modal. We'll fine-tune Llama models (8B to 70B) across 2-8 GPUs using DeepSpeed and FSDP for maximum efficiency.
+So you've trained nanoGPT from scratch and fine-tuned Gemma with Unsloth. Now let's go full beast mode - we're training Llama 8-70B across multiple GPUs. We're talking real production ML infrastructure here
+
+And the crazy part? We're doing it all with Axolotl on Modal. No Kubernetes cluster to manage, no infrastructure nightmares. Just distributed training power.
 
 ## Why Axolotl?
 
-**Axolotl** is a production-grade fine-tuning framework with:
-- **Multi-GPU support** via DeepSpeed, FSDP, and Accelerate
-- **YAML-based configuration** for reproducibility
-- **Pre-built recipes** for popular models
-- **Extensive customization** options
+I discovered Axolotl when I needed to fine-tune a 8-70B model and realized Unsloth wasn't built for multi-GPU setups. That's where Axolotl shines.
 
-**Modal + Axolotl** enables training massive models without infrastructure headaches.
+**What makes Axolotl special:**
+- **Production-grade multi-GPU support** - Train across 2, 4, or even 8 GPUs without writing custom distributed code
+- **YAML-based configs** - All your hyperparameters in one readable file. No more scattered parameters across Python code
+- **Built-in DeepSpeed and FSDP** - The same tech Microsoft uses to train massive models, just works out of the box
+- **Extensive model support** - Llama, Mistral, Qwen, you name it. Pre-configured recipes for all major models
+- **Battle-tested** - Used by companies to train production models, not just a research toy
 
-## What You'll Learn
+The thing is, when you're training a 8-70B model, you physically can't fit it on a single GPU. Even an A100-80GB can barely hold the model weights, let alone gradients and optimizer states. You NEED multi-GPU training.
 
-- Setting up multi-GPU training environments
-- YAML configuration for Axolotl
-- Data preprocessing pipelines
-- Distributed training with Accelerate
-- LoRA merging and inference
-- Cost-effective scaling strategies
+Axolotl handles all the complexity: splitting the model across GPUs, synchronizing gradients, managing checkpoints. You just write a YAML file and hit run.
 
----
+## What We're Building
 
-## Prerequisites
+This is a complete multi-GPU training pipeline with four independent stages:
 
-### 1. Install Modal
+1. **Preprocess datasets** - Tokenize and cache (on 1 GPU, because why waste money?)
+2. **Multi-GPU training** - Fine-tune Llama 8-70B across 4 GPUs with LoRA
+3. **Merge LoRA adapters** - Combine adapters with base model for deployment
+4. **Inference** - Test your fine-tuned model
+
+Here's the mental model:
+
+```
+┌──────────────────────┐
+│  Preprocess Data     │  (1 GPU - $3.50/hr, run once)
+│  Tokenize & Cache    │
+└─────────┬────────────┘
+          │
+┌─────────▼────────────┐
+│  Multi-GPU Training  │  (4× A100-80GB - $14/hr)
+│  Llama 8-70B + LoRA    │  ← The beast mode part
+└─────────┬────────────┘
+          │
+┌─────────▼────────────┐
+│   Merge LoRA         │  (1 GPU - $3.50/hr, ~30 min)
+│  Adapters → Model    │
+└─────────┬────────────┘
+          │
+┌─────────▼────────────┐
+│    Inference         │  (1 GPU - test your model)
+└──────────────────────┘
+```
+
+Each stage is independent. Screw up training? Just re-run that step. Want to test different hyperparameters? Preprocessing is already cached.
+
+## Getting Started
+
+### Install Modal
+
+You know the drill by now:
 
 ```bash
 pip install modal
 ```
 
-### 2. Authenticate with Modal
+### Authenticate
 
 ```bash
 modal setup
@@ -46,13 +78,13 @@ export MODAL_TOKEN_ID=<your_token_id>
 export MODAL_TOKEN_SECRET=<your_token_secret>
 ```
 
-### 3. Set Up Secrets
+### Set Up Your Secrets
 
-You'll need:
-- **Hugging Face token** (for gated models like Llama)
-- **Weights & Biases API key** (optional, recommended)
+For this, you'll need:
+- **Hugging Face token** - Required for Llama models (they're gated)
+- **Weights & Biases API key** - Optional but highly recommended for tracking training
 
-#### Create Modal Secret
+**Create the Modal secret:**
 
 ```bash
 modal secret create secrets-hf-wandb \
@@ -60,76 +92,112 @@ modal secret create secrets-hf-wandb \
   WANDB_API_KEY=xxxxxxxxxxxxx
 ```
 
-> **Note:** The script references `Secret.from_name("secrets-hf-wandb")`. Either create this secret or modify the code to use your secret name.
+> **Note:** The script looks for a secret named `secrets-hf-wandb`. If you use a different name, update the code where it says `Secret.from_name("secrets-hf-wandb")`.
 
----
+**Get your tokens:**
+- HF token: [hf.co/settings/tokens](https://huggingface.co/settings/tokens)
+- W&B key: [wandb.ai/authorize](https://wandb.ai/authorize)
 
-## Project Structure
+### Project Structure
+
+This is even simpler than the previous tutorials:
 
 ```
 ServerLessFinetuning/
-├── FinetuneLlamaAxolotlGPUModal.py    # Complete multi-GPU training pipeline
+├── FinetuneLlamaAxolotlGPUModal.py    # Everything lives here
 └── .env                                # Optional: local secrets
 ```
 
-No additional files needed—everything is in one Python script!
-
----
+One file. That's it. All your configuration, all your training stages, all your pipeline logic - in one clean Python file.
 
 ## Understanding Multi-GPU Training
 
-### Why Multiple GPUs?
+Before we dive into code, let's understand why we even need multiple GPUs.
 
-| Model Size | Min VRAM | Single GPU | Multi-GPU Solution |
-|------------|----------|------------|-------------------|
-| Llama 3-8B | ~16GB | L40S, A100-40GB | Not needed |
-| Llama 3-70B | ~140GB | Impossible | 4× A100-80GB |
-| Llama 3-405B | ~810GB | Impossible | 8× A100-80GB |
+### The Memory Problem
 
-**Multi-GPU strategies:**
-1. **Data Parallelism:** Split batches across GPUs
-2. **Tensor Parallelism:** Split model layers across GPUs
-3. **Pipeline Parallelism:** Different GPUs process different layers
-4. **FSDP (Fully Sharded Data Parallel):** Shard model parameters and optimizer states
+Here's the brutal math:
 
-Axolotl + Accelerate handle this automatically!
+| Model Size | Parameters | FP16 Weights | Training Memory | Fits on Single GPU? |
+|------------|-----------|--------------|-----------------|-------------------|
+| Llama 3-8B | 8 billion | ~16GB | ~40GB | ✓ (A100-80GB) |
+| Llama 3-8-70B | 70 billion | ~140GB | ~280GB | ✗ (Impossible!) |
+| Llama 3-405B | 405 billion | ~810GB | ~1.6TB | ✗ (Very impossible!) |
 
----
+Training memory = model weights + gradients + optimizer states + activations. Roughly 2-3x the model size.
+
+A single A100-80GB has... 80GB. You literally cannot fit a 8-70B model for training, even with quantization.
+
+### The Multi-GPU Solution
+
+There are several strategies to distribute a model across GPUs:
+
+1. **Data Parallelism (DP):** Copy the full model to each GPU, split the batch across them. Great for small models, useless for 8-70B.
+
+2. **Tensor Parallelism (TP):** Split individual layers across GPUs. Each GPU has part of each attention head, part of each MLP. Complex but efficient.
+
+3. **Pipeline Parallelism (PP):** Different GPUs process different layers. GPU 0 has layers 1-20, GPU 1 has 21-40, etc. Simple but can have bubble time.
+
+4. **FSDP (Fully Sharded Data Parallel):** The modern approach. Shard everything - model parameters, gradients, optimizer states. Each GPU only keeps what it needs, fetches the rest when needed.
+
+**The beauty of Axolotl?** You don't have to think about this. It uses HuggingFace Accelerate under the hood, which figures out the best strategy automatically. You just say "use 4 GPUs" and it handles the rest.
 
 ## Configuration Overview
 
-### App, Volume, and Secrets
+Let's start with the basics:
 
 ```python
 from modal import App, Image as ModalImage, Volume, Secret
 
+# Create the Modal app
 app = App("Finetuned_Llama_70b_Axolotl_MultiGPU")
 
-# Persistent storage
+# Create persistent storage
 exp_volume = Volume.from_name("Finetuned_Llama_70b_Axolotl", create_if_missing=True)
+
+# Mount the volume at /data in all containers
 VOLUME_CONFIG = {
     "/data": exp_volume,
 }
 
+# Load secrets
 huggingface_secret = Secret.from_name("secrets-hf-wandb")
 ```
 
-### Constants
+**What's happening:**
+- **Volume:** All our data lives here - preprocessed datasets, checkpoints, final models. Persists across runs.
+- **Secrets:** Injected as environment variables in our containers. Clean and secure.
+
+### Configuration Constants
 
 ```python
-HOURS = 60 * 60
-GPU_TYPE = "a100-80gb"  # Options: a100-80gb, a100-40gb, l40s
+# Time constants
+HOURS = 60 * 60  # Makes timeouts readable
+
+# GPU Configuration
+GPU_TYPE = "a100-80gb"  # Can be: a100-80gb, a100-40gb, l40s, etc.
+
+# Training Configuration
 WANDB_PROJECT_DEFAULT = "Llama-70b-MultiGPU-finetune"
 ```
 
 **GPU type considerations:**
-- **A100-80GB:** Best for 70B models, expensive
-- **A100-40GB:** Good for 8B-13B models, moderate cost
-- **L40S:** Budget option for smaller models
 
----
+For **8B models:**
+- L40S works great (~$1/hr)
+- A100-40GB for comfort ($2.50/hr)
+
+For **8-70B models:**
+- A100-80GB is required ($3.50/hr per GPU)
+- You'll need 4-8 of them ($14-28/hr total)
+
+For **405B models:**
+- 8× A100-80GB minimum ($28/hr)
+- Or use H100s, B100s
 
 ## Building the Axolotl Image
+
+This is where things get interesting. We need a container with CUDA, PyTorch, Axolotl, DeepSpeed, Flash Attention... the works.
 
 ### CUDA Base Configuration
 
@@ -140,42 +208,68 @@ CUDA_OS = "ubuntu24.04"
 CUDA_TAG = f"{CUDA_VERSION}-{CUDA_FLAVOR}-{CUDA_OS}"
 ```
 
-**Why this matters:**
-- Axolotl requires CUDA for compilation
-- Flash Attention needs `devel` flavor
-- Version 12.8.1 ensures compatibility with latest PyTorch
+**Why "devel"?**
+
+Flash Attention (which makes training way faster) needs to compile CUDA code during installation. The `runtime` image doesn't include the CUDA compiler (`nvcc`), so you'll get cryptic errors.
+
+The `devel` image includes the full CUDA toolkit. It's bigger, but it Just Works™.
 
 ### Complete Image Definition
 
 ```python
 AXOLOTL_IMAGE = (
+    # Start with NVIDIA's official CUDA image
     ModalImage.from_registry(f"nvidia/cuda:{CUDA_TAG}", add_python="3.12")
+
+    # Install system dependencies
     .apt_install("git", "build-essential")
-    .uv_pip_install(["torch", "torchvision", "torchaudio"])
+
+    # Install PyTorch first
+    .uv_pip_install([
+        "torch",
+        "torchvision",
+        "torchaudio",
+    ])
+
+    # Install base dependencies for Axolotl
     .run_commands(
         "uv pip install --no-deps -U packaging setuptools wheel ninja --system"
     )
+
+    # Install Axolotl with DeepSpeed support
     .run_commands("uv pip install --no-build-isolation axolotl[deepspeed] --system")
+
+    # Install Flash Attention (this takes a while to compile)
     .run_commands(
         "UV_NO_BUILD_ISOLATION=1 uv pip install flash-attn --no-build-isolation --system"
     )
+
+    # Set environment variables
     .env({
-        "HF_HUB_ENABLE_HF_TRANSFER": "1",
-        "HF_HOME": "/data/.cache",
+        "HF_HUB_ENABLE_HF_TRANSFER": "1",  # Fast model downloads
+        "HF_HOME": "/data/.cache",          # Cache in volume
     })
 )
 ```
 
-**Installation order matters:**
-1. **Base dependencies** (`packaging`, `setuptools`, `wheel`, `ninja`)
-2. **Axolotl with DeepSpeed** (includes distributed training support)
-3. **Flash Attention** (requires `--no-build-isolation`)
+**Key points:**
 
-> **⚠️ Build Time:** First build takes 20-30 minutes due to Flash Attention compilation. Modal caches the image—subsequent runs are instant!
+1. **Installation order matters:** Base deps → Axolotl → Flash Attention. Do it wrong and you'll have dependency hell.
 
-### Alternative: Official Axolotl Image (Commented Out)
+2. **`--no-build-isolation`:** Required for Flash Attention. Don't ask me why, it's just how flash-attn works.
+
+3. **`HF_HUB_ENABLE_HF_TRANSFER`:** Enables parallel downloads from HuggingFace. Can be 5-10x faster for large models.
+
+4. **Cache in volume:** All HuggingFace downloads go to `/data/.cache`, which persists. Download once, use forever.
+
+> **⏰ Build time warning:** The first build takes 20-30 minutes because Flash Attention compiles from source. It's compiling optimized CUDA kernels for your GPU architecture. Go grab lunch. But here's the magic - Modal caches this image. Every subsequent run? Instant startup.
+
+### Alternative: Official Axolotl Image
+
+Axolotl provides an official Docker image, but I don't use it:
 
 ```python
+# This works, but I don't recommend it:
 # AXOLOTL_IMAGE = ModalImage.from_registry(
 #     "axolotlai/axolotl-cloud:main-latest", add_python="3.12"
 # ).env({
@@ -186,19 +280,18 @@ AXOLOTL_IMAGE = (
 ```
 
 **Why custom image?**
-- Official image auto-starts JupyterLab (not needed for Modal)
-- Custom image is lighter and faster
-- More control over versions
-
----
+- Official image auto-starts JupyterLab, which we don't need on Modal
+- Custom image is lighter and more predictable
+- Full control over versions (important for reproducibility)
 
 ## Training Configuration with YAML
 
-Axolotl uses YAML for all configuration. This ensures reproducibility and easy experimentation.
+Here's where Axolotl really shines. All your configuration goes in a YAML file. No scattered parameters, no magic constants buried in code. Everything in one place.
 
 ### Complete Training Config
 
-```yaml
+```python
+TRAIN_CONFIG_YAML = f"""
 base_model: NousResearch/Meta-Llama-3-8B-Instruct
 model_type: LlamaForCausalLM
 tokenizer_type: AutoTokenizer
@@ -229,7 +322,7 @@ lora_dropout: 0.05
 lora_target_linear: true
 
 # Weights & Biases
-wandb_project: Llama-70b-MultiGPU-finetune
+wandb_project: {WANDB_PROJECT_DEFAULT}
 wandb_entity:
 wandb_watch:
 wandb_name:
@@ -259,11 +352,12 @@ weight_decay: 0.0
 
 special_tokens:
    pad_token: <|end_of_text|>
+"""
 ```
 
-### Key Configuration Sections
+Let me break down the important parts:
 
-#### Model Settings
+### Model Settings
 
 ```yaml
 base_model: NousResearch/Meta-Llama-3-8B-Instruct
@@ -271,30 +365,38 @@ model_type: LlamaForCausalLM
 tokenizer_type: AutoTokenizer
 ```
 
-**For Llama 70B:**
+This is configured for Llama 3-8B (for testing). When you're ready for the real deal:
+
 ```yaml
-base_model: meta-llama/Meta-Llama-3-70B-Instruct
+base_model: meta-llama/Meta-Llama-3-8-70B-Instruct
 ```
 
 **For other models:**
 ```yaml
+# Mistral 7B
 base_model: mistralai/Mistral-7B-Instruct-v0.2
 model_type: MistralForCausalLM
+
+# Qwen 72B
+base_model: Qwen/Qwen2.5-72B-Instruct
+model_type: Qwen2ForCausalLM
 ```
 
-#### Quantization
+### Quantization Settings
 
 ```yaml
 load_in_8bit: true   # Reduces memory by ~50%
-load_in_4bit: false  # Reduces memory by ~75%, slight quality loss
+load_in_4bit: false  # Reduces memory by ~75%
 ```
 
-**Recommendations:**
-- **8B models:** `load_in_8bit: false` (full precision)
-- **70B models:** `load_in_8bit: true` (essential)
-- **405B models:** `load_in_4bit: true` (required)
+**My recommendations:**
+- **8B models:** `load_in_8bit: false` (use full precision, you have the memory)
+- **8-70B models:** `load_in_8bit: true` (essential to fit on 4 GPUs)
+- **405B models:** `load_in_4bit: true` (required, even with 8 GPUs)
 
-#### Dataset Configuration
+The quality hit from 8-bit is minimal. The quality hit from 4-bit is noticeable but acceptable.
+
+### Dataset Configuration
 
 ```yaml
 datasets:
@@ -315,68 +417,75 @@ datasets:
     split: train
 ```
 
-**Custom dataset format:**
-```yaml
-datasets:
-  - path: your_username/your_dataset
-    type: sharegpt  # or alpaca, chat_template, completion
-```
+Axolotl supports many formats: `chat_template`, `alpaca`, `sharegpt`, `completion`, etc. Check the [Axolotl docs](https://docs.axolotl.ai/) for the full list.
 
-#### LoRA Parameters
+### LoRA Parameters
 
 ```yaml
 adapter: lora
-lora_r: 32           # Rank (higher = more capacity)
-lora_alpha: 16       # Scaling factor
+lora_r: 32           # Rank (higher = more capacity, slower training)
+lora_alpha: 16       # Scaling factor (usually r/2 or r)
 lora_dropout: 0.05   # Regularization
 lora_target_linear: true  # Apply to all linear layers
 ```
 
-**For larger models (70B+):**
+**LoRA rank guidelines:**
+
+For **8B models:**
+```yaml
+lora_r: 32
+lora_alpha: 64
+```
+
+For **8-70B models (high quality):**
 ```yaml
 lora_r: 64
 lora_alpha: 128
 ```
 
-**For faster training:**
+For **faster training:**
 ```yaml
 lora_r: 16
 lora_alpha: 32
 ```
 
-#### Training Hyperparameters
+Higher rank = more capacity to learn, but slower training and larger adapters.
+
+### Training Hyperparameters
 
 ```yaml
-micro_batch_size: 8              # Batch per GPU
-gradient_accumulation_steps: 4   # Effective batch = 8 × 4 = 32
+micro_batch_size: 8              # Batch size per GPU
+gradient_accumulation_steps: 4   # Steps before updating weights
 num_epochs: 4
 learning_rate: 0.0002
-optimizer: adamw_bnb_8bit        # Memory-efficient optimizer
+optimizer: adamw_bnb_8bit        # 8-bit Adam (saves memory!)
 lr_scheduler: cosine
 ```
 
 **Effective batch size calculation:**
 ```
 Effective Batch = micro_batch_size × gradient_accumulation_steps × num_gpus
+                = 8 × 4 × 4
+                = 128
 ```
 
-For 4 GPUs: `8 × 4 × 4 = 128`
+With 4 GPUs, each does batch size 8, accumulates over 4 steps, so effectively you're training with batch size 128.
 
-#### Memory Optimizations
+### Memory Optimizations
 
 ```yaml
-gradient_checkpointing: true  # Trade compute for memory
+gradient_checkpointing: true  # Trade compute for memory (essential!)
 flash_attention: true         # Faster, more memory-efficient attention
-bf16: auto                    # Use bfloat16 if supported
+bf16: auto                    # Use bfloat16 if GPU supports it
 ```
 
-**Critical for large models!**
+**Gradient checkpointing** is critical for large models. It recomputes activations during backward pass instead of storing them. Uses ~40% less memory at the cost of ~20% slower training. Totally worth it.
 
----
+**Flash Attention** is a must-have. It's an optimized attention implementation that's both faster AND uses less memory. Win-win.
 
-## The Three-Stage Pipeline
+## Helper Function: Write Config to Volume
 
-### Helper Function: Write Config to Volume
+Before we get to the training stages, here's a helper function that all stages use:
 
 ```python
 def write_config_to_volume(
@@ -388,30 +497,42 @@ def write_config_to_volume(
     import os
     import yaml
 
+    # Parse YAML string into dict
     config_dict = yaml.safe_load(train_config_yaml)
 
-    # Update paths to use volume
+    # Update paths to use volume instead of local dirs
     if update_paths and "output_dir" in config_dict:
         config_dict["output_dir"] = config_dict["output_dir"].replace(
             "./outputs", "/data/outputs"
         )
 
+    # Ensure directory exists
     os.makedirs(os.path.dirname(config_path), exist_ok=True)
 
+    # Write to volume
     with open(config_path, "w") as f:
         yaml.dump(config_dict, f, default_flow_style=False)
 
+    # Commit so it persists
     exp_volume.commit()
+
     return config_dict
 ```
 
-This helper ensures configurations are saved to the volume and paths are corrected.
+**What it does:**
+1. Converts YAML string to dict (for inspection)
+2. Updates paths to use `/data` volume (so outputs persist)
+3. Writes config to volume
+4. Commits volume (critical!)
 
----
+This keeps our config in one place and ensures all stages use the same configuration.
 
 ## Stage 1: Dataset Preprocessing
 
+Alright, let's get to the actual pipeline. First stage: preprocessing.
+
 ```python
+# GPU Configuration for preprocessing (single GPU is fine)
 PREPROCESS_NUM_GPUS = 1
 PREPROCESS_GPU_CONFIG = f"{GPU_TYPE}:{PREPROCESS_NUM_GPUS}"
 
@@ -420,7 +541,7 @@ PREPROCESS_GPU_CONFIG = f"{GPU_TYPE}:{PREPROCESS_NUM_GPUS}"
     volumes=VOLUME_CONFIG,
     secrets=[huggingface_secret],
     timeout=24 * HOURS,
-    gpu=PREPROCESS_GPU_CONFIG,
+    gpu=PREPROCESS_GPU_CONFIG,  # Just 1 GPU
 )
 def process_datasets(
     train_config_yaml: str = TRAIN_CONFIG_YAML,
@@ -430,15 +551,21 @@ def process_datasets(
     import os
     import subprocess
 
+    # Set HF token
     os.environ["HF_TOKEN"] = os.environ["HUGGINGFACE_TOKEN"]
 
+    # Write config to volume
     config_dict = write_config_to_volume(train_config_yaml, config_path, True)
     exp_volume.commit()
 
     print("Starting dataset preprocessing...")
+
     try:
+        # Run Axolotl preprocessing
         subprocess.run(["axolotl", "preprocess", config_path], check=True)
         print("✓ Preprocessing completed")
+
+        # Commit preprocessed data
         exp_volume.commit()
 
         return {
@@ -451,17 +578,25 @@ def process_datasets(
         raise RuntimeError(f"Preprocessing failed: {e}")
 ```
 
-**What happens:**
-1. Writes YAML config to `/data/config.yml`
-2. Runs `axolotl preprocess` to tokenize dataset
-3. Saves preprocessed data to `/data/prepared_datasets/`
-4. Commits to volume for training stage
+**What happens during preprocessing:**
+
+1. **Download dataset** from HuggingFace (or load from cache)
+2. **Apply chat template** to format conversations correctly
+3. **Tokenize everything** using the model's tokenizer
+4. **Save to disk** at `dataset_prepared_path`
+5. **Split train/val** based on `val_set_size`
 
 **Why preprocess separately?**
-- Preprocessing can take hours for large datasets
-- Only needs 1 GPU (or even CPU)
-- Reusable for multiple training runs
-- Easier to debug
+
+You might think "why not just preprocess during training?" Here's why this is better:
+
+1. **Cost savings:** Preprocessing doesn't need 4 GPUs. Why pay $14/hr when you can pay $3.50/hr?
+
+2. **Reusability:** Preprocess once, train multiple times with different hyperparameters. Huge time saver when experimenting.
+
+3. **Debugging:** If preprocessing fails, you know immediately. Not after 3 hours of training setup.
+
+4. **Visibility:** You can inspect the preprocessed data to make sure it looks right.
 
 **Run it:**
 
@@ -469,34 +604,28 @@ def process_datasets(
 modal run FinetuneLlamaAxolotlGPUModal.py::process_datasets
 ```
 
-**With custom config:**
-
-```python
-# Modify TRAIN_CONFIG_YAML in the script, then:
-modal run FinetuneLlamaAxolotlGPUModal.py::process_datasets
-```
-
----
+First run downloads the dataset and tokenizes everything. Takes 10-30 minutes depending on dataset size. Subsequent runs? Instant, because it's cached.
 
 ## Stage 2: Multi-GPU Training
 
-This is where the magic happens!
+Here's where the magic happens. We're training Llama across multiple GPUs with Accelerate.
 
 ### GPU Configuration
 
 ```python
-TRAIN_NUM_GPUS = 4  # Can be 2, 4, or 8
+# GPU Configuration for training (2-8 GPUs)
+TRAIN_NUM_GPUS = 4  # Can be adjusted from 2 to 8
 TRAIN_GPU_CONFIG = f"{GPU_TYPE}:{TRAIN_NUM_GPUS}"
 ```
 
 **Scaling guidelines:**
 
-| Model | Min GPUs | Recommended GPUs | GPU Type |
-|-------|----------|------------------|----------|
-| Llama 3-8B | 1 | 1 | A100-40GB |
-| Llama 3-13B | 1 | 2 | A100-40GB |
-| Llama 3-70B | 2 | 4 | A100-80GB |
-| Llama 3-405B | 8 | 8 | A100-80GB |
+| Model | Min GPUs | Recommended | GPU Type | Cost/hr |
+|-------|----------|-------------|----------|---------|
+| Llama 3-8B | 1 | 1 | A100-40GB | $2.50 |
+| Llama 3-13B | 1 | 2 | A100-40GB | $5.00 |
+| Llama 3-8-70B | 2 | 4 | A100-80GB | $14.00 |
+| Llama 3-405B | 8 | 8 | A100-80GB | $28.00 |
 
 ### Training Function
 
@@ -519,6 +648,7 @@ def train_model(
     import os
     import subprocess
 
+    # Set up environment
     os.environ["HF_TOKEN"] = os.environ["HUGGINGFACE_TOKEN"]
     os.environ["WANDB_API_KEY"] = os.environ["WANDB_API_KEY"]
     os.environ["WANDB_PROJECT"] = WANDB_PROJECT_DEFAULT
@@ -532,18 +662,19 @@ def train_model(
 
     exp_volume.commit()
 
-    # Run Axolotl training with accelerate for multi-GPU support
+    # Build accelerate command for multi-GPU training
     print(f"Starting training with {TRAIN_NUM_GPUS} GPUs...")
+
     cmd = [
         "accelerate",
         "launch",
-        "--multi_gpu",
-        "--num_processes", str(TRAIN_NUM_GPUS),
-        "--num_machines", "1",
-        "--mixed_precision", "bf16",
-        "--dynamo_backend", "no",
-        "-m", "axolotl.cli.train",
-        config_path,
+        "--multi_gpu",                        # Enable multi-GPU mode
+        "--num_processes", str(TRAIN_NUM_GPUS),  # Number of GPUs
+        "--num_machines", "1",                # Single machine (Modal handles this)
+        "--mixed_precision", "bf16",          # Use bfloat16 for speed
+        "--dynamo_backend", "no",             # Disable torch.compile (stability)
+        "-m", "axolotl.cli.train",            # Run Axolotl training
+        config_path,                          # Path to our YAML config
     ]
 
     try:
@@ -565,59 +696,82 @@ def train_model(
         raise RuntimeError(f"Training failed: {e}")
 ```
 
-### Accelerate Command Breakdown
+### Understanding the Accelerate Command
+
+Let me break down what this command does:
 
 ```bash
 accelerate launch \
-  --multi_gpu \                     # Enable multi-GPU
-  --num_processes 4 \               # Number of GPUs
-  --num_machines 1 \                # Single machine (Modal handles this)
-  --mixed_precision bf16 \          # Use bfloat16 for speed
-  --dynamo_backend no \             # Disable torch.compile (stability)
-  -m axolotl.cli.train \            # Run Axolotl training module
-  /data/config.yml                  # Path to config
+  --multi_gpu \                     # Enable multi-GPU distributed training
+  --num_processes 4 \               # Use 4 GPUs (one process per GPU)
+  --num_machines 1 \                # Single machine (Modal provides this)
+  --mixed_precision bf16 \          # Use bfloat16 for memory and speed
+  --dynamo_backend no \             # Disable torch.compile (causes issues)
+  -m axolotl.cli.train \            # Run Axolotl's training module
+  /data/config.yml                  # Our YAML configuration
 ```
 
-**Accelerate automatically:**
-- Distributes model across GPUs
-- Synchronizes gradients
-- Handles communication (NCCL)
-- Manages checkpointing
+**What Accelerate does for you:**
+
+1. **Spawns one process per GPU** - Each GPU gets its own Python process
+2. **Initializes distributed backend** - Sets up NCCL for GPU communication
+3. **Shards the model** - Splits model parameters across GPUs based on available memory
+4. **Synchronizes gradients** - All-reduce operation after backward pass
+5. **Manages checkpointing** - Handles saving/loading distributed checkpoints
+
+You write normal PyTorch code (which Axolotl already did), Accelerate makes it distributed. It's magical.
 
 ### Run Training
 
-**Basic:**
+**Basic run (test with 8B model first):**
 
 ```bash
 modal run FinetuneLlamaAxolotlGPUModal.py::train_model
 ```
 
-**With custom GPU count:**
+**For actual 8-70B training, edit the YAML:**
 
 ```python
-# Edit in script:
-TRAIN_NUM_GPUS = 8  # For massive models
+TRAIN_CONFIG_YAML = f"""
+base_model: meta-llama/Meta-Llama-3-8-70B-Instruct
+load_in_8bit: true
+lora_r: 64
+lora_alpha: 128
+micro_batch_size: 4
+gradient_accumulation_steps: 4
+num_epochs: 3
+# ... rest of config
+"""
+```
 
-# Then run:
+Then run:
+
+```bash
 modal run FinetuneLlamaAxolotlGPUModal.py::train_model
 ```
 
-**Monitor training:**
-1. Click URL in Modal output for live logs
-2. Check W&B: `https://wandb.ai/<username>/Llama-70b-MultiGPU-finetune`
-3. Monitor GPU utilization in Modal dashboard
+**Monitor your training:**
 
-> **💰 Cost Alert:** 4× A100-80GB costs ~$14/hour. A 3-hour training run = $42. Use preprocessing and testing to minimize trial runs!
+1. **Modal Dashboard:** Click the URL in the terminal for real-time logs and GPU utilization
+2. **Weights & Biases:** Go to `wandb.ai/<username>/Llama-70b-MultiGPU-finetune` for beautiful charts
+3. **Check GPU usage:** All 4 GPUs should be near 100% utilization
 
----
+> **💰 Cost Alert:** 4× A100-80GB costs ~$14/hour. A 3-hour training run = $42. A 10-hour run = $140. This is why we preprocess separately and test with small models first!
+
+**Training checkpoints:**
+
+Axolotl automatically saves checkpoints to `/data/outputs/lora-out/checkpoint-{step}`. If training crashes, resume with:
+
+```yaml
+resume_from_checkpoint: /data/outputs/lora-out/checkpoint-1000
+```
 
 ## Stage 3: Merge LoRA Adapters
 
-After training, you have LoRA adapters. Merge them into the base model for deployment.
-
-### Merge Configuration
+After training, you have LoRA adapters (~100MB) that work with the base model. For deployment, it's easier to merge them into a single model.
 
 ```python
+# GPU Configuration for merging (single GPU is fine)
 MERGE_NUM_GPUS = 1
 MERGE_GPU_CONFIG = f"{GPU_TYPE}:{MERGE_NUM_GPUS}"
 
@@ -639,6 +793,7 @@ def merge_lora(
 
     os.environ["HF_TOKEN"] = os.environ["HUGGINGFACE_TOKEN"]
 
+    # Write config
     config_dict = write_config_to_volume(
         train_config_yaml=train_config_yaml,
         config_path=config_path,
@@ -658,6 +813,7 @@ def merge_lora(
         subprocess.run(cmd, check=True)
         print("✓ LoRA merge completed")
 
+        # Commit merged model
         exp_volume.commit()
 
         return {
@@ -671,9 +827,16 @@ def merge_lora(
         raise RuntimeError(f"LoRA merge failed: {e}")
 ```
 
+**What merging does:**
+
+1. Loads base model weights
+2. Loads LoRA adapter weights
+3. Applies the LoRA transformations to base model
+4. Saves the combined model
+
 **Why only 1 GPU?**
-- Merging is sequential, doesn't benefit from multiple GPUs
-- Saves cost
+
+Merging is sequential - you're just doing matrix operations to combine weights. Doesn't benefit from multiple GPUs. Save the money.
 
 **Run it:**
 
@@ -688,17 +851,14 @@ modal run FinetuneLlamaAxolotlGPUModal.py::merge_lora \
   --lora-model-dir="/data/outputs/lora-out"
 ```
 
-**Output:**
-- Merged model saved to `output_dir` from config
-- Can be used for inference or pushed to Hub
-
----
+Merging takes 15-45 minutes depending on model size. For 8-70B, expect ~30 minutes.
 
 ## Stage 4: Inference
 
-Test your fine-tuned model!
+Let's test your fine-tuned model!
 
 ```python
+# GPU Configuration for inference (single GPU)
 INFERENCE_NUM_GPUS = 1
 INFERENCE_GPU_CONFIG = f"{GPU_TYPE}:{INFERENCE_NUM_GPUS}"
 
@@ -723,6 +883,7 @@ def run_inference(
 
     os.environ["HF_TOKEN"] = os.environ["HUGGINGFACE_TOKEN"]
 
+    # Write config
     config_dict = write_config_to_volume(
         train_config_yaml=train_config_yaml,
         config_path=config_path,
@@ -733,6 +894,7 @@ def run_inference(
     print(f"Prompt: {prompt}")
     print("-" * 80)
 
+    # Build inference command
     cmd = ["axolotl", "inference", config_path]
 
     if lora_model_dir:
@@ -746,6 +908,7 @@ def run_inference(
             f.write(prompt)
             prompt_file = f.name
 
+        # Run inference with prompt from file
         with open(prompt_file, "r") as f:
             result = subprocess.run(
                 cmd,
@@ -762,6 +925,10 @@ def run_inference(
         print(result.stdout)
         print("=" * 80)
 
+        if result.stderr:
+            print("\nSTDERR:")
+            print(result.stderr)
+
         return {
             "status": "completed",
             "prompt": prompt,
@@ -770,13 +937,17 @@ def run_inference(
         }
 
     except subprocess.CalledProcessError as e:
+        print(f"Error output: {e.stderr}")
+        print(f"Command output: {e.stdout}")
         raise RuntimeError(f"Inference failed: {e}")
     finally:
+        # Clean up temp file
+        import os as os_module
         if "prompt_file" in locals():
-            os.unlink(prompt_file)
+            os_module.unlink(prompt_file)
 ```
 
-### Run Inference
+**Run inference:**
 
 **With LoRA adapters (before merging):**
 
@@ -790,42 +961,44 @@ modal run FinetuneLlamaAxolotlGPUModal.py::run_inference \
 
 ```bash
 modal run FinetuneLlamaAxolotlGPUModal.py::run_inference \
-  --prompt="Write a poem about AI." \
+  --prompt="Write a poem about machine learning." \
   --base-model="/data/outputs/lora-out-merged"
 ```
 
 **Test multiple prompts:**
 
+Create a Python script to batch test:
+
 ```python
-# Create a Python script:
 import modal
 
 app = modal.App.lookup("Finetuned_Llama_70b_Axolotl_MultiGPU")
 run_inference = modal.Function.lookup(app.name, "run_inference")
 
 prompts = [
-    "Explain machine learning.",
-    "Write code to sort a list.",
-    "Translate 'Hello' to French.",
+    "Explain gradient descent.",
+    "Write Python code to implement binary search.",
+    "What are the benefits of transformer architecture?",
 ]
 
 for prompt in prompts:
     result = run_inference.remote(prompt=prompt)
-    print(f"Prompt: {prompt}")
+    print(f"\nPrompt: {prompt}")
     print(f"Output: {result['output']}\n")
+    print("-" * 80)
 ```
-
----
 
 ## Complete Workflow Example
 
+Let me walk you through how I actually use this for a real project.
+
 ### 1. Customize Configuration
 
-Edit `TRAIN_CONFIG_YAML` in the script:
+First, I edit the YAML config in the script:
 
 ```python
 TRAIN_CONFIG_YAML = f"""
-base_model: meta-llama/Meta-Llama-3-70B-Instruct
+base_model: meta-llama/Meta-Llama-3-8-70B-Instruct
 model_type: LlamaForCausalLM
 tokenizer_type: AutoTokenizer
 
@@ -833,13 +1006,13 @@ load_in_8bit: true
 
 chat_template: llama3
 datasets:
-  - path: your-username/your-dataset
+  - path: my-username/my-custom-dataset
     type: chat_template
 
-dataset_prepared_path: /data/prepared_datasets/custom
-output_dir: /data/outputs/llama70b-lora
+dataset_prepared_path: /data/prepared_datasets/my_data
+output_dir: /data/outputs/llama70b-custom
 
-sequence_len: 8192
+sequence_len: 8192  # Longer context
 lora_r: 64
 lora_alpha: 128
 
@@ -849,6 +1022,11 @@ num_epochs: 3
 learning_rate: 0.0001
 
 wandb_project: {WANDB_PROJECT_DEFAULT}
+
+# Everything else stays the same
+gradient_checkpointing: true
+flash_attention: true
+bf16: auto
 """
 ```
 
@@ -858,31 +1036,45 @@ wandb_project: {WANDB_PROJECT_DEFAULT}
 modal run FinetuneLlamaAxolotlGPUModal.py::process_datasets
 ```
 
-**Expected time:** 30 min - 2 hours (depending on dataset size)
+**Expected time:** 30 min - 2 hours (depends on dataset size)
+**Cost:** ~$2-5 (1 GPU for preprocessing)
 
-### 3. Test Training (Small Run)
+Grab a coffee while this runs.
 
-Edit config to use small dataset subset, then:
+### 3. Test Training (Small Sanity Check)
+
+Before burning $100 on a full training run, I test with 1 epoch:
+
+```python
+# Temporarily edit YAML:
+num_epochs: 1
+```
+
+Then:
 
 ```bash
-# Modify num_epochs: 1 in YAML
 modal run FinetuneLlamaAxolotlGPUModal.py::train_model
 ```
 
-**Expected time:** 10-30 minutes
-**Cost:** ~$3-7
+**Expected time:** 30-60 minutes
+**Cost:** ~$7-14
+
+This catches configuration errors, memory issues, etc. If this works, the full run will work.
 
 ### 4. Full Training
 
+Restore the full config and run:
+
 ```bash
-# Restore full num_epochs in YAML
 modal run FinetuneLlamaAxolotlGPUModal.py::train_model
 ```
 
-**Expected time:** 2-8 hours (depends on model size, dataset, GPUs)
-**Cost:** $30-150
+**Expected time:** 3-10 hours (depends on dataset size)
+**Cost:** $40-150
 
-Monitor at: `https://wandb.ai/<username>/Llama-70b-MultiGPU-finetune`
+Now you wait. Monitor W&B to make sure loss is going down. Check Modal dashboard to verify all GPUs are utilized.
+
+Go touch grass. This is running on Modal's infrastructure, not your machine.
 
 ### 5. Merge LoRA
 
@@ -890,34 +1082,40 @@ Monitor at: `https://wandb.ai/<username>/Llama-70b-MultiGPU-finetune`
 modal run FinetuneLlamaAxolotlGPUModal.py::merge_lora
 ```
 
-**Expected time:** 15-45 minutes
-**Cost:** ~$1-3
+**Expected time:** 30-45 minutes
+**Cost:** ~$2-3
 
 ### 6. Test Inference
 
 ```bash
 modal run FinetuneLlamaAxolotlGPUModal.py::run_inference \
-  --prompt="Test the fine-tuned model with this prompt."
+  --prompt="Test my fine-tuned 8-70B model with this prompt."
 ```
 
-**Expected time:** 30 seconds - 2 minutes
+**Expected time:** 1-2 minutes
 **Cost:** ~$0.10
 
 ### 7. Push to Hub (Optional)
 
-Add to config:
+Want to share your model? Add this to the YAML config:
 
 ```yaml
-hub_model_id: your-username/llama-70b-finetuned
+hub_model_id: your-username/llama-70b-custom-finetuned
 ```
 
-Axolotl will automatically push checkpoints and final model to Hugging Face Hub during training.
+Axolotl automatically pushes to HuggingFace Hub during training.
 
----
+**Total cost for full pipeline:** $50-200 depending on dataset size and number of epochs.
 
-## Advanced Configuration Options
+**Total time:** 1 day (mostly waiting for training)
+
+Compare this to managing your own 4× A100-80GB cluster... yeah, Modal wins.
+
+## Advanced Tips and Tricks
 
 ### Multi-Dataset Training
+
+Train on multiple datasets simultaneously:
 
 ```yaml
 datasets:
@@ -929,38 +1127,26 @@ datasets:
     type: sharegpt
 ```
 
-### Custom Evaluation
-
-```yaml
-val_set_size: 0.1           # 10% validation
-evals_per_epoch: 10         # Evaluate 10 times per epoch
-eval_sample_packing: false
-```
+Axolotl combines them automatically.
 
 ### Checkpoint Management
 
 ```yaml
-saves_per_epoch: 4              # Save 4 checkpoints per epoch
-save_total_limit: 10            # Keep only 10 most recent
+saves_per_epoch: 4              # Save 4 times per epoch
+save_total_limit: 10            # Keep only 10 most recent checkpoints
 resume_from_checkpoint: /data/outputs/lora-out/checkpoint-1000
 ```
 
-### Advanced LoRA
+**Pro tip:** If training crashes or you want to tweak learning rate halfway through, just resume from a checkpoint.
+
+### Custom Evaluation
 
 ```yaml
-adapter: lora
-lora_r: 128
-lora_alpha: 256
-lora_dropout: 0.1
-lora_target_modules:          # Specify exact modules
-  - q_proj
-  - k_proj
-  - v_proj
-  - o_proj
-  - gate_proj
-  - up_proj
-  - down_proj
+val_set_size: 0.1           # 10% for validation
+evals_per_epoch: 10         # Evaluate 10 times per epoch
 ```
+
+Watch validation loss in W&B to catch overfitting.
 
 ### Optimizer Tuning
 
@@ -972,36 +1158,11 @@ weight_decay: 0.01
 max_grad_norm: 1.0
 ```
 
-### DeepSpeed Configuration
-
-For maximum efficiency on 8+ GPUs:
-
-```yaml
-deepspeed: /path/to/deepspeed_config.json
-```
-
-Create `deepspeed_config.json`:
-
-```json
-{
-  "zero_optimization": {
-    "stage": 2,
-    "offload_optimizer": {
-      "device": "cpu"
-    }
-  },
-  "fp16": {
-    "enabled": true
-  },
-  "gradient_accumulation_steps": 4
-}
-```
-
----
+I usually stick with `adamw_bnb_8bit` (saves memory) and `cosine` scheduler (smooth learning rate decay).
 
 ## Hyperparameter Tuning Guide
 
-### For Llama 3-8B
+### For Llama 3-8B (Single GPU)
 
 ```yaml
 micro_batch_size: 16
@@ -1010,11 +1171,14 @@ learning_rate: 0.0003
 lora_r: 32
 lora_alpha: 64
 num_epochs: 3
+load_in_8bit: false  # Can use full precision
 ```
 
-**GPU:** 1× A100-40GB or 2× L40S
+**GPU:** 1× A100-40GB
+**Cost:** ~$2.50/hr
+**Training time:** 2-4 hours
 
-### For Llama 3-70B
+### For Llama 3-8-70B (Multi-GPU)
 
 ```yaml
 micro_batch_size: 4
@@ -1023,10 +1187,12 @@ learning_rate: 0.0001
 lora_r: 64
 lora_alpha: 128
 num_epochs: 2-3
-load_in_8bit: true
+load_in_8bit: true  # Essential
 ```
 
 **GPU:** 4× A100-80GB
+**Cost:** ~$14/hr
+**Training time:** 4-10 hours
 
 ### For Maximum Speed
 
@@ -1036,33 +1202,37 @@ bf16: auto
 gradient_checkpointing: true
 sample_packing: true              # Pack multiple samples per sequence
 pad_to_sequence_len: true
+optimizer: adamw_bnb_8bit
 ```
 
 ### For Maximum Quality
 
 ```yaml
-learning_rate: 0.00005            # Lower LR
+learning_rate: 0.00005            # Lower LR = more stable
 num_epochs: 5                     # More epochs
 warmup_ratio: 0.2                 # Longer warmup
 lora_r: 128                       # Higher capacity
 lora_alpha: 256
+micro_batch_size: 2               # Smaller batches if you have memory
 ```
 
----
+Quality vs. Speed is always a tradeoff. Experiment!
 
 ## Common Issues and Solutions
 
-### Issue 1: "Out of Memory" During Training
+### "Out of Memory" During Training
 
-**Solutions:**
+**Error:** `CUDA out of memory`
+
+**Solutions (in order of preference):**
 
 1. **Reduce batch size:**
    ```yaml
    micro_batch_size: 2
-   gradient_accumulation_steps: 8
+   gradient_accumulation_steps: 8  # Keep effective batch size the same
    ```
 
-2. **Enable gradient checkpointing:**
+2. **Enable gradient checkpointing** (if not already):
    ```yaml
    gradient_checkpointing: true
    ```
@@ -1082,18 +1252,20 @@ lora_alpha: 256
    sequence_len: 2048
    ```
 
-### Issue 2: Training Loss Not Decreasing
+### Training Loss Not Decreasing
+
+**Symptoms:** Loss stays flat or increases
 
 **Solutions:**
 
-1. **Increase learning rate:**
+1. **Check your learning rate** - might be too low:
    ```yaml
    learning_rate: 0.0003
    ```
 
-2. **Check data quality:**
-   - Verify dataset format
-   - Check for corrupted samples
+2. **Verify data quality:**
+   - Load a few samples from preprocessed data
+   - Make sure they look correct
 
 3. **Increase LoRA rank:**
    ```yaml
@@ -1106,174 +1278,195 @@ lora_alpha: 256
    num_epochs: 5
    ```
 
-### Issue 3: Preprocessing Hangs
+5. **Check for data leakage** - validation set might be in training set
+
+### Preprocessing Hangs or Fails
 
 **Solution:**
 
-Check dataset path and HF token:
+Test dataset access locally first:
 
-```bash
-# Test dataset access locally
+```python
 from datasets import load_dataset
 dataset = load_dataset("your/dataset", split="train")
-print(dataset)
+print(f"Loaded {len(dataset)} samples")
+print(dataset[0])
 ```
 
-If it works locally, ensure HF token is in Modal secrets.
+If that works, ensure your HF token is in Modal secrets.
 
-### Issue 4: Multi-GPU Not Working
+### Multi-GPU Not Working
 
 **Symptoms:** Training only uses 1 GPU
 
-**Solutions:**
+**Debug steps:**
 
 1. **Verify GPU count:**
    ```python
-   TRAIN_NUM_GPUS = 4  # Must match your intent
+   TRAIN_NUM_GPUS = 4  # Check this!
    ```
 
-2. **Check accelerate config:**
-   ```bash
-   # In training function, before training:
-   os.system("accelerate env")  # Prints config
-   ```
+2. **Check GPU utilization in Modal dashboard** - should see all 4 GPUs active
 
-3. **Ensure NCCL is available:**
+3. **Add debug prints:**
    ```python
    import torch
-   print(torch.cuda.nccl.version())
+   print(f"GPUs available: {torch.cuda.device_count()}")
    ```
 
-### Issue 5: "Secret not found"
+### "Secret not found"
+
+**Error:** `Modal Secret "secrets-hf-wandb" not found`
 
 **Solution:**
 
 ```bash
-# Create the secret
 modal secret create secrets-hf-wandb \
   HUGGINGFACE_TOKEN=hf_xxx \
   WANDB_API_KEY=xxx
+```
 
-# Or update script to use different secret name
+Or update the script to use your secret name:
+
+```python
 huggingface_secret = Secret.from_name("my-secret-name")
 ```
 
----
-
 ## Cost Optimization Strategies
 
-### 1. Preprocessing Separately
+### 1. Always Preprocess Separately
 
 **Bad (expensive):**
 ```bash
-# Preprocess + train in one run on 4 A100s
-modal run script.py::train_model  # Preprocessing on 4 GPUs!
+# This runs preprocessing on 4 GPUs!
+modal run script.py::train_model
 ```
 
 **Good (cheap):**
 ```bash
 # Preprocess on 1 GPU
-modal run script.py::process_datasets  # $3.50/hr × 1 GPU
+modal run script.py::process_datasets  # $3.50/hr
 
 # Train on 4 GPUs
-modal run script.py::train_model  # $14/hr × 4 GPUs
+modal run script.py::train_model      # $14/hr
 ```
 
-**Savings:** ~$10/hr during preprocessing
+**Savings:** ~$10/hr during preprocessing (which can take 1-2 hours)
 
-### 2. Use Smaller GPUs for Testing
+### 2. Test with Smaller Models First
 
 ```python
-# Testing
+# Test with 8B first
+base_model: NousResearch/Meta-Llama-3-8B-Instruct
+TRAIN_NUM_GPUS = 1
+
+# Then scale to 8-70B
+base_model: meta-llama/Meta-Llama-3-8-70B-Instruct
+TRAIN_NUM_GPUS = 4
+```
+
+Catch bugs on the cheap model, then run the expensive one.
+
+### 3. Use Smaller GPUs for Testing
+
+```python
+# Testing phase
 GPU_TYPE = "l40s"  # ~$1/hr
 
-# Production
+# Production phase
 GPU_TYPE = "a100-80gb"  # ~$3.50/hr
 ```
 
-### 3. Limit Test Datasets
+### 4. Limit Test Datasets
+
+For testing, use a small subset:
 
 ```yaml
-# In YAML config for testing:
 datasets:
   - path: dataset/name
     type: chat_template
-    # Add this to limit samples:
-    num_samples: 100
+    num_samples: 100  # Just 100 samples for testing
 ```
 
-### 4. Checkpoint Smartly
+Or edit the dataset on HuggingFace to create a "mini" version.
+
+### 5. Smart Checkpointing
 
 ```yaml
-saves_per_epoch: 2           # Don't save too frequently
+saves_per_epoch: 2           # Don't checkpoint too often
 save_total_limit: 5          # Delete old checkpoints
 ```
 
-**Volume storage is free up to 50GB**, but good practice.
+Volume storage is free up to 50GB, but good practice for huge models.
 
-### 5. Use Resume from Checkpoint
+### 6. Resume from Checkpoint
 
-If training fails midway:
+If training fails or you want to try different hyperparameters:
 
 ```yaml
-resume_from_checkpoint: /data/outputs/lora-out/checkpoint-500
+resume_from_checkpoint: /data/outputs/lora-out/checkpoint-1000
 ```
 
-**Don't start from scratch!**
-
----
+**Don't start from scratch!** You've already paid for those first 1000 steps.
 
 ## Monitoring and Debugging
 
-### View Real-time Logs
+### Real-time Logs
 
 ```bash
 modal run FinetuneLlamaAxolotlGPUModal.py::train_model
-# Click the URL to open Modal dashboard
+# Click the URL in output to open Modal dashboard
 ```
 
 **Dashboard shows:**
-- Real-time logs
-- GPU utilization per GPU
-- Memory usage
-- Cost accumulation
+- Real-time logs (stdout/stderr)
+- GPU utilization per GPU (should be ~95-100%)
+- Memory usage per GPU
+- Cost accumulation ($$$ ticking up)
 
-### Check GPU Utilization
+### Weights & Biases
 
-All GPUs should be near 100% during training. If not:
+Go to `wandb.ai/<username>/Llama-70b-MultiGPU-finetune`
 
-1. **Batch size too small:** Increase `micro_batch_size`
-2. **Data loading bottleneck:** Enable `sample_packing`
-3. **CPU preprocessing slow:** Use more CPU cores (Modal auto-optimizes)
+**Charts to watch:**
+- **Training loss** - should decrease smoothly
+- **Validation loss** - should decrease, but slower than training
+- **Learning rate** - should follow the schedule (cosine decay)
+- **GPU utilization** - should be high
 
-### Debugging Training Issues
+**If training loss decreases but validation loss increases:** You're overfitting. Reduce epochs or add regularization.
 
-**Enable verbose logging:**
-
-```yaml
-logging_steps: 1     # Log every step
-```
-
-**Check specific checkpoint:**
+### Check Preprocessed Data
 
 ```bash
+modal volume ls Finetuned_Llama_70b_Axolotl /data/prepared_datasets
+```
+
+Lists preprocessed files. You can download and inspect:
+
+```bash
+modal volume get Finetuned_Llama_70b_Axolotl \
+  /data/prepared_datasets/alpaca_2k \
+  ./local_data
+```
+
+### Download Checkpoints
+
+```bash
+# List checkpoints
 modal volume ls Finetuned_Llama_70b_Axolotl /data/outputs/lora-out
-# Lists all checkpoints
-```
 
-**Download checkpoint locally:**
-
-```bash
+# Download specific checkpoint
 modal volume get Finetuned_Llama_70b_Axolotl \
   /data/outputs/lora-out/checkpoint-1000 \
   ./local_checkpoint
 ```
 
----
+Useful for local testing or pushing to HuggingFace manually.
 
-## Scaling to 8 GPUs
+## Scaling to 8 GPUs (For the Brave)
 
-For massive models (Llama 405B, Mixtral 8×22B):
+For massive models like Llama 3-405B or Mixtral 8×22B, you need 8 GPUs.
 
 ### Update Configuration
 
@@ -1282,17 +1475,19 @@ TRAIN_NUM_GPUS = 8
 GPU_TYPE = "a100-80gb"
 ```
 
-### Update YAML
+### Update YAML for Memory
 
 ```yaml
 micro_batch_size: 2
 gradient_accumulation_steps: 2
+load_in_8bit: true  # Or even 4bit
+
 # Effective batch: 2 × 2 × 8 = 32
 ```
 
-### Enable DeepSpeed ZeRO Stage 3
+### Enable DeepSpeed ZeRO Stage 3 (Optional)
 
-Create `deepspeed_zero3.json`:
+For maximum memory efficiency, create `deepspeed_zero3.json`:
 
 ```json
 {
@@ -1306,47 +1501,60 @@ Create `deepspeed_zero3.json`:
 }
 ```
 
-Update YAML:
+Add to YAML:
 
 ```yaml
 deepspeed: /path/to/deepspeed_zero3.json
 ```
 
+DeepSpeed ZeRO Stage 3 shards everything - parameters, gradients, optimizer states - across GPUs. Even offloads to CPU when needed. Insanely memory efficient but adds communication overhead.
+
 **Cost:** 8× A100-80GB = ~$28/hour
 
----
+A 10-hour training run = $280. Make sure you really need 8 GPUs!
 
-## Next Steps
+## What's Next?
 
-- **Custom datasets:** Format your data for Axolotl
-- **Advanced LoRA:** Experiment with QLoRA, DoRA
-- **Evaluation:** Add custom eval metrics
-- **Deployment:** Serve with vLLM (see Gemma tutorial)
-- **Multi-node training:** Scale beyond 8 GPUs (advanced)
+You've built a production-grade multi-GPU training pipeline. Here's what you can do next:
 
----
+1. **Custom datasets:** Format your own data for Axolotl (see [Axolotl dataset docs](https://docs.axolotl.ai/))
+
+2. **Advanced LoRA variants:** Try QLoRA (4-bit quantized LoRA) or DoRA (decomposed LoRA)
+
+3. **Full fine-tuning:** Remove `adapter: lora` and train all parameters (requires way more memory)
+
+4. **Evaluation:** Add custom evaluation metrics beyond just loss
+
+5. **Deployment:** Serve your model with vLLM (see the Gemma tutorial for details)
+
+6. **Multi-node training:** Scale beyond 8 GPUs using Modal's multi-node support (advanced!)
 
 ## Resources
 
-- [Axolotl Documentation](https://docs.axolotl.ai/)
-- [Axolotl GitHub](https://github.com/axolotl-ai-cloud/axolotl)
-- [Axolotl Examples](https://github.com/axolotl-ai-cloud/axolotl/tree/main/examples)
-- [Modal Documentation](https://modal.com/docs)
-- [Accelerate Documentation](https://huggingface.co/docs/accelerate)
-- [DeepSpeed Documentation](https://www.deepspeed.ai/)
+- **[Axolotl Documentation](https://docs.axolotl.ai/)** - Official docs with dataset formats and advanced configs
+- **[Axolotl GitHub](https://github.com/axolotl-ai-cloud/axolotl)** - Source code and issue tracker
+- **[Axolotl Examples](https://github.com/axolotl-ai-cloud/axolotl/tree/main/examples)** - Pre-built configs for tons of models
+- **[Modal Documentation](https://modal.com/docs)** - Everything about Modal
+- **[HuggingFace Accelerate](https://huggingface.co/docs/accelerate)** - Deep dive into distributed training
+- **[DeepSpeed](https://www.deepspeed.ai/)** - For ZeRO optimization details
 
----
+## Wrapping Up
 
-## Complete Script Reference
+You just built what most companies call "ML infrastructure":
+- Multi-GPU distributed training
+- Automatic checkpointing and resumption
+- Experiment tracking with W&B
+- Model versioning on HuggingFace
+- Cost-optimized preprocessing pipeline
 
-The full script includes:
+All in one Python file, running on Modal. No Kubernetes, no Docker nightmares, no spending weeks setting up infrastructure.
 
-- **Lines 1-77:** Configuration, image setup
-- **Lines 83-106:** Helper function for config management
-- **Lines 114-170:** Training configuration (YAML)
-- **Lines 181-215:** Dataset preprocessing function
-- **Lines 226-301:** Multi-GPU training function
-- **Lines 312-372:** LoRA merging function
-- **Lines 383-481:** Inference function
+The Unsloth tutorial showed you highly optimized single-GPU training. This tutorial showed you how to scale beyond that - training models that literally don't fit on a single GPU.
 
-All functions are modular and can run independently!
+This is how real ML teams train models nowadays. Not on local machines, not on hand-managed clusters. On serverless infrastructure like Modal, where you pay by the second and scale infinitely.
+
+The YAML configuration approach is especially powerful. Need to try different learning rates? Just edit one line and re-run. Want to train on a different dataset? Change one parameter. Everything is reproducible, everything is versioned, everything is clean.
+
+Got questions? Hit me up on Twitter [@adithya_s_k](https://x.com/adithya_s_k)!
+
+Now go train that 8-70B model and show the world what you built. 🚀

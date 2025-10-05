@@ -223,6 +223,54 @@ LLM\LlamaFactory\README.md:
     "deployment", "responsible AI", "application architecture"]
 
     ```'
+LLM\ServerLessFinetuning\README.md:
+  hash: new_serverless_readme
+  summary: '```yaml
+
+    description: "Master serverless LLM training on Modal with nanoGPT, Unsloth, and Axolotl. Learn production ML infrastructure without Kubernetes complexity."
+
+    summary: "This comprehensive guide teaches practical serverless fine-tuning techniques using Modal, covering everything from training nanoGPT from scratch to fine-tuning Llama 70B with multi-GPU setups. Learn cost-effective AI engineering workflows using tools like Unsloth for optimized single-GPU training and Axolotl for distributed multi-GPU training. Master production-ready ML pipelines including dataset preprocessing, LoRA fine-tuning, model evaluation, and vLLM deployment - all without managing infrastructure. Perfect for AI practitioners looking to scale training workflows efficiently while minimizing costs."
+
+    keywords: ["serverless training", "Modal", "LLM fine-tuning", "nanoGPT", "Unsloth",
+    "Axolotl", "multi-GPU training", "LoRA", "production ML", "cost optimization"]
+
+    ```'
+LLM\ServerLessFinetuning\TrainNanoGPTModalTutorial.md:
+  hash: new_nanogpt_tutorial
+  summary: '```yaml
+
+    description: "Train GPT-2 from scratch on Modal in 90 minutes. Learn transformer architecture, distributed training, and serverless ML workflows hands-on."
+
+    summary: "Build a complete understanding of language model training by implementing nanoGPT from scratch on Modals serverless infrastructure. This hands-on tutorial covers transformer architecture fundamentals, training loop implementation, distributed data-parallel training, and model evaluation. Learn practical AI engineering skills including dataset preparation with FineWeb-Edu, hyperparameter tuning, checkpoint management, and cost-effective GPU utilization. Master the fundamentals of training large language models while understanding every component from tokenization to inference, all deployed on scalable serverless infrastructure."
+
+    keywords: ["nanoGPT", "GPT-2 training", "transformer architecture", "Modal",
+    "distributed training", "serverless ML", "language model training", "AI engineering fundamentals", "checkpoint management"]
+
+    ```'
+LLM\ServerLessFinetuning\FinetuneGemmaUnslothModalTutorial.md:
+  hash: new_gemma_tutorial
+  summary: '```yaml
+
+    description: "Fine-tune Gemma 3-4B vision model with Unsloth on Modal. Learn production ML pipelines with LoRA, vLLM deployment, and evaluation metrics."
+
+    summary: "Master production-grade ML workflows by fine-tuning Googles Gemma 3-4B vision model using Unsloths optimized training on Modal. This tutorial covers complete pipeline stages: dataset download and preprocessing, LoRA fine-tuning with 2-5x faster training, model evaluation with character error rate metrics, and vLLM deployment with auto-scaling. Learn memory-efficient techniques, proper checkpoint management, and cost optimization strategies while building a LaTeX OCR system. Gain practical experience with vision-language models, parameter-efficient fine-tuning, and OpenAI-compatible API deployment."
+
+    keywords: ["Gemma fine-tuning", "Unsloth", "vision-language models", "LoRA",
+    "vLLM deployment", "Modal", "production ML pipeline", "parameter-efficient training", "model evaluation", "serverless inference"]
+
+    ```'
+LLM\ServerLessFinetuning\FinetuneLlamaAxolotlGPUModalTutorial.md:
+  hash: new_axolotl_tutorial
+  summary: '```yaml
+
+    description: "Train Llama 70B across 4 GPUs with Axolotl on Modal. Master multi-GPU distributed training, YAML configs, and production ML infrastructure."
+
+    summary: "Scale to production-level ML infrastructure by fine-tuning Llama 70B across multiple GPUs using Axolotl and Modals serverless platform. Learn distributed training fundamentals including data parallelism, tensor parallelism, and FSDP sharding strategies. Master YAML-based configuration management, multi-stage pipelines with dataset preprocessing, LoRA adapter training and merging, and cost optimization techniques. Gain hands-on experience with HuggingFace Accelerate, DeepSpeed integration, checkpoint resumption, and Weights & Biases tracking while training models that dont fit on single GPUs."
+
+    keywords: ["Llama fine-tuning", "multi-GPU training", "Axolotl", "distributed training",
+    "FSDP", "DeepSpeed", "Modal", "production ML infrastructure", "YAML configuration", "cost optimization"]
+
+    ```'
 LLM\Mistral-7b\README.md:
   hash: f170e48105baa7e851128f171619a54f
   summary: '```yaml

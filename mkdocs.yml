@@ -253,10 +253,10 @@ nav:
           - Florence2: LLM/VLM/Florence2_finetuning_notebook.ipynb
           - PaliGemma: LLM/VLM/PaliGemma_finetuning_notebook.ipynb
       - Serverless Finetuning with Modal:
-          - Overview: LLM/ServerLessFinetuning/README.md
+          - Write Deep Learning Code Locally and Run on GPUs Instantly:  LLM/ServerLessFinetuning/README.md
           - Training NanoGPT on Modal: LLM/ServerLessFinetuning/TrainNanoGPTModalTutorial.md
           - Fine-tuning Gemma with Unsloth: LLM/ServerLessFinetuning/FinetuneGemmaUnslothModalTutorial.md
-          - Multi-GPU Training with Axolotl: LLM/ServerLessFinetuning/FinetuneLlamaAxolotlGPUModalTutorial`.md
+          - Multi-GPU Training with Axolotl: LLM/ServerLessFinetuning/FinetuneLlamaAxolotlGPUModalTutorial.md
       - LLM Architecture:
           - Parameter Count: LLM/LLMArchitecture/ParameterCount/README.md
   - Deployment:

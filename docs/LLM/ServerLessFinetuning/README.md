@@ -177,25 +177,63 @@ The best part about this is all of this will be a single Python file.
 
 Let's get started.
 
-Example 1
+## Tutorials
 
-Fine-tuning Gemma 3B using Unsloth for LaTeX OCR and serving it at scale.
+We've created comprehensive tutorials for each training approach:
 
-Unsloth is a really good package to do optimized training on a single GPU.
+### 1. [Training NanoGPT on Modal](TrainNanoGPTModalTutorial.md)
+**Character-level language modeling with minimal setup**
 
-We will first load the model and dataset, verify everything is okay, then train the model, then evaluate it, then serve it using vLLM at scale.
+Learn how to take an existing codebase (Andrej Karpathy's nanoGPT) and run it on Modal's serverless GPUs with minimal modifications. Perfect for beginners to understand:
+- How to copy local repositories into Modal containers
+- Data preparation, training, and sampling pipelines
+- Managing persistent storage with Modal volumes
+- Running existing Python projects on remote GPUs
 
-All of this in a single Python script.
+**Level:** Beginner
+**GPU Required:** 1× A100-40GB (or T4/L40S for testing)
+**Time:** 30 mins - 2 hours
 
-Example 2
+---
 
-Instead of using Unsloth, we will be using MS Swift, which has a CLI-based interface. This will show you how to handle packages from GitHub. Here we will do multi-GPU training with 2-8 A100 GPUs.
+### 2. [Fine-tuning Gemma 3-4B with Unsloth](FinetuneGemmaUnslothModalTutorial.md)
+**End-to-end vision-language model training and deployment**
 
-Example 3
+A production-grade pipeline covering the complete ML workflow from data to deployment. You'll learn:
+- Fine-tuning vision-language models with LoRA
+- Optimized single-GPU training with Unsloth
+- Model evaluation with automated metrics
+- Serving with vLLM for high-throughput inference
+- Auto-scaling deployment strategies
 
-Let's say you have Python code locally and want to use that to do training and stuff.
+**Level:** Intermediate
+**GPU Required:** 1× A100-80GB (or L40S)
+**Time:** 3-6 hours (full pipeline)
 
-Let's use NanoGPT and run a training run on Modal with evaluations.
+---
+
+### 3. [Multi-GPU Training with Axolotl](FinetuneLlamaAxolotlGPUModalTutorial.md)
+**Distributed training for large models (Llama 70B+)**
+
+Advanced distributed training techniques for massive models. You'll learn:
+- Multi-GPU training with Accelerate and DeepSpeed
+- YAML-based configuration for reproducibility
+- Dataset preprocessing for large-scale training
+- Scaling from 2 to 8 GPUs
+- Cost optimization strategies for expensive training runs
+
+**Level:** Advanced
+**GPU Required:** 2-8× A100-80GB
+**Time:** 4-12 hours (depends on model size)
+
+---
+
+Each tutorial includes:
+- ✅ Complete working code
+- ✅ Step-by-step explanations
+- ✅ Troubleshooting guides
+- ✅ Cost optimization tips
+- ✅ Hyperparameter tuning recommendations
 
 I think these 3 examples will give you a good picture to replicate the process across multiple things.
 

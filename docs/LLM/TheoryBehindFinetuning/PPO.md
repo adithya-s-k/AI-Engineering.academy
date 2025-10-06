@@ -39,69 +39,75 @@ The thinking trace clarifies that PPO is distinct from off-policy methods like Q
 
 To understand PPO’s operation, consider its mathematical formulation, as outlined in the thinking trace and supported by resources like "Mastering Reinforcement Learning with Proximal Policy Optimization (PPO)" (Mastering Reinforcement Learning with Proximal Policy Optimization (PPO)). The standard policy gradient update is:
 
-`\theta \leftarrow \theta + \alpha \nabla_\theta \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^T \gamma^t r_t \right]`
+
+```math
+\theta \leftarrow \theta + \alpha \nabla_\theta \mathbb{E}_{\tau \sim \pi_\theta} \left[ \sum_{t=0}^T \gamma^t r_t \right]
+```
 
 where
 
-`\tau`
+
+```math
+\tau
+```
 
 is a trajectory,
 
-`\pi_\theta`
+
+```math
+\pi_\theta
+```
 
 is the policy parameterized by
 
-`\theta`
+
+```math
+\theta
+```
 
 ,
 
-`\gamma`
 
-is the discount factor, and
+```math
+\gamma
+```
 
-`r_t`
+is the discount factor, and `r_t` is the reward at time `t` . In practice, this is approximated using samples, leading to the policy gradient objective:
 
-is the reward at time
 
-`t`
-
-. In practice, this is approximated using samples, leading to the policy gradient objective:
-
-`\mathbb{E}_{s,a \sim \pi_{\text{old}}} \left[ \frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)} A(s,a) \right]`
+```math
+\mathbb{E}_{s,a \sim \pi_{\text{old}}} \left[ \frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)} A(s,a) \right]
+```
 
 where
 
-`\pi_{\text{old}}`
 
-is the policy before the update, and
+```math
+\pi_{\text{old}}
+```
 
-`A(s,a)`
-
-is the advantage function, typically
-
-`A(s,a) = Q(s,a) - V(s)`
-
-, with
-
-`Q(s,a)`
-
-being the expected return and
-
-`V(s)`
-
-the value function estimate.
+is the policy before the update, and `A(s,a)` is the advantage function, typically `A(s,a) = Q(s,a) - V(s)`, with `Q(s,a)` being the expected return and `V(s)` the value function estimate.
 
 PPO modifies this by introducing a clipped surrogate objective to ensure stability:
 
-`\mathbb{E}_{s,a \sim \pi_{\text{old}}} \left[ \min \left( \frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)} A(s,a), \text{clip}\left( \frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}, 1-\epsilon, 1+\epsilon \right) A(s,a) \right) \right]`
+
+```math
+\mathbb{E}_{s,a \sim \pi_{\text{old}}} \left[ \min \left( \frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)} A(s,a), \text{clip}\left( \frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}, 1-\epsilon, 1+\epsilon \right) A(s,a) \right) \right]
+```
 
 Here,
 
-`\epsilon`
+
+```math
+\epsilon
+```
 
 is a clipping parameter, typically set to 0.2, ensuring the ratio
 
-`\frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}`
+
+```math
+\frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}
+```
 
 stays within [1 - ε, 1 + ε], preventing large policy updates that could destabilize training. This formulation, as noted in the thinking trace, balances reward maximization with stability, making PPO suitable for fine-tuning LLMs.
 
@@ -118,19 +124,12 @@ In this setup, the thinking trace clarifies that the “state” is the prompt, 
 
 The thinking trace also considers the policy in LLMs, noting that it’s over sequences, with the probability of a response being the product of the probabilities of each token given the previous ones. Therefore, the ratio
 
-`\frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}`
 
-is computed for the entire sequence, which is manageable in practice.To compute the advantage, the thinking trace suggests using
+```math
+\frac{\pi_{\theta}(a|s)}{\pi_{\text{old}}(a|s)}
+```
 
-`A(s,a) = r - V(s)`
-
-, where
-
-`r`
-
-is the reward from the reward model, and
-
-`V(s)`
+is computed for the entire sequence, which is manageable in practice.To compute the advantage, the thinking trace suggests using `A(s,a) = r - V(s)`, where `r` is the reward from the reward model, and `V(s)`
 
 is the value function, estimated by a separate network, as seen in OpenAI’s implementation. This ensures the advantage reflects how much better the response is compared to the expected reward for the prompt, aligning with PPO’s requirements.
 

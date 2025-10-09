@@ -185,7 +185,7 @@ Now the basics are out of the way. Let's do some training, fine-tuning, evaluati
 
 I have created comprehensive tutorials for each training approach:
 
-### 1. [Training NanoGPT on Modal](TrainNanoGPTModal.md)
+### 1. [Training NanoGPT on Modal](TrainNanoGPTModalTutorial.md)
 
 📄 **[View Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/TrainNanoGPTModal.py)**
 
@@ -202,7 +202,7 @@ Learn how to take an existing codebase (Andrej Karpathy's nanoGPT) and run it on
 
 ---
 
-### 2. [Fine-tuning Gemma 3-4B with Unsloth](FinetuneGemmaUnslothModal.md)
+### 2. [Fine-tuning Gemma 3-4B with Unsloth](FinetuneGemmaUnslothModalTutorial.md)
 
 **End-to-end vision-language model training and deployment**
 
@@ -222,7 +222,7 @@ A production-grade pipeline covering the complete ML workflow from data to deplo
 
 ---
 
-### 3. [Multi-GPU Training with Axolotl](FinetuneLlamaAxolotlGPUModal.md)
+### 3. [Multi-GPU Training with Axolotl](FinetuneLlamaAxolotlGPUModalTutorial.md)
 
 **Distributed training for large models (Llama 8 - 70B+)**
 

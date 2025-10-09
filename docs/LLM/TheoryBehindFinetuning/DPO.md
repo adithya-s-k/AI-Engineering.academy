@@ -17,7 +17,11 @@ Traditional Reinforcement Learning from Human Feedback (RLHF) has multiple steps
 
 **The Math Behind It**
 
-DPO uses a math formula to compare answers. For each question, if "Paris" is preferred over "London," it calculates how likely the model is to pick each and adjusts it so "Paris" gets a higher chance. The formula is:**Loss = -log σ((log P("Paris" | question) - log P("London" | question)) / β)**Here, σ is a sigmoid function, and β is a tuning knob. This math pushes the model to favor preferred answers, and you update it using gradient descent, a common machine learning technique.
+DPO uses a math formula to compare answers. For each question, if "Paris" is preferred over "London," it calculates how likely the model is to pick each and adjusts it so "Paris" gets a higher chance. The formula is:
+
+$$\text{Loss} = -\log \sigma\left(\frac{\log P(\text{"Paris"} \mid \text{question}) - \log P(\text{"London"} \mid \text{question})}{\beta}\right)$$
+
+Here, $\sigma$ is a sigmoid function, and $\beta$ is a tuning knob. This math pushes the model to favor preferred answers, and you update it using gradient descent, a common machine learning technique.
 
 **Why It’s Surprising**
 
@@ -56,67 +60,17 @@ The thinking trace also considers the practical implications, such as DPO’s po
 
 **Mathematical Formulation of DPO**
 
-The mathematical foundation of DPO is central to its operation, and the thinking trace provides a detailed derivation based on the original paper. Given a prompt
+The mathematical foundation of DPO is central to its operation, and the thinking trace provides a detailed derivation based on the original paper. Given a prompt $p$ and two responses $a$ and $b$, where $a$ is preferred over $b$, the loss function for DPO is:
 
-`p`
+$$\mathcal{L} = - \sum_{\text{pairs } (a, b)} \log \sigma \left( \frac{\log \pi_\theta(a | p) - \log \pi_\theta(b | p)}{\beta} \right)$$
 
-and two responses
+Here, $\sigma$ is the sigmoid function, defined as $\sigma(x) = \frac{1}{1 + e^{-x}}$, $\pi_\theta$ is the policy (the LLM's probability distribution over responses given the prompt), and $\beta$ is a temperature parameter that controls the strength of the preference, as noted in the thinking trace's exploration of hyperparameters.
 
-`a`
+This loss function encourages the model to have a higher log probability for the preferred response $a$ compared to the dispreferred response $b$. To optimize this, gradient descent is used on the LLM's parameters, adjusting them to minimize the loss. The thinking trace also mentions the optimal policy under DPO, derived as:
 
-and
+$$\pi_\theta(a | p) \propto \pi_{\text{ref}}(a | p) \exp \left( \frac{r(a, p)}{\beta} \right)$$
 
-`b`
-
-, where
-
-`a`
-
-is preferred over
-
-`b`
-
-, the loss function for DPO is:
-
-`\mathcal{L} = - \sum_{\text{pairs } (a, b)} \log \sigma \left( \frac{\log \pi(a | p) - \log \pi(b | p)}{\beta} \right)`
-
-Here,
-
-`\sigma`
-
-is the sigmoid function, defined as
-
-`\sigma(x) = \frac{1}{1 + e^{-x}}`
-
-,
-
-`\pi`
-
-is the policy (the LLM’s probability distribution over responses given the prompt), and
-
-`\beta`
-
-is a temperature parameter that controls the strength of the preference, as noted in the thinking trace’s exploration of hyperparameters.This loss function encourages the model to have a higher log probability for the preferred response
-
-`a`
-
-compared to the dispreferred response
-
-`b`
-
-. To optimize this, gradient descent is used on the LLM’s parameters, adjusting them to minimize the loss. The thinking trace also mentions the optimal policy under DPO, derived as:
-
-`\pi(a | p) \propto \pi_{\text{ref}}(a | p) \exp \left( \frac{r(a, p)}{\beta} \right)`
-
-where
-
-`\pi_{\text{ref}}`
-
-is the reference policy (the initial model), and
-
-`r(a, p)`
-
-is the reward, inferred from the preferences without explicit learning, as clarified in the paper. This formulation, while not directly computed during optimization, provides theoretical insight into DPO’s mechanism, aligning with the user’s request for deep theoretical understanding.
+where $\pi_{\text{ref}}$ is the reference policy (the initial model), and $r(a, p)$ is the reward, inferred from the preferences without explicit learning, as clarified in the paper. This formulation, while not directly computed during optimization, provides theoretical insight into DPO's mechanism, aligning with the user's request for deep theoretical understanding.
 
 **Intuition Behind DPO’s Operation**
 
@@ -136,16 +90,9 @@ The thinking trace identifies several advantages and limitations, providing a ba
 
 **Limitations:**
 
-1. **Data Requirements:** DPO requires a significant amount of preference data to effectively fine-tune the model, which can be costly to collect, as mentioned in the thinking trace’s consideration of data needs.
-2. **Hyperparameter Tuning:** The temperature parameter needs careful tuning to balance exploration and exploitation, with a higher making the model more sensitive to differences and a lower less so, as discussed in the paper’s implementation details.
-
-   β
-
-   β
-
-   β
-
-3. **Performance on Complex Tasks:** The thinking trace notes that DPO’s performance on more complex tasks or in scenarios with nuanced preferences remains an area for further research, potentially limiting its applicability in certain contexts.
+1. **Data Requirements:** DPO requires a significant amount of preference data to effectively fine-tune the model, which can be costly to collect, as mentioned in the thinking trace's consideration of data needs.
+2. **Hyperparameter Tuning:** The temperature parameter $\beta$ needs careful tuning to balance exploration and exploitation, with a higher $\beta$ making the model more sensitive to differences and a lower $\beta$ less so, as discussed in the paper's implementation details.
+3. **Performance on Complex Tasks:** The thinking trace notes that DPO's performance on more complex tasks or in scenarios with nuanced preferences remains an area for further research, potentially limiting its applicability in certain contexts.
 
 **Practical Examples and Case Studies**
 
@@ -160,9 +107,7 @@ While the user’s request focuses on theory, the thinking trace considers pract
 1. A pre-trained language model, such as those available in the Hugging Face Transformers library ([Hugging Face's DPO Implementation](https://huggingface.co/docs/trl/en/dpo)).
 2. A dataset of prompts and pairs of responses with preferences, which can be collected through human annotation or existing datasets.
 3. Define the loss function as outlined, using libraries like PyTorch for gradient descent.
-4. Tune hyperparameters, including , based on validation performance.
-
-   β
+4. Tune hyperparameters, including $\beta$, based on validation performance.
 
 The thinking trace also mentions that the Hugging Face TRL library provides a DPO trainer, simplifying implementation for practitioners, as seen in their documentation ([Hugging Face's DPO Implementation](https://huggingface.co/docs/trl/en/dpo)).
 

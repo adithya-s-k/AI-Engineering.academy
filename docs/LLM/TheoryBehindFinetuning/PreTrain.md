@@ -61,20 +61,20 @@ The thinking trace identifies two primary pre-training objectives for LLMs, each
 
 1. **Autoregressive Language Models (ALMs):**
    - **Definition:** These models, such as the GPT series (GPT-3, GPT-4), predict the next word in a sequence given the previous words. This is a left-to-right, causal language modeling approach.
-   - **Mathematical Formulation:** For a sequence of words , the model maximizes the probability for each from 1 to . The loss function is the negative log likelihood:
-     `w_1, w_2, \ldots, w_n`
-     `P(w_{i+1} \mid w_1, w_2, \ldots, w_i)`
-     `i`
-     `n-1`
-     `\text{Loss} = -\sum_{i=1}^{n-1} \log P(w_{i+1} \mid w_1, w_2, \ldots, w_i)`
+   - **Mathematical Formulation:** For a sequence of words $w_1, w_2, \ldots, w_n$, the model maximizes the probability $P(w_{i+1} \mid w_1, w_2, \ldots, w_i)$ for each $i$ from 1 to $n-1$. The loss function is the negative log likelihood:
+
+     $$\text{Loss} = -\sum_{i=1}^{n-1} \log P(w_{i+1} \mid w_1, w_2, \ldots, w_i)$$
+
    - **Intuition:** By predicting the next word, the model learns sequential dependencies, capturing grammar, syntax, and semantics. For example, given "The cat is," it might predict "sleeping," learning that verbs often follow subjects in English.
-   - **Example Models:** GPT-3, trained on datasets like Common Crawl and Wikipedia, can generate coherent text and perform tasks like translation without specific training, as noted in the thinking trace’s reference to emergent behavior.
+   - **Example Models:** GPT-3, trained on datasets like Common Crawl and Wikipedia, can generate coherent text and perform tasks like translation without specific training, as noted in the thinking trace's reference to emergent behavior.
 2. **Masked Language Models (MLMs):**
    - **Definition:** These models, such as BERT and RoBERTa, predict randomly masked words in a sequence, considering both left and right context. This is a bidirectional approach, useful for understanding tasks.
    - **Mathematical Formulation:** For a sequence with some words masked, the model predicts the original word for each masked position. The loss is the sum of negative log likelihoods:
-     `\text{Loss} = -\sum_{\text{masked } j} \log P(w_j \mid \text{context})`
+
+     $$\text{Loss} = -\sum_{\text{masked } j} \log P(w_j \mid \text{context})$$
+
    - **Intuition:** By filling in blanks, the model learns to understand the context from both sides, capturing bidirectional relationships. For instance, in "The cat [MASK] on the mat," it might predict "sat," considering both "cat" and "mat."
-   - **Example Models:** BERT, used for tasks like sentiment analysis and named entity recognition, benefits from this bidirectional context, as highlighted in the thinking trace’s reference to its applications.
+   - **Example Models:** BERT, used for tasks like sentiment analysis and named entity recognition, benefits from this bidirectional context, as highlighted in the thinking trace's reference to its applications.
 
 The thinking trace also mentions other objectives, like next sentence prediction, but focuses on these as the main ones, aligning with the user’s request for detailed explanations.
 
@@ -87,9 +87,11 @@ The thinking trace emphasizes that most modern LLMs use the transformer architec
 - **Embeddings:** Each word is represented as a vector, capturing its meaning in a high-dimensional space.
 - **Self-Attention:** This mechanism allows the model to weigh the importance of different words in the sequence when processing each word. For a sequence, it computes:
   - Query (Q), Key (K), Value (V) matrices, which are linear transformations of the input embeddings.
-  - Attention weights via dot product: , where is the dimension of the keys, normalizing the dot products.
-    Attention(Q,K,V)=softmax(QKTdk)V
-    dk
+  - Attention weights via dot product:
+
+    $$\text{Attention}(Q,K,V) = \text{softmax}\left(\frac{QK^T}{\sqrt{d_k}}\right)V$$
+
+    where $d_k$ is the dimension of the keys, normalizing the dot products.
   - The output is a weighted sum of V, capturing contextual relationships.
 - **Feed-Forward Networks:** Adds non-linearity, processing each position independently.
 - **Layer Normalization:** Normalizes the outputs of each layer for stable training.

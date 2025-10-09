@@ -41,9 +41,7 @@ ORPO builds on these ideas but introduces a novel approach by integrating prefer
 
 **Definition and Context of ORPO**
 
-ORPO is defined as a fine-tuning technique that modifies the SFT process to incorporate human preference data using the odds ratio, a statistical measure that contrasts the likelihoods of generating preferred versus dispreferred responses. The thinking trace clarifies that ORPO requires a dataset where each prompt
-
-$x$ is associated with a preferred response $yw$ and a dispreferred response $yl$ , similar to DPO, but uses the odds ratio in its loss function, offering a different way to contrast these responses.
+ORPO is defined as a fine-tuning technique that modifies the SFT process to incorporate human preference data using the odds ratio, a statistical measure that contrasts the likelihoods of generating preferred versus dispreferred responses. The thinking trace clarifies that ORPO requires a dataset where each prompt $x$ is associated with a preferred response $y_w$ and a dispreferred response $y_l$, similar to DPO, but uses the odds ratio in its loss function, offering a different way to contrast these responses.
 
 The significance of ORPO, as noted in blog posts like "Demystifying ORPO: A Revolutionary Paradigm in Language Model Fine-Tuning" ([Demystifying ORPO: A Revolutionary Paradigm in Language Model Fine-Tuning](https://attentions.ai/blog/demystifying-orpo-a-revolutionary-paradigm-in-language-model-fine-tuning/)) and "ORPO, A New Era for LLMs?" ([ORPO, A New Era for LLMs?](https://medium.com/@ignacio.de.gregorio.noblejas/orpo-a-new-era-for-llms-31f99acafec5)), lies in its potential to reduce training costs and complexity, making LLM deployment more accessible for open-source and enterprise communities. This aligns with the thinking trace’s observation of ORPO’s democratizing force, as mentioned in the Medium article.
 
@@ -51,59 +49,43 @@ The significance of ORPO, as noted in blog posts like "Demystifying ORPO: A Revo
 
 The mathematical foundation of ORPO is central to its operation, and the thinking trace provides a detailed derivation based on the browse_page result from the arXiv paper. The loss function consists of two components:
 
-1. **Supervised Fine-Tuning Loss (LSFT)**: This is the standard negative log-likelihood loss for generating the preferred response, defined as:where $P(yw∣x)$ is the probability of generating the preferred response given $yw$ the prompt , computed as the product of token probabilities in the sequence.
+1. **Supervised Fine-Tuning Loss (LSFT)**: This is the standard negative log-likelihood loss for generating the preferred response, defined as:
 
-   $LSFT=−log⁡P(yw∣x)$
+   $$\mathcal{L}_{\text{SFT}} = -\log P_\theta(y_w \mid x)$$
 
-   $x$
+   where $P_\theta(y_w \mid x)$ is the probability of generating the preferred response $y_w$ given the prompt $x$, computed as the product of token probabilities in the sequence.
 
-2. **Odds Ratio Loss (LOR)**: This loss incorporates the odds ratio to contrast preferred and dispreferred responses, defined as:where is the sigmoid function, , is the preferred response, and is the dispreferred response. The odds ratio is:The thinking trace initially struggled with this, noting that for sequence probabilities in LLMs, is typically very small, making , so the odds ratio approximates to , and the log odds ratio to , similar to DPO. However, the paper’s use of odds suggests a nuanced difference, potentially at the token level or in how probabilities are interpreted.
+2. **Odds Ratio Loss (LOR)**: This loss incorporates the odds ratio to contrast preferred and dispreferred responses, defined as:
 
-   $LOR=−log⁡σ(log⁡(odds(yw∣x)odds(yl∣x)))$
+   $$\mathcal{L}_{\text{OR}} = -\log \sigma \left( \log \frac{\text{odds}_\theta(y_w \mid x)}{\text{odds}_\theta(y_l \mid x)} \right)$$
 
-   $σ$
+   where $\sigma$ is the sigmoid function, $y_w$ is the preferred response, and $y_l$ is the dispreferred response. The odds ratio is defined as:
 
-   $odds(y∣x)=P(y∣x)1−P(y∣x)$
+   $$\text{odds}_\theta(y \mid x) = \frac{P_\theta(y \mid x)}{1 - P_\theta(y \mid x)}$$
 
-   $yw$
+   Therefore, the ratio of odds becomes:
 
-   $yl$
+   $$\frac{\text{odds}_\theta(y_w \mid x)}{\text{odds}_\theta(y_l \mid x)} = \frac{P_\theta(y_w \mid x) / (1 - P_\theta(y_w \mid x))}{P_\theta(y_l \mid x) / (1 - P_\theta(y_l \mid x))} = \frac{P_\theta(y_w \mid x)}{P_\theta(y_l \mid x)} \cdot \frac{1 - P_\theta(y_l \mid x)}{1 - P_\theta(y_w \mid x)}$$
 
-   $odds(yw∣x)odds(yl∣x)=P(yw∣x)/(1−P(yw∣x))P(yl∣x)/(1−P(yl∣x))=P(yw∣x)P(yl∣x)⋅1−P(yl∣x)1−P(yw∣x)$
-
-   $P(y∣x)$
-
-   $1−P(y∣x)≈1$
-
-   $P(yw∣x)P(yl∣x)$
-
-   $log⁡P(yw∣x)−log⁡P(yl∣x)$
+   The thinking trace initially struggled with this, noting that for sequence probabilities in LLMs, $P_\theta(y \mid x)$ is typically very small, making $1 - P_\theta(y \mid x) \approx 1$, so the odds ratio approximates to $\frac{P_\theta(y_w \mid x)}{P_\theta(y_l \mid x)}$, and the log odds ratio to $\log P_\theta(y_w \mid x) - \log P_\theta(y_l \mid x)$, similar to DPO. However, the paper's use of odds suggests a nuanced difference, potentially at the token level or in how probabilities are interpreted.
 
 The overall loss function is:
 
-$LORPO=E(x,yw,yl)[LSFT+λ⋅LOR]$
+$$\mathcal{L}_{\text{ORPO}} = \mathbb{E}_{(x, y_w, y_l)} \left[ \mathcal{L}_{\text{SFT}} + \lambda \cdot \mathcal{L}_{\text{OR}} \right]$$
+
+where $\lambda$ is a weighting factor, and the expectation is over the dataset of prompt-preferred-dispreferred triples. The gradient of $\mathcal{L}_{\text{OR}}$ is given by:
+
+$$\nabla_\theta \mathcal{L}_{\text{OR}} = \delta(d) \cdot h(d)$$
 
 where
 
-$λ$
-
-is a weighting factor, and the expectation is over the dataset of prompt-preferred-dispreferred triples. The gradient of
-
-$LOR$
-
-is given by:
-
-$∇θLOR=δ(d)⋅h(d)$
-
-where
-
-$δ(d)=1+(odds(yw∣x)odds(yl∣x))−1$
+$$\delta(d) = 1 + \left( \frac{\text{odds}_\theta(y_w \mid x)}{\text{odds}_\theta(y_l \mid x)} \right)^{-1}$$
 
 and
 
-$h(d)=−∇θlog⁡P(yw∣x)1−P(yw∣x)+∇θlog⁡P(yl∣x)1−P(yl∣x)$
+$$h(d) = -\nabla_\theta \log \frac{P_\theta(y_w \mid x)}{1 - P_\theta(y_w \mid x)} + \nabla_\theta \log \frac{P_\theta(y_l \mid x)}{1 - P_\theta(y_l \mid x)}$$
 
-, for $d=(x,yw,yl)∼D$, as detailed in the browse_page result. This formulation, while complex, ensures the model adjusts to favor preferred responses, as noted in the thinking trace’s exploration.
+for $d = (x, y_w, y_l) \sim \mathcal{D}$, as detailed in the browse_page result. This formulation, while complex, ensures the model adjusts to favor preferred responses, as noted in the thinking trace's exploration.
 
 **Intuition Behind ORPO’s Operation**
 
@@ -153,10 +135,8 @@ While the user’s request focuses on theory, the thinking trace considers pract
 
 1. A pre-trained language model, such as those available in the Hugging Face Transformers library.
 2. A dataset of prompts with preferred and dispreferred responses, which can be collected through human annotation or existing datasets like UltraFeedback.
-3. Define the loss function as outlined, using libraries like PyTorch for gradient descent, with the odds ratio calculated as per the paper’s formulation.
-4. Tune hyperparameters, including , based on validation performance, as seen in the paper’s experimental setup.
-
-   λ
+3. Define the loss function as outlined, using libraries like PyTorch for gradient descent, with the odds ratio calculated as per the paper's formulation.
+4. Tune hyperparameters, including $\lambda$, based on validation performance, as seen in the paper's experimental setup.
 
 The thinking trace also mentions that the code for ORPO is available on GitHub ([ORPO GitHub](https://github.com/xfactlab/orpo)), providing a practical resource for practitioners, as noted in the arXiv paper.
 

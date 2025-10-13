@@ -40,7 +40,7 @@ Usage:
 For more information: https://github.com/karpathy/nanochat
 """
 
-from modal import App, Image as ModalImage, Volume, Secret
+from modal import App, Image as ModalImage, Volume
 
 # =============================================================================
 # CONFIGURATION CONSTANTS
@@ -258,7 +258,7 @@ def download_dataset(num_shards: int = 240):
     print("=" * 80)
     print(f"DOWNLOADING FINEWEB DATASET - {num_shards} SHARDS")
     print("=" * 80)
-    print(f"Each shard: ~250M characters (~100MB)")
+    print("Each shard: ~250M characters (~100MB)")
     print(f"Total data: ~{num_shards * 250 / 1000:.1f}B characters (~{num_shards * 100 / 1024:.1f}GB)")
     print()
 
@@ -764,7 +764,7 @@ def evaluate_chat_model(
     print(f"Tasks: {tasks}")
     print()
 
-    extra_args = [f"-i", source]
+    extra_args = ["-i", source]
 
     if tasks != "all":
         extra_args.extend(["-a", tasks])
@@ -841,7 +841,7 @@ def chat_cli(
     gpu=f"{GPU_TYPE}:{NUM_GPUS_INFERENCE}",
     volumes=VOLUME_CONFIG,
     timeout=4 * HOURS,  # Long timeout for web server
-    allow_concurrent_inputs=100,  # Allow multiple users
+    concurrency_limit=100,  # Allow up to 100 concurrent requests
 )
 def chat_web(
     source: str = "sft",
@@ -1028,7 +1028,7 @@ def main(
     print("=" * 80)
     print()
     print("Next steps:")
-    print(f"1. Chat via CLI: modal run TrainNanochatModal.py::chat_cli --source=sft")
-    print(f"2. Launch Web UI: modal run TrainNanochatModal.py::chat_web --source=sft")
-    print(f"3. Run more evals: modal run TrainNanochatModal.py::evaluate_chat_model --source=sft")
+    print("1. Chat via CLI: modal run TrainNanochatModal.py::chat_cli --source=sft")
+    print("2. Launch Web UI: modal run TrainNanochatModal.py::chat_web --source=sft")
+    print("3. Run more evals: modal run TrainNanochatModal.py::evaluate_chat_model --source=sft")
     print()

@@ -19,6 +19,20 @@ GPU Requirements:
 - Minimum: 1x A100 80GB (will take 8x longer)
 - Testing: 1x A100 40GB (with reduced batch sizes)
 
+Setup:
+    1. Clone nanochat in the same directory:
+       git clone https://github.com/karpathy/nanochat.git
+
+    2. (Optional) Set up secrets for WandB logging:
+       Create a .env file with:
+         WANDB_API_KEY=your_wandb_api_key_here
+         HUGGINGFACE_TOKEN=your_hf_token_here (optional)
+
+       Or use Modal secrets:
+         modal secret create nanochat-secrets \
+           WANDB_API_KEY=your_key \
+           HUGGINGFACE_TOKEN=your_token
+
 Usage:
     # Full speedrun pipeline (~4 hours on 8xA100)
     modal run TrainNanochatModal.py
@@ -29,7 +43,7 @@ Usage:
     # Run individual stages:
     modal run TrainNanochatModal.py::download_dataset --num-shards=240
     modal run TrainNanochatModal.py::train_tokenizer
-    modal run TrainNanochatModal.py::train_base_model --depth=20
+    modal run TrainNanochatModal.py::train_base_model --depth=20 --wandb-run=my-run
     modal run TrainNanochatModal.py::train_mid_model
     modal run TrainNanochatModal.py::train_sft_model
     modal run TrainNanochatModal.py::chat_cli --source=sft --prompt="Why is the sky blue?"
@@ -40,7 +54,7 @@ Usage:
 For more information: https://github.com/karpathy/nanochat
 """
 
-from modal import App, Image as ModalImage, Volume
+from modal import App, Image as ModalImage, Volume, Secret
 
 # =============================================================================
 # CONFIGURATION CONSTANTS
@@ -56,17 +70,17 @@ GPU_TYPE = "a100-80gb"
 
 # Multi-GPU configuration for different stages
 # Nanochat is designed for 8 GPUs but works with 1-8
-NUM_GPUS_BASE = 4      # Base model training (can be 1-8)
-NUM_GPUS_MID = 4       # Midtraining (can be 1-8)
-NUM_GPUS_SFT = 4       # Supervised fine-tuning (can be 1-8)
-NUM_GPUS_RL = 4        # Reinforcement learning (can be 1-8)
-NUM_GPUS_EVAL = 4      # Evaluation (can be 1-8)
-NUM_GPUS_TOKENIZER = 1 # Tokenizer training (single GPU)
-NUM_GPUS_INFERENCE = 1 # Inference (single GPU)
+NUM_GPUS_BASE = 4  # Base model training (can be 1-8)
+NUM_GPUS_MID = 4  # Midtraining (can be 1-8)
+NUM_GPUS_SFT = 4  # Supervised fine-tuning (can be 1-8)
+NUM_GPUS_RL = 4  # Reinforcement learning (can be 1-8)
+NUM_GPUS_EVAL = 4  # Evaluation (can be 1-8)
+NUM_GPUS_TOKENIZER = 1  # Tokenizer training (single GPU)
+NUM_GPUS_INFERENCE = 1  # Inference (single GPU)
 
 # Training Configuration
 WANDB_PROJECT_DEFAULT = "nanochat-modal"
-BASE_DIR = "/root/.cache/nanochat"  # Cache directory inside container
+BASE_DIR = "/data/.cache/nanochat"  # Cache directory on persistent volume
 
 # =============================================================================
 # MODAL APP AND VOLUME SETUP
@@ -83,9 +97,41 @@ checkpoint_volume = Volume.from_name("nanochat-checkpoints", create_if_missing=T
 
 # Configure volume mounting points
 VOLUME_CONFIG = {
-    "/data": data_volume,              # Dataset storage
-    "/checkpoints": checkpoint_volume, # Model checkpoints
+    "/data": data_volume,  # Dataset storage
+    "/checkpoints": checkpoint_volume,  # Model checkpoints
 }
+
+# =============================================================================
+# SECRETS SETUP
+# =============================================================================
+
+# Set up secrets for WandB and HuggingFace
+#
+# Option 1: Use local .env file (for development)
+# Create a .env file in the same directory:
+#   WANDB_API_KEY=your_wandb_key
+#   HUGGINGFACE_TOKEN=your_hf_token
+#
+# Option 2: Use Modal secrets (for production)
+# Run: modal secret create nanochat-secrets \
+#        WANDB_API_KEY=your_key \
+#        HUGGINGFACE_TOKEN=your_token
+#
+# The script will try dotenv first, then Modal secrets
+
+try:
+    # Try loading from .env file first
+    nanochat_secret = Secret.from_dotenv()
+    print("✓ Loaded secrets from .env file")
+except Exception:
+    try:
+        # Fall back to Modal secret
+        nanochat_secret = Secret.from_name("nanochat-secrets")
+        print("✓ Loaded secrets from Modal")
+    except Exception:
+        # No secrets configured - training will work but without logging
+        nanochat_secret = None
+        print("⚠ No secrets found - WandB logging disabled")
 
 # =============================================================================
 # CONTAINER IMAGE SETUP
@@ -95,17 +141,13 @@ VOLUME_CONFIG = {
 # - CUDA 12.8 for GPU support
 # - Python 3.11
 # - Rust/Cargo for building the custom tokenizer
-# - All Python dependencies
+# - All dependencies from nanochat's pyproject.toml (using uv)
 # - The nanochat codebase
 # - Compiled Rust tokenizer (rustbpe)
 
 NANOCHAT_IMAGE = (
     # Start with NVIDIA CUDA image for GPU support
-    ModalImage.from_registry(
-        "nvidia/cuda:12.8.1-devel-ubuntu24.04",
-        add_python="3.11"
-    )
-
+    ModalImage.from_registry("nvidia/cuda:12.8.1-devel-ubuntu24.04", add_python="3.11")
     # Install system dependencies
     .apt_install(
         "git",
@@ -114,67 +156,49 @@ NANOCHAT_IMAGE = (
         "wget",
         "unzip",
     )
-
     # Install Rust and Cargo (needed for building the tokenizer)
     # The tokenizer is implemented in Rust for speed
     .run_commands(
         "curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y",
         "echo 'source $HOME/.cargo/env' >> $HOME/.bashrc",
     )
-
-    # Install Python dependencies
-    # These are all the packages nanochat needs
-    .pip_install(
-        "torch>=2.8.0",              # PyTorch for deep learning
-        "datasets>=4.0.0",           # HuggingFace datasets
-        "wandb>=0.21.3",             # Experiment tracking (optional)
-        "fastapi>=0.117.1",          # Web server for chat UI
-        "uvicorn>=0.36.0",           # ASGI server
-        "numpy==1.26.4",             # Numerical computing
-        "tiktoken>=0.11.0",          # OpenAI's tokenizer (for reference)
-        "tokenizers>=0.22.0",        # HuggingFace tokenizers
-        "regex>=2025.9.1",           # Regular expressions
-        "psutil>=7.1.0",             # System utilities
-        "pandas",                    # Data manipulation
-        "pyyaml",                    # YAML config files
-        "pyarrow",                   # Apache Arrow (for parquet files)
-        "requests",                  # HTTP requests
-        "maturin>=1.9.4",           # Build Rust Python extensions
+    # Install uv (fast Python package installer that nanochat uses)
+    .run_commands(
+        "curl -LsSf https://astral.sh/uv/install.sh | sh",
+        "echo 'export PATH=\"$HOME/.cargo/bin:$PATH\"' >> $HOME/.bashrc",
     )
-
     # Copy the entire nanochat directory from local filesystem into the image
     # Make sure you have cloned nanochat in the same directory as this script!
     # git clone https://github.com/karpathy/nanochat.git
-    .add_local_dir(
-        local_path="nanochat",
-        remote_path="/root/nanochat",
-        copy=True
-    )
-
+    .add_local_dir(local_path="nanochat", remote_path="/root/nanochat", copy=True)
     # Set working directory
     .workdir("/root/nanochat")
-
-    # Build the Rust tokenizer extension
-    # This compiles the rustbpe package and installs it
+    # Install all Python dependencies from pyproject.toml using uv
+    # This creates a .venv and installs: torch (with CUDA 12.8), datasets, wandb, fastapi, etc.
+    # uv is much faster than pip and handles the torch CUDA version correctly
+    # Then build and install the Rust tokenizer in the same step to preserve the venv
     .run_commands(
-        "bash -c 'source $HOME/.cargo/env && maturin develop --release --manifest-path rustbpe/Cargo.toml'",
+        "bash -c 'source $HOME/.cargo/env && uv sync && uv run maturin develop --release --manifest-path rustbpe/Cargo.toml'"
     )
-
     # Set environment variables
-    .env({
-        "OMP_NUM_THREADS": "1",  # OpenMP threading
-        "NANOCHAT_BASE_DIR": BASE_DIR,
-        "HF_HOME": "/data/.cache/huggingface",  # HuggingFace cache
-    })
+    .env(
+        {
+            "OMP_NUM_THREADS": "1",  # OpenMP threading
+            "NANOCHAT_BASE_DIR": "/data/.cache/nanochat",
+            "HF_HOME": "/data/.cache/huggingface",  # HuggingFace cache
+        }
+    )
 )
 
 # =============================================================================
 # HELPER FUNCTIONS
 # =============================================================================
 
+
 def setup_base_dir():
     """Create base directory structure for nanochat artifacts."""
     import os
+
     os.makedirs(BASE_DIR, exist_ok=True)
     os.makedirs(f"{BASE_DIR}/base_data", exist_ok=True)
     os.makedirs(f"{BASE_DIR}/tokenizer", exist_ok=True)
@@ -182,11 +206,26 @@ def setup_base_dir():
     os.makedirs(f"{BASE_DIR}/eval_bundle", exist_ok=True)
     os.makedirs(f"{BASE_DIR}/report", exist_ok=True)
 
-def run_torchrun_command(
-    script: str,
-    num_gpus: int,
-    extra_args: list = None
-):
+
+def setup_secrets():
+    """Set up environment variables from secrets (WandB, HuggingFace)."""
+    import os
+
+    # WandB setup
+    if "WANDB_API_KEY" in os.environ:
+        print("✓ WandB API key found")
+    else:
+        print("⚠ WandB API key not found - logging will be disabled")
+
+    # HuggingFace setup
+    if "HUGGINGFACE_TOKEN" in os.environ:
+        os.environ["HF_TOKEN"] = os.environ["HUGGINGFACE_TOKEN"]
+        print("✓ HuggingFace token found")
+    else:
+        print("⚠ HuggingFace token not found - may have issues downloading gated models")
+
+
+def run_torchrun_command(script: str, num_gpus: int, extra_args: list = None):
     """
     Helper to run a nanochat script with torchrun for multi-GPU training.
 
@@ -200,33 +239,28 @@ def run_torchrun_command(
     if extra_args is None:
         extra_args = []
 
-    # Build the torchrun command
+    # Build the torchrun command using uv run to use the venv
     # --standalone: Single-node training
     # --nproc_per_node: Number of processes (one per GPU)
-    cmd = [
-        "torchrun",
-        "--standalone",
-        f"--nproc_per_node={num_gpus}",
-        "-m",
-        script,
-    ]
+    extra_args_str = " ".join(extra_args) if extra_args else ""
+    cmd = f"cd /root/nanochat && uv run torchrun --standalone --nproc_per_node={num_gpus} -m {script}"
 
-    # Add extra args after "--" separator
     if extra_args:
-        cmd.append("--")
-        cmd.extend(extra_args)
+        cmd += f" -- {extra_args_str}"
 
-    print(f"Running: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=False, text=True)
+    print(f"Running: {cmd}")
+    result = subprocess.run(["bash", "-c", cmd], capture_output=False, text=True)
 
     if result.returncode != 0:
         raise RuntimeError(f"Command failed with code {result.returncode}")
 
     return result
 
+
 # =============================================================================
 # STAGE 1: DATASET DOWNLOAD
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
@@ -259,15 +293,17 @@ def download_dataset(num_shards: int = 240):
     print(f"DOWNLOADING FINEWEB DATASET - {num_shards} SHARDS")
     print("=" * 80)
     print("Each shard: ~250M characters (~100MB)")
-    print(f"Total data: ~{num_shards * 250 / 1000:.1f}B characters (~{num_shards * 100 / 1024:.1f}GB)")
+    print(
+        f"Total data: ~{num_shards * 250 / 1000:.1f}B characters (~{num_shards * 100 / 1024:.1f}GB)"
+    )
     print()
 
-    # Run nanochat's dataset download script
+    # Run nanochat's dataset download script using uv run to use the venv
     # This downloads parquet files from HuggingFace
     result = subprocess.run(
-        ["python", "-m", "nanochat.dataset", "-n", str(num_shards)],
+        ["bash", "-c", f"cd /root/nanochat && uv run python -m nanochat.dataset -n {num_shards}"],
         capture_output=True,
-        text=True
+        text=True,
     )
 
     print(result.stdout)
@@ -290,9 +326,11 @@ def download_dataset(num_shards: int = 240):
         "data_dir": f"{BASE_DIR}/base_data",
     }
 
+
 # =============================================================================
 # STAGE 2: TOKENIZER TRAINING
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
@@ -302,8 +340,8 @@ def download_dataset(num_shards: int = 240):
 )
 def train_tokenizer(
     max_chars: int = 2_000_000_000,  # 2 billion characters
-    vocab_size: int = 65536,          # 2^16 = 65536
-    doc_cap: int = 10000,             # Max chars per document
+    vocab_size: int = 65536,  # 2^16 = 65536
+    doc_cap: int = 10000,  # Max chars per document
 ):
     """
     Train a custom BPE tokenizer on FineWeb data.
@@ -330,16 +368,11 @@ def train_tokenizer(
     print(f"Document cap: {doc_cap:,}")
     print()
 
-    # Build training command
-    cmd = [
-        "python", "-m", "scripts.tok_train",
-        f"--max_chars={max_chars}",
-        f"--vocab_size={vocab_size}",
-        f"--doc_cap={doc_cap}",
-    ]
+    # Build training command using uv run to use the venv
+    cmd = f"cd /root/nanochat && uv run python -m scripts.tok_train --max_chars={max_chars} --vocab_size={vocab_size} --doc_cap={doc_cap}"
 
-    print(f"Running: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=False, text=True)
+    print(f"Running: {cmd}")
+    result = subprocess.run(["bash", "-c", cmd], capture_output=False, text=True)
 
     if result.returncode != 0:
         raise RuntimeError(f"Tokenizer training failed with code {result.returncode}")
@@ -360,6 +393,7 @@ def train_tokenizer(
         "tokenizer_dir": f"{BASE_DIR}/tokenizer",
     }
 
+
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_TOKENIZER}",
@@ -379,7 +413,7 @@ def evaluate_tokenizer():
     print("=" * 80)
 
     result = subprocess.run(
-        ["python", "-m", "scripts.tok_eval"],
+        ["bash", "-c", "cd /root/nanochat && uv run python -m scripts.tok_eval"],
         capture_output=False,
         text=True
     )
@@ -393,21 +427,24 @@ def evaluate_tokenizer():
 
     return {"status": "completed"}
 
+
 # =============================================================================
 # STAGE 3: BASE MODEL PRETRAINING
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_BASE}",
     volumes=VOLUME_CONFIG,
+    secrets=[nanochat_secret] if nanochat_secret else [],  # Add secrets if available
     timeout=8 * HOURS,  # Can take 2-4 hours for speedrun
 )
 def train_base_model(
-    depth: int = 20,              # Model depth (20=561M params, 26=~1B params)
+    depth: int = 20,  # Model depth (20=561M params, 26=~1B params)
     device_batch_size: int = 32,  # Per-device batch size (reduce if OOM)
-    max_iterations: int = -1,     # -1 = auto-calculate from Chinchilla ratio
-    wandb_run: str = "dummy",     # WandB run name ("dummy" = no logging)
+    max_iterations: int = -1,  # -1 = auto-calculate from Chinchilla ratio
+    wandb_run: str = "dummy",  # WandB run name ("dummy" = no logging)
 ):
     """
     Pretrain the base GPT model on FineWeb.
@@ -435,15 +472,22 @@ def train_base_model(
     import os
 
     setup_base_dir()
+    setup_secrets()  # Set up WandB and HuggingFace tokens
 
     # Download eval bundle if not present (needed for CORE metric)
     eval_bundle_path = f"{BASE_DIR}/eval_bundle"
     if not os.path.exists(eval_bundle_path):
         print("Downloading eval bundle for CORE metric...")
-        subprocess.run([
-            "curl", "-L", "-o", "eval_bundle.zip",
-            "https://karpathy-public.s3.us-west-2.amazonaws.com/eval_bundle.zip"
-        ], check=True)
+        subprocess.run(
+            [
+                "curl",
+                "-L",
+                "-o",
+                "eval_bundle.zip",
+                "https://karpathy-public.s3.us-west-2.amazonaws.com/eval_bundle.zip",
+            ],
+            check=True,
+        )
         subprocess.run(["unzip", "-q", "eval_bundle.zip"], check=True)
         subprocess.run(["mv", "eval_bundle", eval_bundle_path], check=True)
         subprocess.run(["rm", "eval_bundle.zip"], check=True)
@@ -487,6 +531,7 @@ def train_base_model(
         "checkpoint_dir": f"{BASE_DIR}/checkpoints/base",
     }
 
+
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_EVAL}",
@@ -520,6 +565,7 @@ def evaluate_base_model(max_per_task: int = 500):
 
     return {"status": "completed"}
 
+
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_EVAL}",
@@ -546,14 +592,17 @@ def evaluate_base_loss():
 
     return {"status": "completed"}
 
+
 # =============================================================================
 # STAGE 4: MIDTRAINING
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_MID}",
     volumes=VOLUME_CONFIG,
+    secrets=[nanochat_secret] if nanochat_secret else [],  # Add secrets if available
     timeout=2 * HOURS,
 )
 def train_mid_model(
@@ -579,6 +628,8 @@ def train_mid_model(
         device_batch_size: Batch size per GPU
         wandb_run: WandB run name
     """
+    setup_secrets()  # Set up WandB and HuggingFace tokens
+
     print("=" * 80)
     print("MIDTRAINING - TEACHING CONVERSATION TOKENS")
     print("=" * 80)
@@ -605,14 +656,17 @@ def train_mid_model(
         "checkpoint_dir": f"{BASE_DIR}/checkpoints/mid",
     }
 
+
 # =============================================================================
 # STAGE 5: SUPERVISED FINE-TUNING (SFT)
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_SFT}",
     volumes=VOLUME_CONFIG,
+    secrets=[nanochat_secret] if nanochat_secret else [],  # Add secrets if available
     timeout=2 * HOURS,
 )
 def train_sft_model(
@@ -639,6 +693,8 @@ def train_sft_model(
         wandb_run: WandB run name
         source: Base model to start from ("base" or "mid")
     """
+    setup_secrets()  # Set up WandB and HuggingFace tokens
+
     print("=" * 80)
     print("SUPERVISED FINE-TUNING")
     print("=" * 80)
@@ -669,14 +725,17 @@ def train_sft_model(
         "checkpoint_dir": f"{BASE_DIR}/checkpoints/sft",
     }
 
+
 # =============================================================================
 # STAGE 6: REINFORCEMENT LEARNING (OPTIONAL)
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_RL}",
     volumes=VOLUME_CONFIG,
+    secrets=[nanochat_secret] if nanochat_secret else [],  # Add secrets if available
     timeout=2 * HOURS,
 )
 def train_rl_model(
@@ -699,6 +758,8 @@ def train_rl_model(
         wandb_run: WandB run name
         source: Model to start from (usually "sft")
     """
+    setup_secrets()  # Set up WandB and HuggingFace tokens
+
     print("=" * 80)
     print("REINFORCEMENT LEARNING ON GSM8K")
     print("=" * 80)
@@ -729,9 +790,11 @@ def train_rl_model(
         "checkpoint_dir": f"{BASE_DIR}/checkpoints/rl",
     }
 
+
 # =============================================================================
 # STAGE 7: EVALUATION
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
@@ -741,7 +804,7 @@ def train_rl_model(
 )
 def evaluate_chat_model(
     source: str = "sft",  # "mid", "sft", or "rl"
-    tasks: str = "all",   # "all" or comma-separated: "ARC-Easy,GSM8K,HumanEval"
+    tasks: str = "all",  # "all" or comma-separated: "ARC-Easy,GSM8K,HumanEval"
 ):
     """
     Evaluate the chat model on benchmark tasks.
@@ -783,9 +846,11 @@ def evaluate_chat_model(
         "tasks": tasks,
     }
 
+
 # =============================================================================
 # STAGE 8: INFERENCE
 # =============================================================================
+
 
 @app.function(
     image=NANOCHAT_IMAGE,
@@ -814,18 +879,16 @@ def chat_cli(
     print(f"CHAT CLI - {source.upper()} MODEL")
     print("=" * 80)
 
-    cmd = [
-        "python", "-m", "scripts.chat_cli",
-        "-i", source,
-        "-t", str(temperature),
-        "-k", str(top_k),
-    ]
+    # Build command using uv run to use the venv
+    cmd = f"cd /root/nanochat && uv run python -m scripts.chat_cli -i {source} -t {temperature} -k {top_k}"
 
     if prompt:
-        cmd.extend(["-p", prompt])
+        # Escape prompt for shell
+        escaped_prompt = prompt.replace('"', '\\"')
+        cmd += f' -p "{escaped_prompt}"'
 
-    print(f"Running: {' '.join(cmd)}")
-    result = subprocess.run(cmd, capture_output=False, text=True)
+    print(f"Running: {cmd}")
+    result = subprocess.run(["bash", "-c", cmd], capture_output=False, text=True)
 
     if result.returncode != 0:
         raise RuntimeError(f"Chat CLI failed with code {result.returncode}")
@@ -836,12 +899,13 @@ def chat_cli(
         "prompt": prompt,
     }
 
+
 @app.function(
     image=NANOCHAT_IMAGE,
     gpu=f"{GPU_TYPE}:{NUM_GPUS_INFERENCE}",
     volumes=VOLUME_CONFIG,
     timeout=4 * HOURS,  # Long timeout for web server
-    concurrency_limit=100,  # Allow up to 100 concurrent requests
+    max_containers=2,  # Single container for web server
 )
 def chat_web(
     source: str = "sft",
@@ -873,23 +937,16 @@ def chat_web(
     print(f"Max tokens: {max_tokens}")
     print()
 
-    cmd = [
-        "python", "-m", "scripts.chat_web",
-        "-i", source,
-        "-p", str(port),
-        "-t", str(temperature),
-        "-k", str(top_k),
-        "-m", str(max_tokens),
-        "--host", "0.0.0.0",
-    ]
+    # Build command using uv run to use the venv
+    cmd = f"cd /root/nanochat && uv run python -m scripts.chat_web -i {source} -p {port} -t {temperature} -k {top_k} -m {max_tokens} --host 0.0.0.0"
 
-    print(f"Running: {' '.join(cmd)}")
+    print(f"Running: {cmd}")
     print("\n" + "=" * 80)
     print(f"Web UI will be available at: http://localhost:{port}")
     print("=" * 80)
     print()
 
-    result = subprocess.run(cmd, capture_output=False, text=True)
+    result = subprocess.run(["bash", "-c", cmd], capture_output=False, text=True)
 
     if result.returncode != 0:
         raise RuntimeError(f"Web server failed with code {result.returncode}")
@@ -900,9 +957,11 @@ def chat_web(
         "port": port,
     }
 
+
 # =============================================================================
 # MAIN PIPELINE ENTRYPOINT
 # =============================================================================
+
 
 @app.local_entrypoint()
 def main(
@@ -912,13 +971,12 @@ def main(
     run_base: bool = True,
     run_mid: bool = True,
     run_sft: bool = True,
-    run_rl: bool = False,      # Optional by default
+    run_rl: bool = False,  # Optional by default
     run_eval: bool = True,
     run_inference: bool = True,
-
     # Configuration
     num_data_shards: int = 240,  # 240 for speedrun, 8 for quick test
-    depth: int = 20,             # 20=561M params, 26=1B params, 12=minimal test
+    depth: int = 20,  # 20=561M params, 26=1B params, 12=minimal test
     device_batch_size_base: int = 32,
     device_batch_size_sft: int = 4,
     wandb_run: str = "dummy",
@@ -973,9 +1031,7 @@ def main(
     if run_base:
         print("\n🏋️ Stage 3/8: Training base model...")
         train_base_model.remote(
-            depth=depth,
-            device_batch_size=device_batch_size_base,
-            wandb_run=wandb_run
+            depth=depth, device_batch_size=device_batch_size_base, wandb_run=wandb_run
         )
         if run_eval:
             print("Evaluating base model (CORE)...")
@@ -987,8 +1043,7 @@ def main(
     if run_mid:
         print("\n💬 Stage 4/8: Midtraining (conversation tokens)...")
         train_mid_model.remote(
-            device_batch_size=device_batch_size_base,
-            wandb_run=wandb_run
+            device_batch_size=device_batch_size_base, wandb_run=wandb_run
         )
         if run_eval:
             print("Evaluating mid model...")
@@ -998,9 +1053,7 @@ def main(
     if run_sft:
         print("\n🎯 Stage 5/8: Supervised fine-tuning...")
         train_sft_model.remote(
-            device_batch_size=device_batch_size_sft,
-            wandb_run=wandb_run,
-            source="mid"
+            device_batch_size=device_batch_size_sft, wandb_run=wandb_run, source="mid"
         )
         if run_eval:
             print("Evaluating SFT model...")
@@ -1018,10 +1071,7 @@ def main(
     if run_inference:
         print("\n✨ Stage 7/8: Testing inference...")
         final_source = "rl" if run_rl else "sft"
-        chat_cli.remote(
-            source=final_source,
-            prompt="Why is the sky blue?"
-        )
+        chat_cli.remote(source=final_source, prompt="Why is the sky blue?")
 
     print("\n" + "=" * 80)
     print("🎉 PIPELINE COMPLETED!")
@@ -1030,5 +1080,7 @@ def main(
     print("Next steps:")
     print("1. Chat via CLI: modal run TrainNanochatModal.py::chat_cli --source=sft")
     print("2. Launch Web UI: modal run TrainNanochatModal.py::chat_web --source=sft")
-    print("3. Run more evals: modal run TrainNanochatModal.py::evaluate_chat_model --source=sft")
+    print(
+        "3. Run more evals: modal run TrainNanochatModal.py::evaluate_chat_model --source=sft"
+    )
     print()

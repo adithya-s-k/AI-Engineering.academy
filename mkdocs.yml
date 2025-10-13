@@ -255,6 +255,7 @@ nav:
       - Serverless Finetuning with Modal:
           - Write Deep Learning Code Locally and Run on GPUs Instantly:  LLM/ServerLessFinetuning/README.md
           - Training NanoGPT on Modal: LLM/ServerLessFinetuning/TrainNanoGPTModalTutorial.md
+          - Training Nanochat on Modal: LLM/ServerLessFinetuning/TrainNanochatModalTutorial.md
           - Fine-tuning Gemma with Unsloth: LLM/ServerLessFinetuning/FinetuneGemmaUnslothModalTutorial.md
           - Multi-GPU Training with Axolotl: LLM/ServerLessFinetuning/FinetuneLlamaAxolotlGPUModalTutorial.md
       - LLM Architecture:

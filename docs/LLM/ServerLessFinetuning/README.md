@@ -202,7 +202,31 @@ Learn how to take an existing codebase (Andrej Karpathy's nanoGPT) and run it on
 
 ---
 
-### 2. [Fine-tuning Gemma 3-4B with Unsloth](FinetuneGemmaUnslothModalTutorial.md)
+### 2. [Training Nanochat on Modal](TrainNanochatModalTutorial.md)
+
+**Build Your Own ChatGPT from Scratch - The Complete Pipeline**
+
+📄 **[View Python Script](https://github.com/adithya-s-k/AI-Engineering.academy/blob/main/docs/LLM/ServerLessFinetuning/TrainNanochatModal.py)**
+
+The ultimate educational LLM training pipeline covering every step from raw text to a functioning ChatGPT. You'll learn:
+
+- Training a custom BPE tokenizer (like GPT-4)
+- Base model pretraining from random initialization
+- Midtraining for conversation format and tool use
+- Supervised fine-tuning on multiple tasks
+- Reinforcement learning for improved reasoning
+- Comprehensive evaluation on real benchmarks
+- Deployment with CLI and web UI
+
+| **Level** | **GPU Required** | **Time** |
+|-----------|------------------|----------|
+| Advanced | 4-8× A100-80GB | 4-8 hours (full speedrun) |
+
+> This is the most comprehensive tutorial - you'll understand exactly how ChatGPT works by building one yourself. Perfect for those who want to go deep.
+
+---
+
+### 3. [Fine-tuning Gemma 3-4B with Unsloth](FinetuneGemmaUnslothModalTutorial.md)
 
 **End-to-end vision-language model training and deployment**
 
@@ -222,7 +246,7 @@ A production-grade pipeline covering the complete ML workflow from data to deplo
 
 ---
 
-### 3. [Multi-GPU Training with Axolotl](FinetuneLlamaAxolotlGPUModalTutorial.md)
+### 4. [Multi-GPU Training with Axolotl](FinetuneLlamaAxolotlGPUModalTutorial.md)
 
 **Distributed training for large models (Llama 8 - 70B+)**
 

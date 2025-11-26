@@ -1,0 +1,51 @@
+/* Responsive video container */
+.video-container {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 2em auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.video-container video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Video captions */
+.video-caption {
+  font-size: 0.9em;
+  color: var(--md-default-fg-color--light);
+  text-align: center;
+  margin-top: 0.5em;
+  font-style: italic;
+}
+
+/* Enhanced video styling for dark theme */
+[data-md-color-scheme="slate"] video {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+/* Video hover effects */
+video:hover {
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  transition: box-shadow 0.3s ease;
+}
+
+/* Responsive video embeds from mkdocs-video plugin */
+.mkdocs-video {
+  max-width: 100%;
+  margin: 2em auto;
+  display: block;
+}
+
+/* Ensure videos don't overflow on mobile */
+@media (max-width: 768px) {
+  .video-container {
+    margin: 1em 0;
+  }
+}

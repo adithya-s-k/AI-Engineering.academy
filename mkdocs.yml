@@ -285,6 +285,9 @@ nav:
           - Overview: Projects/YT_Clones/README.md
           - Fireship Clone: Projects/YT_Clones/Fireship_clone.ipynb
           - Dataset Preparation: Projects/YT_Clones/dataset_prep.ipynb
+  - AI BreakDown:
+      - TRM (Tiny Recursive Models):
+          - Overview: AIBreakDown/TRM/README.md
   - Blog:
       - blog/index.md
 

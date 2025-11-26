@@ -287,7 +287,7 @@ nav:
           - Dataset Preparation: Projects/YT_Clones/dataset_prep.ipynb
   - AI BreakDown:
       - TRM (Tiny Recursive Models):
-          - Overview: AIBreakDown/TRM/README.md
+          - TRM Visually Explained: AIBreakDown/TRM/README.md
   - Blog:
       - blog/index.md
 

@@ -1,0 +1,17 @@
+python-dotenv
+llama-index
+llama-index-vector-stores-qdrant 
+llama-index-readers-file 
+llama-index-embeddings-fastembed 
+llama-index-llms-openai
+llama-index-llms-groq
+qdrant_client
+fastembed
+ragas
+arize-phoenix[llama-index]
+llama-index-callbacks-arize-phoenix
+openinference-instrumentation-llama-index
+trulens 
+trulens-apps-llamaindex 
+trulens-providers-openai 
+deepeval

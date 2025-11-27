@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://aiengineering.academy/sitemap.xml
+
+# Disallow specific paths that shouldn't be indexed
+Disallow: /assets/js/
+Disallow: /assets/css/
+Disallow: /*.ipynb$
+
+# For all bots
+User-agent: *
+Disallow: /*.ipynb_checkpoints/

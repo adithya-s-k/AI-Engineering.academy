@@ -1,0 +1,402 @@
+<!doctype html><html lang=en class=no-js> <head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=description content="Mastering Applied AI, One Concept at a Time"><meta name=author content="Adithya S Kolavi"><link href=https://aiengineering.academy/ rel=canonical><link href=PromptEngineering/ rel=next><link rel=icon href=assets/logo.png><meta name=generator content="mkdocs-1.6.1, mkdocs-material-9.7.0"><title>AI Engineering Academy - AI Engineering Academy</title><link rel=stylesheet href=assets/stylesheets/main.618322db.min.css><link rel=stylesheet href=assets/stylesheets/palette.ab4e12ef.min.css><link rel=preconnect href=https://fonts.gstatic.com crossorigin><link rel=stylesheet href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback"><style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style><link rel=stylesheet href=assets/_mkdocstrings.css><link rel=stylesheet href=stylesheets/extra.css><script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script><script id=__analytics>function __md_analytics(){function e(){dataLayer.push(arguments)}window.dataLayer=window.dataLayer||[],e("js",new Date),e("config","G-JP3605WT7D"),document.addEventListener("DOMContentLoaded",(function(){document.forms.search&&document.forms.search.query.addEventListener("blur",(function(){this.value&&e("event","search",{search_term:this.value})}));document$.subscribe((function(){var t=document.forms.feedback;if(void 0!==t)for(var a of t.querySelectorAll("[type=submit]"))a.addEventListener("click",(function(a){a.preventDefault();var n=document.location.pathname,d=this.getAttribute("data-md-value");e("event","feedback",{page:n,data:d}),t.firstElementChild.disabled=!0;var r=t.querySelector(".md-feedback__note [data-md-value='"+d+"']");r&&(r.hidden=!1)})),t.hidden=!1})),location$.subscribe((function(t){e("config","G-JP3605WT7D",{page_path:t.pathname})}))}));var t=document.createElement("script");t.async=!0,t.src="https://www.googletagmanager.com/gtag/js?id=G-JP3605WT7D",document.getElementById("__analytics").insertAdjacentElement("afterEnd",t)}</script><script>"undefined"!=typeof __md_analytics&&__md_analytics()</script><link rel=stylesheet href=assets/stylesheets/custom.7c86dd97.min.css><!-- PostHog Analytics --><script>
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageViewId captureTraceFeedback captureTraceMetric".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  posthog.init('phc_OL7nUCVeKtVJe8eHSKGs8zPTQAyr0hm8opAPFdFlkBz', {
+      api_host: 'https://us.i.posthog.com',
+      person_profiles: 'identified_only', // or 'always' to create profiles for anonymous users as well
+  })
+</script><meta property=og:type content=website><meta property=og:title content="AI Engineering Academy"><meta property=og:description content="Mastering Applied AI, One Concept at a Time"><meta property=og:image content=https://aiengineering.academy/assets/images/social/index.png><meta property=og:image:type content=image/png><meta property=og:image:width content=1200><meta property=og:image:height content=630><meta content=https://aiengineering.academy/ property=og:url><meta property=twitter:card content=summary_large_image><meta property=twitter:title content="AI Engineering Academy"><meta property=twitter:description content="Mastering Applied AI, One Concept at a Time"><meta property=twitter:image content=https://aiengineering.academy/assets/images/social/index.png></head> <body dir=ltr data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=cyan> <input class=md-toggle data-md-toggle=drawer type=checkbox id=__drawer autocomplete=off> <input class=md-toggle data-md-toggle=search type=checkbox id=__search autocomplete=off> <label class=md-overlay for=__drawer></label> <div data-md-component=skip> </div> <div data-md-component=announce> <aside class=md-banner> <div class="md-banner__inner md-grid md-typeset"> <button class="md-banner__button md-icon" aria-label="Don't show this again"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> For updates follow <strong>@adithya_s_k</strong> on <a href=https://x.com/adithya_s_k> <span class="twemoji twitter"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 512 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M459.4 151.7c.3 4.5.3 9.1.3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53C87.4 130.8 165 172.4 252.1 176.9c-1.6-7.8-2.6-15.9-2.6-24C249.5 95.1 296.3 48 354.4 48c30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3"/></svg> </span> <strong>Twitter</strong> </a> </div> <script>var el=document.querySelector("[data-md-component=announce]");if(el){var content=el.querySelector(".md-typeset");__md_hash(content.innerHTML)===__md_get("__announce")&&(el.hidden=!0)}</script> </aside> </div> <header class="md-header md-header--shadow md-header--lifted" data-md-component=header> <nav class="md-header__inner md-grid" aria-label=Header> <a href=. title="AI Engineering Academy" class="md-header__button md-logo" aria-label="AI Engineering Academy" data-md-component=logo> <img src=assets/logo.png alt=logo> </a> <label class="md-header__button md-icon" for=__drawer> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg> </label> <div class=md-header__title data-md-component=header-title> <div class=md-header__ellipsis> <div class=md-header__topic> <span class=md-ellipsis> AI Engineering Academy </span> </div> <div class=md-header__topic data-md-component=header-topic> <span class=md-ellipsis> AI Engineering Academy </span> </div> </div> </div> <form class=md-header__option data-md-component=palette> <input class=md-option data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme=slate data-md-color-primary=black data-md-color-accent=cyan aria-hidden=true type=radio name=__palette id=__palette_0> </form> <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script> <label class="md-header__button md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> </label> <div class=md-search data-md-component=search role=dialog> <label class=md-search__overlay for=__search></label> <div class=md-search__inner role=search> <form class=md-search__form name=search> <input type=text class=md-search__input name=query aria-label=Search placeholder=Search autocapitalize=off autocorrect=off autocomplete=off spellcheck=false data-md-component=search-query required> <label class="md-search__icon md-icon" for=__search> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg> </label> <nav class=md-search__options aria-label=Search> <a href=javascript:void(0) class="md-search__icon md-icon" title=Share aria-label=Share data-clipboard data-clipboard-text data-md-component=search-share tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg> </a> <button type=reset class="md-search__icon md-icon" title=Clear aria-label=Clear tabindex=-1> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg> </button> </nav> <div class=md-search__suggest data-md-component=search-suggest></div> </form> <div class=md-search__output> <div class=md-search__scrollwrap tabindex=0 data-md-scrollfix> <div class=md-search-result data-md-component=search-result> <div class=md-search-result__meta> Initializing search </div> <ol class=md-search-result__list role=presentation></ol> </div> </div> </div> </div> </div> <div class=md-header__source> <a href=https://github.com/adithya-s-k/AI-Engineering.academy title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg> </div> <div class=md-source__repository> adithya-s-k/AI-Engineering.academy </div> </a> </div> </nav> <nav class=md-tabs aria-label=Tabs data-md-component=tabs> <div class=md-grid> <ul class=md-tabs__list> <li class="md-tabs__item md-tabs__item--active"> <a href=. class=md-tabs__link> Home </a> </li> <li class=md-tabs__item> <a href=PromptEngineering/ class=md-tabs__link> Prompt Engineering </a> </li> <li class=md-tabs__item> <a href=RAG/ class=md-tabs__link> RAG </a> </li> <li class=md-tabs__item> <a href=LLM/ class=md-tabs__link> LLM </a> </li> <li class=md-tabs__item> <a href=Deployment/ class=md-tabs__link> Deployment </a> </li> <li class=md-tabs__item> <a href=Agents/ class=md-tabs__link> Agents </a> </li> <li class=md-tabs__item> <a href=Projects/ class=md-tabs__link> Projects </a> </li> <li class=md-tabs__item> <a href=AIBreakDown/TRM/ class=md-tabs__link> AI BreakDown </a> </li> <li class=md-tabs__item> <a href=blog/ class=md-tabs__link> Blog </a> </li> </ul> </div> </nav> </header> <div class=md-container data-md-component=container> <style>
+  /* Main layout adjustments - MODIFIED to ensure full width */
+  .md-header {
+    position: initial;
+  }
+  .md-main__inner {
+    margin: 0;
+    max-width: 100%; /* Ensure full width */
+    padding: 0; /* Remove padding */
+  }
+  .md-content {
+    display: none;
+  }
+  @media screen and (min-width: 60em) {
+    .md-sidebar--secondary {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 76.25em) {
+    .md-sidebar--primary {
+      display: none;
+    }
+  }
+  .mdx-container {
+    width: 100%;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+  }
+
+  /* Hero section - MODIFIED for full width and height */
+  .mdx-hero {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: var(--md-typeset-color);
+    width: 100vw; /* Full viewport width */
+    height: 90vh; /* 90% of viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Vanta.js container - MODIFIED for full coverage */
+  #vanta-bg {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--md-default-bg-color);
+  }
+
+  .mdx-hero__content {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(var(--md-default-bg-color-rgb, 255, 255, 255), 0.8);
+    padding: 2rem;
+    border-radius: 14px;
+    backdrop-filter: blur(3px);
+  }
+
+  [data-md-color-scheme="slate"] .mdx-hero__content {
+    background-color: rgba(var(--md-default-bg-color-rgb, 30, 30, 30), 0.7);
+  }
+
+  /* Title animation */
+  .animated-title {
+    display: inline-block;
+    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animated-subtitle {
+    display: inline-block;
+    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .mdx-hero h1 {
+    margin-bottom: 1.5rem;
+    color: var(--md-primary-color);
+    font-weight: 700;
+    font-size: 2.8rem;
+    letter-spacing: -0.5px;
+  }
+
+  .mdx-hero p {
+    margin: 1.5rem 0;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* Button styling */
+  .mdx-hero .md-button {
+    margin: 0.5rem 0.5rem;
+    color: var(--md-primary-color);
+    border: 2px solid var(--md-accent-fg-color);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    animation: fadeInUp 1.2s ease-out 0.6s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .mdx-hero .md-button--primary {
+    background-color: var(--md-primary-color);
+    color: var(--md-primary-bg-color);
+    border-color: var(--md-accent-fg-color);
+  }
+
+  .mdx-hero .md-button:focus,
+  .mdx-hero .md-button:hover {
+    background-color: var(--md-accent-fg-color);
+    color: var(--md-default-bg-color);
+    border-color: var(--md-accent-fg-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Learning paths section - MODIFIED for 2x3 grid */
+  .learning-paths {
+    margin: 5rem auto;
+    max-width: 80%; /* Slightly smaller max-width */
+    padding: 0 1rem;
+  }
+
+  .learning-paths-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 5rem;
+    color: var(--md-primary-color);
+    font-weight: 900;
+    padding: 4px;
+  }
+
+  /* MODIFIED for 2x3 grid */
+  .path-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 2rem;
+  }
+
+  .path-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--md-default-bg-color);
+    border: 2px solid var(--md-primary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .path-card {
+    background-color: var(--md-code-bg-color, #000000);
+    border-color: var(--md-primary-color);
+  }
+
+  .path-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    background-color: rgba(38, 43, 48, 0.356);
+    border: #ffffff;
+    border-width: 10px;
+  }
+
+  .path-icon {
+    font-size: 2rem; /* Made smaller */
+    margin-bottom: 0.7rem;
+    color: var(--md-primary-color);
+  }
+
+  .path-title {
+    font-size: 1.6rem; /* Made smaller */
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+    color: var(--md-primary-color);
+  }
+
+  .path-description {
+    color: var(--md-typeset-color);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 0.8rem; /* Made smaller */
+  }
+
+  .path-link {
+    color: var(--md-primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.5rem 0;
+    font-size: 0.95rem; /* Made smaller */
+  }
+
+  .path-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Mind map section - reorganized as a tree with squares */
+  .mind-map-section {
+    margin: 5rem auto;
+    max-width: 1200px;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  .mind-map-title {
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: var(--md-primary-color);
+    font-weight: 700;
+  }
+
+  .mind-map-container {
+    margin: 0 auto;
+    max-width: 900px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 2px solid var(--md-primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background-color: var(--md-default-bg-color);
+    padding: 2rem;
+  }
+
+  [data-md-color-scheme="slate"] .mind-map-container {
+    background-color: var(--md-code-bg-color, #2d2e40);
+    border-color: var(--md-primary-color);
+  }
+
+  /* Call to action section */
+  .cta-section {
+    margin: 5rem auto;
+    max-width: 80%;
+    padding: 3rem;
+    text-align: center;
+    border-radius: 8px;
+    background-color: var(--md-default-bg-color);
+    border: 2px solid var(--md-primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-md-color-scheme="slate"] .cta-section {
+    background-color: var(--md-code-bg-color, #2d2e40);
+  }
+
+  .cta-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--md-primary-color);
+    font-weight: 700;
+  }
+
+  .cta-description {
+    margin-bottom: 2rem;
+    color: var(--md-typeset-color);
+    line-height: 1.6;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  /* MODIFIED social links for proper white stroke */
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--md-primary-color); /* Default background color */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: #b9b9b9;
+    border-width: 2px;
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: var(--md-accent-fg-color);
+  }
+
+  .social-link svg {
+    stroke: white; /* Always white stroke */
+    fill: none;
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .mdx-hero {
+      height: auto;
+      min-height: 90vh;
+      padding: 3rem 0;
+    }
+
+    .mdx-hero h1 {
+      font-size: 2.2rem;
+    }
+
+    .mdx-hero p {
+      font-size: 1.1rem;
+    }
+
+    .path-grid {
+      grid-template-columns: 1fr; /* 1 column on mobile */
+    }
+  }
+</style> <section class=mdx-container> <div class="md-grid md-typeset" style="max-width: 100%; padding: 0"> <div class=mdx-hero> <!-- Vanta.js background container --> <div id=vanta-bg></div> <div class=mdx-hero__content> <h1><span class=animated-title>AI Engineering Academy</span></h1> <p> <span class=animated-subtitle>Master Applied AI, One Step at a Time</span> </p> <a href=PromptEngineering/ title="Whats Prompting?" class=md-button> Start Your Journey </a> </div> </div> <!-- Learning Paths Section - MODIFIED for 2x3 grid --> <div class=learning-paths> <h1 class=learning-paths-title>Structured Learning Paths</h1> <br> <div class=path-grid> <div class=path-card> <div class=path-icon>📝</div> <h3 class=path-title>Prompt Engineering</h3> <p class=path-description> Master the art of crafting effective prompts that unlock the full potential of AI models. </p> <a href=PromptEngineering/ class=path-link>Begin Learning →</a> </div> <div class=path-card> <div class=path-icon>🔍</div> <h3 class=path-title>RAG Systems</h3> <p class=path-description> Build systems that enhance AI responses with powerful knowledge retrieval capabilities. </p> <a href=RAG/ class=path-link>Explore Course →</a> </div> <div class=path-card> <div class=path-icon>🧠</div> <h3 class=path-title>Fine-tuning LLMs</h3> <p class=path-description> Customize foundation models to your domain for better accuracy and reduced costs. </p> <a href=LLM/ class=path-link>Get Started →</a> </div> <div class=path-card> <div class=path-icon>🚀</div> <h3 class=path-title>Deployment & Scaling</h3> <p class=path-description> Learn strategies to deploy, optimize, and scale AI systems for real-world applications. </p> <a href=Deployment/ class=path-link>Deploy Now →</a> </div> <div class=path-card> <div class=path-icon>🤖</div> <h3 class=path-title>AI Agents</h3> <p class=path-description> Design autonomous AI systems with reasoning capabilities and tool integration. </p> <a href=Agents/ class=path-link>Create Agents →</a> </div> <div class=path-card> <div class=path-icon>🛠️</div> <h3 class=path-title>Hands-on Projects</h3> <p class=path-description> Apply your knowledge through practical, portfolio-worthy projects that solve real problems. </p> <a href=Projects/ class=path-link>Start Building →</a> </div> </div> </div> <!-- Call to Action Section --> <div class=cta-section> <h2 class=cta-title>Ready to Master AI Engineering?</h2> <p class=cta-description> Join thousands of students building cutting-edge AI applications and advancing their careers. </p> <a href=PromptEngineering/ title="Whats Prompting?" class=md-button> Start Your Journey </a> <div class=social-links> <a href=# class=social-link title=GitHub> <svg xmlns=http://www.w3.org/2000/svg width=24 height=24 viewbox="0 0 24 24" fill=none stroke=white stroke-width=2 stroke-linecap=round stroke-linejoin=round> <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path> </svg> </a> <a href=# class=social-link title=Twitter> <svg xmlns=http://www.w3.org/2000/svg width=24 height=24 viewbox="0 0 24 24" fill=none stroke=white stroke-width=2 stroke-linecap=round stroke-linejoin=round> <path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"></path> </svg> </a> <a href=# class=social-link title=LinkedIn> <svg xmlns=http://www.w3.org/2000/svg width=24 height=24 viewbox="0 0 24 24" fill=none stroke=white stroke-width=2 stroke-linecap=round stroke-linejoin=round> <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path> <rect x=2 y=9 width=4 height=12></rect> <circle cx=4 cy=4 r=2></circle> </svg> </a> <a href=# class=social-link title=Discord> <svg xmlns=http://www.w3.org/2000/svg width=24 height=24 viewbox="0 0 24 24" fill=none stroke=white stroke-width=2 stroke-linecap=round stroke-linejoin=round> <path d="M21 18V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2Z"></path> <path d="M7 10.5h.01"></path> <path d="M17 10.5h.01"></path> <path d="M12 15h.01"></path> <path d="M7 15h.01"></path> <path d="M17 15h.01"></path> </svg> </a> </div> </div> </div> </section> <!-- Vanta.js - Networks Effect --> <script src=https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js></script> <script src=https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.net.min.js></script> <script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check if we're in dark mode
+    const isDarkMode =
+      document.querySelector("html").getAttribute("data-md-color-scheme") ===
+      "slate";
+
+    // Initialize Vanta.js with appropriate colors
+    VANTA.NET({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.0,
+      minWidth: 200.0,
+      scale: 1.0,
+      scaleMobile: 1.0,
+      color: 0x00bad6,
+      backgroundColor: 0x1e2129,
+      points: 17,
+      maxDistance: 20.0,
+      spacing: 13.0,
+    });
+
+    // Update Vanta when theme changes
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.attributeName === "data-md-color-scheme") {
+          // Refresh the page to reinitialize Vanta with new colors
+          window.location.reload();
+        }
+      });
+    });
+
+    observer.observe(document.querySelector("html"), {
+      attributes: true,
+    });
+  });
+</script> <main class=md-main data-md-component=main> <div class="md-main__inner md-grid"> <div class="md-sidebar md-sidebar--primary" data-md-component=sidebar data-md-type=navigation> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--primary md-nav--lifted" aria-label=Navigation data-md-level=0> <label class=md-nav__title for=__drawer> <a href=. title="AI Engineering Academy" class="md-nav__button md-logo" aria-label="AI Engineering Academy" data-md-component=logo> <img src=assets/logo.png alt=logo> </a> AI Engineering Academy </label> <div class=md-nav__source> <a href=https://github.com/adithya-s-k/AI-Engineering.academy title="Go to repository" class=md-source data-md-component=source> <div class="md-source__icon md-icon"> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 448 512"><!-- Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg> </div> <div class=md-source__repository> adithya-s-k/AI-Engineering.academy </div> </a> </div> <ul class=md-nav__list data-md-scrollfix> <li class="md-nav__item md-nav__item--active"> <input class="md-nav__toggle md-toggle" type=checkbox id=__toc> <a href=. class="md-nav__link md-nav__link--active"> <span class=md-ellipsis> Home </span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=PromptEngineering/ class=md-nav__link> <span class=md-ellipsis> Prompt Engineering </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=RAG/ class=md-nav__link> <span class=md-ellipsis> RAG </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=LLM/ class=md-nav__link> <span class=md-ellipsis> LLM </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=Deployment/ class=md-nav__link> <span class=md-ellipsis> Deployment </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=Agents/ class=md-nav__link> <span class=md-ellipsis> Agents </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=Projects/ class=md-nav__link> <span class=md-ellipsis> Projects </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=AIBreakDown/TRM/ class=md-nav__link> <span class=md-ellipsis> AI BreakDown </span> <span class="md-nav__icon md-icon"></span> </a> </li> <li class="md-nav__item md-nav__item--pruned md-nav__item--nested"> <a href=blog/ class=md-nav__link> <span class=md-ellipsis> Blog </span> <span class="md-nav__icon md-icon"></span> </a> </li> </ul> </nav> </div> </div> </div> <div class="md-sidebar md-sidebar--secondary" data-md-component=sidebar data-md-type=toc> <div class=md-sidebar__scrollwrap> <div class=md-sidebar__inner> <nav class="md-nav md-nav--secondary" aria-label="Table of contents"> </nav> </div> </div> </div> <div class=md-content data-md-component=content> <article class="md-content__inner md-typeset"> </article> </div> <script>var tabs=__md_get("__tabs");if(Array.isArray(tabs))e:for(var set of document.querySelectorAll(".tabbed-set")){var labels=set.querySelector(".tabbed-labels");for(var tab of tabs)for(var label of labels.getElementsByTagName("label"))if(label.innerText.trim()===tab){var input=document.getElementById(label.htmlFor);input.checked=!0;continue e}}</script> <script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script> </div> <button type=button class="md-top md-icon" data-md-component=top hidden> <svg xmlns=http://www.w3.org/2000/svg viewbox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg> Back to top </button> </main> </div> <div class=md-dialog data-md-component=dialog> <div class="md-dialog__inner md-typeset"></div> </div> <div class=md-progress data-md-component=progress role=progressbar></div> <script id=__config type=application/json>{"annotate": null, "base": ".", "features": ["announce.dismiss", "content.action.edit", "content.action.view", "content.code.annotate", "content.code.copy", "content.code.select", "content.footnote.tooltips", "content.tabs.link", "content.tooltips", "header.autohide", "navigation.expand", "navigation.footer", "navigation.indexes", "navigation.instant.progress", "navigation.prune", "navigation.sections", "navigation.tabs", "navigation.tabs.sticky", "navigation.top", "navigation.tracking", "search.highlight", "search.share", "search.suggest", "toc.follow"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script> <script src=assets/javascripts/bundle.e71a0d61.min.js></script> <script src=assets/javascripts/custom.9e5da760.min.js></script> <!-- Rich Snippets / Structured Data --> <script type=application/ld+json>
+  {
+    "@context": "https://schema.org",
+    "@type": "EducationalOrganization",
+    "name": "AI Engineering Academy",
+    "url": "https://aiengineering.academy",
+    "logo": "https://aiengineering.academy/assets/logo.png",
+    "description": "A structured learning platform for AI engineers with clear paths in prompt engineering, RAG, fine-tuning, deployment, and agent development.",
+    "sameAs": [
+      "https://github.com/adithya-s-k/AI-Engineering.academy",
+      "https://x.com/adithya_s_k"
+    ],
+    "founder": {
+      "@type": "Person",
+      "name": "Adithya S Kolavi"
+    },
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    }
+  }
+</script> </body> </html>

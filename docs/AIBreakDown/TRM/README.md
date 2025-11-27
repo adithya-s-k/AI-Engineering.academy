@@ -1,18 +1,18 @@
 # Tiny Recursive Models (TRM): When Small Models Think Better
 
-Something fascinating is happening in AI research. A 7 million parameter model is outperforming models 100,000 times its size on certain reasoning tasks. Not by a little - by a lot. On Sudoku puzzles, it scores 87.4% while models like GPT-4 and Claude score 0%.
+So here's something that caught my attention recently. A 7 million parameter model is absolutely crushing models that are 100,000 times its size on reasoning tasks. I'm talking about 87.4% accuracy on hard Sudoku puzzles while GPT-4, Claude, and even the massive 671B parameter DeepSeek R1 score 0%. Zero. Nada.
 
-This isn't about making models bigger. It's about making them think differently.
+And honestly? This isn't about making models bigger. We've been doing that for years. This is about making them think differently.
 
-Let me walk you through how TRM works, using visualizations to make the concepts clear. By the end, you'll understand why recursive refinement might be more powerful than just throwing more parameters at a problem.
+I spent some time diving deep into this paper and created visualizations to help explain what's going on. By the end of this, you'll see why sometimes the smartest solution isn't more parameters - it's a smarter architecture.
 
 ---
 
 ## What is TRM?
 
-TRM (Tiny Recursive Models) is a research breakthrough for structured reasoning tasks - things like Sudoku puzzles, mazes, and abstract reasoning problems (ARC-AGI). Instead of processing a problem once with a massive network, TRM processes it many times with a tiny network.
+TRM (Tiny Recursive Models) is a research breakthrough from Samsung SAIL Montreal. It's designed for structured reasoning tasks - Sudoku puzzles, mazes, abstract reasoning problems (ARC-AGI). The core idea is simple but powerful: instead of processing a problem once with a massive network, TRM processes it many times with a tiny network.
 
-Think about how you solve a Sudoku puzzle. You don't look at it once and write down the complete answer. You fill in some numbers, check your work, reconsider, make corrections, and iterate. TRM does exactly this.
+Think about how you actually solve a Sudoku puzzle. You don't stare at it for a minute and then write down all 81 numbers in one go. That'd be insane. You fill in some numbers, check your work, realize you made a mistake, backtrack, try again, and slowly iterate toward the solution. That's exactly what TRM does - it iterates and refines.
 
 ![type:video](assets/videos/Scene1_Title.mp4)
 
@@ -25,9 +25,13 @@ The results speak for themselves:
 
 ## The Problem Domain: Why Sudoku?
 
-Let's start with a concrete example. Sudoku is perfect for understanding TRM because it needs both local reasoning (checking if a number fits in a cell) and global reasoning (ensuring the whole grid is consistent). But there's a deeper reason: Sudoku represents a class of problems where large language models struggle.
+Let's talk about Sudoku for a minute. It's actually a perfect test case for TRM because it needs both local reasoning (can I put a 5 in this cell?) and global reasoning (does this mess up the entire grid?). But there's something deeper going on here.
 
-Traditional LLMs process input once and generate output autoregressively. For a Sudoku puzzle, this means the model would need to predict all 81 cells in sequence, where a single wrong prediction cascades into invalidating the entire solution. This is why models like GPT-4, Claude, and even the 671B parameter DeepSeek R1 score 0% on hard Sudoku puzzles - they lack the ability to iterate and refine their thinking.
+Sudoku represents a class of problems where LLMs just... fail. Completely.
+
+Here's why: traditional LLMs process input once and spit out an answer autoregressively - token by token, no going back. For a Sudoku puzzle, this means the model needs to predict all 81 cells in sequence. One wrong prediction early on? The whole thing falls apart. It's like building a house of cards - one mistake and it all collapses.
+
+This is why GPT-4, Claude, and even that monster 671B parameter DeepSeek R1 all score 0% on hard Sudoku. They literally cannot iterate and refine their thinking. They get one shot, and if they mess up cell 12, well, cells 13-81 are probably going to be wrong too.
 
 ![type:video](assets/videos/Scene2_SudokuSetup.mp4)
 
@@ -37,28 +41,28 @@ The visualization shows the transformation from problem to solution:
 
 **Second**, watch how the 9×9 grid gets flattened into a sequence of tokens. This is crucial: machine learning models process sequences, not 2D grids. Each cell becomes a single token, reading left-to-right, top-to-bottom. The 9×9 grid becomes a sequence of 81 tokens.
 
-But here's where it gets technical. The vocabulary TRM uses isn't just 0-9 for the digits. It includes:
-- Token 0: Padding (for smaller grids in a 30×30 space)
-- Token 1: End-of-sequence marker (delineates grid boundaries)
+Now here's a technical detail that's actually pretty clever. The vocabulary TRM uses isn't just 0-9 for the digits. It's:
+- Token 0: Padding (for smaller grids)
+- Token 1: End-of-sequence marker (marks grid boundaries)
 - Tokens 2-11: The actual cell values (offset by 2, so token 2 = digit 0, token 11 = digit 9)
 
-This tokenization scheme allows TRM to handle grids of any size up to 30×30, which is important for harder ARC-AGI tasks where grids vary in dimensions.
+Why the offset? Because padding and special tokens need their own IDs. It's a bit awkward but it works. This scheme lets TRM handle any grid size up to 30×30, which is crucial for ARC-AGI tasks where grids vary wildly in size.
 
-Why does this matter? Because this same tokenization approach generalizes beyond Sudoku. Mazes become grids where tokens represent walls, paths, and goals. ARC-AGI tasks become grids of colored cells. Game boards, logic puzzles, even certain types of code patterns can be represented this way. If you can express it as a grid, TRM can learn to reason about it.
+And here's the cool part - this same approach works for way more than Sudoku. Mazes? Grid of walls and paths. ARC-AGI puzzles? Grid of colored cells. Game boards? You get it. If you can represent it as a grid, TRM can learn to reason about it.
 
 ---
 
 ## How Data Flows Through TRM
 
-Before we get to the clever parts, let's trace how information moves through the model from start to finish. Understanding this pipeline is key to seeing why TRM works differently from standard transformers.
+Alright, before we get to the really clever stuff, let's trace how data actually moves through the model. This is where TRM starts to look different from your standard transformer.
 
 ![type:video](assets/videos/Scene3_DataFlow.mp4)
 
 Follow the pipeline from left to right:
 
-**1. Input tokenization**: The 81 cells of a Sudoku grid are converted to token IDs (values 0-11 as explained earlier). Each token then gets embedded into a 512-dimensional vector. Why 512? This is the hidden dimension chosen for the model - large enough to capture complex patterns, small enough to keep parameters down.
+**1. Input tokenization**: The 81 cells of a Sudoku grid become token IDs (0-11 as I mentioned earlier). Each token gets embedded into a 512-dimensional vector. Why 512? It's a sweet spot - big enough to capture complex patterns, small enough to not explode the parameter count.
 
-**2. Puzzle ID embedding**: Here's something clever. When training, TRM sees multiple examples from the same task (for ARC-AGI, you might have 3 training examples showing the same transformation rule). The puzzle ID is a learnable embedding that tells the model "these examples belong together." This lets the model learn task-specific patterns even though it processes examples independently.
+**2. Puzzle ID embedding**: This is clever. When you're training on ARC-AGI, you might see 3 different examples that all follow the same rule (like "rotate 90 degrees then flip colors"). The puzzle ID is a learnable embedding that basically tells the model "hey, these examples are related." Without this, the model would treat each example as completely independent. With it, the model can learn "oh, this is another example of THAT pattern."
 
 **3. Sequence length calculation**: For a 9×9 Sudoku:
 - 81 grid tokens
@@ -78,13 +82,13 @@ Both states are initialized as learned embeddings at the start. z_H gets updated
 
 **6. Output prediction**: After 21 passes, z_H contains the refined solution. A final linear layer (called the "reverse embedding") projects each position in z_H back to token probabilities - 11 classes per cell. The model predicts the most likely token for each position.
 
-The key insight: By maintaining separate reasoning (z_L) and answer (z_H) spaces, and recursing through the same small network 21 times, TRM achieves the effective capacity of a much larger model. It's using time (recursion) instead of space (parameters) to perform deep reasoning.
+**The key insight**: TRM trades space for time. Instead of having billions of parameters (space), it uses the same small network 21 times (time). It's like the difference between having 21 different consultants give you advice once, versus having one really good consultant iterate on their advice 21 times. Sometimes the second approach works better.
 
 ---
 
 ## The Big Idea: Weight Reuse
 
-Here's where TRM fundamentally differs from traditional approaches. This single design choice explains most of TRM's success.
+Okay, this is where things get interesting. This one design choice explains pretty much everything about why TRM works so well.
 
 ![type:video](assets/videos/Scene4_RecursionComparison.mp4)
 
@@ -94,17 +98,17 @@ The visualization makes this crystal clear:
 
 **TRM approach** (right side): Use 2 transformer blocks repeatedly, 21 times each. Same weights, multiple passes. Total: 7M parameters, 87.4% accuracy.
 
-The math is striking: 15.6× fewer parameters, 1.6× better accuracy. But this isn't just about efficiency - it's about how the model learns.
+The numbers are kind of ridiculous: 15.6× fewer parameters, 1.6× better accuracy. But it's not just about being smaller and cheaper - it's about how the model actually learns.
 
 **Why does weight reuse work so well?**
 
-When you force a network to use the same weights across multiple passes, you're imposing a powerful constraint. The network can't learn separate strategies for "first pass reasoning" vs "second pass reasoning" vs "third pass reasoning." Instead, it must learn a single, general operation that improves the solution regardless of which pass it's on.
+When you force a network to reuse the same weights across multiple passes, you're basically saying "you can't cheat by memorizing specific patterns for each step." The network can't learn "do X on the first pass, do Y on the second pass, do Z on the third." Nope. It has to learn ONE general operation that works for all passes.
 
-Think of it like learning to edit. If you had a different editor for your first draft, second draft, and third draft, each could develop specialized tricks for their specific role. But if the same editor must handle all drafts, they need to learn general principles of good editing that work iteratively.
+It's like learning to edit your own writing. If you had a different editor for your first draft, second draft, and third draft, each one could develop their own weird specialized tricks. But if the SAME editor has to handle all three drafts? They better learn general principles of good editing that work iteratively. That's what TRM is doing.
 
-This has a name in machine learning: regularization through compression. By forcing knowledge into fewer parameters, you prevent overfitting to specific examples. The model can't memorize "if I see pattern X, do Y" - it must learn the underlying structure of Sudoku solving itself.
+This has a fancy name: regularization through compression. By cramming knowledge into fewer parameters, you prevent overfitting. The model literally cannot memorize "if I see this exact pattern, output this." There's not enough room. It HAS to learn the actual underlying structure.
 
-There's a connection here to scaling laws. The Chinchilla paper showed that for a given compute budget, there's an optimal model size - not too small (underfits) and not too large (wastes compute). But TRM adds a twist: for limited data (1,000 Sudoku examples), the optimal model is even smaller than Chinchilla would suggest, because smaller models are less prone to overfitting.
+And here's where it connects to scaling laws. The Chinchilla paper showed there's an optimal model size for any compute budget. But TRM adds a twist - when you only have 1,000 training examples (even with augmentations), the optimal model is way smaller than you'd think. Because smaller models just... can't overfit as easily. They're forced to generalize.
 
 ![type:video](assets/videos/Scene4b_ArchitectureComparison.mp4)
 
@@ -114,7 +118,9 @@ This alternative view reinforces the concept: traditional stacked layers on the 
 
 ## The Heart of TRM: Two Thinking Spaces
 
-This is the most important concept to understand. TRM maintains two separate "streams" of thought that update at different rates. This design mirrors how humans solve complex problems - we don't just refine our answer; we also build up internal reasoning that supports that answer.
+This is the part that really made me go "oh, that's smart." TRM maintains two separate "streams" of thought that update at different rates. And honestly? This mirrors how we actually think through complex problems.
+
+When you're solving something hard, you don't just refine your answer. You also build up internal reasoning - scratch work, if you will - that supports your answer. TRM does the same thing.
 
 ![type:video](assets/videos/Scene5_TwoLatentStates.mp4)
 
@@ -124,7 +130,7 @@ Watch the visualization carefully - it breaks down into three phases:
 - **z_H** (shown in red): Your hypothesis or current answer. This is the model's best guess at the solution - the actual Sudoku grid values it's predicting.
 - **z_L** (shown in blue): Your reasoning or working memory. This is scratch space where the model explores constraints, checks consistency, and works through logical implications.
 
-**Phase 2** shows an L-cycle: the model updates z_L six times while keeping z_H frozen. This is crucial - the model is thinking through the problem without committing to an answer yet. It's exploring "if this cell is 5, then that row needs..." type reasoning.
+**Phase 2** shows an L-cycle: the model updates z_L six times while z_H stays frozen. This is where the magic happens - the model is thinking through possibilities WITHOUT committing to an answer. It's doing that "if this cell is 5, then that row can't have another 5, which means..." type reasoning. Pure exploration.
 
 **Phase 3** shows an H-cycle: the reasoning (z_L) informs an update to the answer (z_H). After all that exploration, the model makes one update to its draft solution based on what it figured out.
 
@@ -135,27 +141,29 @@ Watch the visualization carefully - it breaks down into three phases:
 - Then 1 H-update where z_L informs z_H
 - Total structure: 3 H-cycles × (6 L-cycles + 1 H-update) = 3 × 7 = 21 passes
 
-**Why two states? The deep reasoning behind this design:**
+**Why two states? Why not one, or three, or ten?**
 
-At first glance, this seems arbitrary. Why not just have one state that gets updated 21 times? Or three states? Or ten? The answer lies in understanding what each state represents.
+At first I thought this seemed kind of arbitrary. But it makes sense when you think about what each state actually does.
 
-**z_H is the commitment**. It's the model's current best hypothesis for the solution. If you were to stop the model at any point and ask "what's your answer?" you'd read it from z_H. This state changes slowly (3 times) because making commitments too frequently would be unstable - you'd lose information from previous reasoning.
+**z_H is your commitment**. It's the model's current answer draft. Stop the model at any point and ask "what's your solution?" - that's z_H. It only updates 3 times because you don't want to thrash around with constant commitment changes. That'd be unstable.
 
-**z_L is the exploration**. It's where the model tests ideas, checks constraints, and builds up reasoning without the burden of maintaining a complete solution. This state changes rapidly (18 times) because exploration should be cheap and frequent. You want to try many possibilities before committing to one.
+**z_L is your scratch paper**. This is where the model tests ideas, checks constraints, explores possibilities - without worrying about maintaining a complete solution. It updates 18 times because exploration should be cheap and frequent. Try lots of stuff, commit to little.
+
+And here's the thing - if you only had one state, every exploration would overwrite your answer. With two states, you can freely explore in z_L while keeping your stable solution in z_H. It's actually kind of elegant.
 
 This design solves a fundamental problem in iterative reasoning: how do you explore possibilities without losing your current best answer? If you only had one state, each exploration would overwrite your previous solution. With two states, you can explore freely in z_L while keeping your stable solution in z_H.
 
 **Connection to HRM's hierarchical interpretation:**
 
-The predecessor paper (HRM) motivated this with biological arguments about the brain operating at different temporal frequencies. TRM simplifies this: it's not about high-level vs low-level processing. It's about stable answers vs exploratory reasoning.
+The predecessor paper (HRM) had all these biological arguments about the brain operating at different temporal frequencies. Honestly? TRM just... simplifies all that. It's not about hierarchy or biology. It's about having one place for stable answers and another place for messy exploration.
 
-Interestingly, the paper shows that trying to use more than two latent states hurts performance (Table 2 in the paper). With 7 states (one per recursion level), accuracy drops to 77.6%. With just one state (no separation), accuracy drops to 71.9%. Two states - one answer, one reasoning - is optimal.
+The paper actually tested using more states. With 7 states (one per recursion level), accuracy drops to 77.6%. With just one state, it drops to 71.9%. Two states hits 87.4%. Sweet spot confirmed.
 
-**What actually happens in these states:**
+**What's actually in these states?**
 
-When you examine z_H during solving, you can literally decode it back through the reverse embedding and see the current Sudoku grid. It's interpretable - it's actual cell predictions.
+Here's something cool - if you decode z_H back through the reverse embedding, you can literally see the current Sudoku grid. It's interpretable. Real numbers in real cells.
 
-When you examine z_L, it's not directly interpretable. It's a latent representation - patterns of activation that encode constraints, possibilities, and logical relationships. The model learns what to put here during training. But experiments in the paper (Figure 6) show that z_L genuinely represents different information than z_H - it's not just a copy.
+z_L though? It's not directly interpretable. It's a latent representation - weird patterns of activation that somehow encode constraints and logical relationships. The model figures out what to put there during training. But the paper shows (Figure 6) that z_L definitely contains different information than z_H. It's not just a copy - it's genuinely doing its own thing.
 
 This separation is what makes TRM more than just a recursive model. It's a model with an explicit internal reasoning process.
 
@@ -225,11 +233,11 @@ These blocks get reused 21 times, creating 42 effective layers from just 6.8M ph
 
 **Why 2 layers is optimal:**
 
-The ablation study in the paper (Table 1) shows something surprising: 4-layer blocks get 79.5% accuracy, but 2-layer blocks get 87.4% on Sudoku-Extreme. Bigger isn't better.
+The ablation study shows something kind of mind-blowing: 4-layer blocks get 79.5% accuracy. 2-layer blocks get 87.4%. Wait, what? Smaller is better?
 
-Here's why: With only 1,000 training examples (even with augmentations), 4-layer blocks have too much capacity. They start memorizing specific puzzle patterns instead of learning general Sudoku rules. The 2-layer blocks are forced to compress knowledge more, which paradoxically makes them generalize better.
+Yeah. With only 1,000 training examples (even with augmentations), 4-layer blocks are just too big. They start memorizing specific puzzles instead of learning how Sudoku actually works. The 2-layer blocks don't have enough capacity to memorize, so they're forced to actually learn the rules.
 
-This connects to the principle that when data is limited, smaller models trained longer outperform larger models trained for less time. TRM trains for about 1 million optimizer steps - that's extensive training for such a small model.
+This connects to a broader principle: when data is limited, smaller models trained longer beat larger models trained less. And TRM trains for about 1 million optimizer steps. That's a LOT for a 7M parameter model. But it works.
 
 **TRM-MLP variant:**
 
@@ -437,18 +445,18 @@ The complete implementation is available in the [TinyRecursiveModels GitHub repo
 
 **Training requirements**:
 
-To replicate the paper's results, you'll need:
-- **Compute**: 4× H100 GPUs for ~48 hours (or equivalent - 8× A100 for ~60 hours)
+If you want to replicate the paper's results:
+- **Compute**: 4× H100 GPUs for about 2 days (or 8× A100s for ~60 hours)
 - **Memory**: Each GPU needs ~40GB VRAM for batch size 32
-- **Dataset**: Training data is generated/augmented programmatically (included in repo)
+- **Dataset**: Training data is generated programmatically (code's in the repo)
 
-For experimentation on a smaller scale, you can train on Sudoku with 1× A100 or 1× 4090 in about 6-8 hours with reduced batch size.
+For smaller-scale experiments, you can train on Sudoku with a single A100 or 4090 in about 6-8 hours if you reduce the batch size. Still totally doable.
 
 ---
 
-## What This Means
+## What This Actually Means
 
-TRM demonstrates something important: for structured reasoning tasks with limited data, architectural innovation can outperform parameter scaling. But let's be precise about the scope and limitations.
+Look, I think TRM is impressive. But let's be honest about what it is and isn't. It shows that for certain types of problems - structured reasoning with limited data - clever architecture beats raw parameter scaling. But there are caveats.
 
 **Where TRM excels:**
 
@@ -464,13 +472,14 @@ Weight reuse creates deep effective networks (42 layers) without the parameter c
 
 But this only works when the data regime is small. With millions of diverse examples, larger models would likely perform better. TRM's strength is specifically in the low-data, structured-reasoning regime where most models overfit.
 
-**Limitations and open questions:**
+**Limitations and stuff that's still unclear:**
 
-TRM is not a general-purpose model. It's designed for specific types of reasoning tasks. Some important limitations:
-- **Grid-based only**: The tokenization assumes 2D grid structure. Natural language reasoning would require different architecture.
-- **Deterministic tasks**: TRM predicts a single solution. Creative or open-ended tasks would need sampling mechanisms.
-- **Compute requirements**: Despite fewer parameters, 21 forward passes means 21× more compute per inference than a single-pass model. Training takes 2 days on 4× H100s.
-- **Limited task diversity**: Trained models are task-specific. Unlike LLMs that handle many tasks, TRM models are specialized for their training domain.
+TRM is NOT a general-purpose model. It's not going to replace LLMs. It's designed for specific types of problems. Here's what you need to know:
+
+- **Grid-based only**: The whole tokenization assumes 2D grids. You can't just throw natural language at this. Different problem = different architecture needed.
+- **One solution per problem**: TRM predicts a single deterministic solution. Creative tasks? Open-ended generation? Not happening without major changes.
+- **Compute trade-off**: Yeah, it has fewer parameters. But 21 forward passes means you're doing 21× more compute at inference than a single-pass model. Training takes 2 days on 4× H100s. That's not nothing.
+- **Task-specific**: A trained TRM is specialized. Unlike GPT-4 which handles everything from code to poetry, TRM does one thing well.
 
 **Open questions that remain:**
 - How does this generalize beyond grid-based puzzles? Could similar principles apply to code generation, mathematical proofs, or scientific reasoning?
@@ -486,9 +495,11 @@ TRM offers evidence that we don't always need bigger models. When data is limite
 - **Environmental impact**: Smaller models use less energy for training and inference
 - **Scientific understanding**: Simpler models are easier to analyze and understand
 
-The key lesson isn't "small models are always better" (they're not). It's "match your model architecture to your problem structure and data regime." For grid-based reasoning with 1K examples, TRM's architecture is near-optimal. For general text understanding with billions of examples, LLMs remain superior.
+The lesson here isn't "small models are always better." They're not. The lesson is "match your architecture to your problem." For grid-based reasoning with 1K examples? TRM is near-optimal. For general text understanding with billions of examples? LLMs win.
 
-TRM shows us that the future of AI isn't just about scaling - it's about understanding problem structure and designing architectures that exploit that structure efficiently. That's a lesson worth learning regardless of your compute budget.
+TRM shows us that the future of AI isn't just "make it bigger." It's about understanding what you're trying to solve and designing something that actually fits that problem. That's true whether you've got hundreds of GPUs or just one.
+
+And honestly? I think that's a more interesting direction than just throwing more compute at everything.
 
 ---
 
@@ -514,4 +525,6 @@ TRM shows us that the future of AI isn't just about scaling - it's about underst
 
 ---
 
-*This post was written as part of the AI Engineering Academy's AI Breakdown series, where we dive deep into important research papers with visualizations and clear explanations. All visualizations were created specifically for this post using Remotion.*
+*This is part of AI Engineering Academy's AI Breakdown series, where I take important research papers and break them down with visualizations and (hopefully) clear explanations. I created all the visualizations for this post using Remotion - check them out throughout the article.*
+
+*If you found this useful, we cover more topics like this at [AI Engineering Academy](https://aiengineering.academy). We're building a place for practical AI engineering knowledge, not just theory.*

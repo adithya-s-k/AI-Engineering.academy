@@ -1,0 +1,237 @@
+{% extends "main.html" %} {% block content %}
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+  }
+
+  .not-found-status {
+    font-size: 8rem;
+    font-weight: 700;
+    color: var(--md-primary-fg-color);
+    line-height: 1;
+    margin-bottom: 1rem;
+    position: relative;
+  }
+
+  .not-found-status:after {
+    content: "404";
+    position: absolute;
+    left: 0.5rem;
+    top: 0.5rem;
+    z-index: -1;
+    opacity: 0.1;
+    font-size: 10rem;
+    color: var(--md-accent-fg-color);
+  }
+
+  .not-found-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    color: var(--md-typeset-color);
+  }
+
+  .not-found-message {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    color: var(--md-typeset-color);
+    line-height: 1.6;
+  }
+
+  .terminal {
+    background: var(--md-code-bg-color);
+    border-radius: 8px;
+    padding: 1rem;
+    width: 100%;
+    max-width: 600px;
+    margin-bottom: 2rem;
+    text-align: left;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+
+  .terminal-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(128, 128, 128, 0.3);
+    padding-bottom: 0.5rem;
+  }
+
+  .terminal-button {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+
+  .terminal-button.red {
+    background-color: #ff5f56;
+  }
+
+  .terminal-button.yellow {
+    background-color: #ffbd2e;
+  }
+
+  .terminal-button.green {
+    background-color: #27c93f;
+  }
+
+  .terminal-title {
+    font-size: 0.8rem;
+    color: var(--md-typeset-color);
+    opacity: 0.7;
+    margin-left: 0.5rem;
+  }
+
+  .terminal-content {
+    font-family: monospace;
+    color: var(--md-code-fg-color);
+    padding: 0.5rem 0;
+    line-height: 1.5;
+  }
+
+  .terminal-prompt {
+    color: var(--md-accent-fg-color);
+  }
+
+  .terminal-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 18px;
+    background: var(--md-accent-fg-color);
+    vertical-align: middle;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  .navigator-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .nav-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: var(--md-card-bg-color, var(--md-default-bg-color));
+    padding: 1.5rem;
+    border-radius: 8px;
+    border: 1px solid var(--md-default-border-color);
+    box-shadow: var(--md-shadow-z1);
+    width: 180px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    text-decoration: none;
+    color: var(--md-typeset-color);
+  }
+
+  .nav-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--md-shadow-z2);
+    background-color: var(--md-accent-fg-color--transparent);
+  }
+
+  .nav-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--md-primary-fg-color);
+    opacity: 0.9;
+  }
+
+  .nav-title {
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--md-typeset-color);
+  }
+
+  .nav-description {
+    font-size: 0.9rem;
+    text-align: center;
+    color: var(--md-typeset-color);
+    opacity: 0.8;
+  }
+
+  /* Heading color for section titles */
+  .not-found h3 {
+    color: var(--md-typeset-h3-color, var(--md-typeset-color));
+    margin-bottom: 1.5rem;
+  }
+
+  /* Dark mode specific adjustments */
+  [data-md-color-scheme="slate"] .nav-card {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+</style>
+
+<div class="not-found">
+  <div class="not-found-status">404</div>
+  <h1 class="not-found-title">Page Not Found</h1>
+
+  <p class="not-found-message">
+    Oops! Looks like we've encountered a missing node in our AI knowledge graph.
+    The page you're looking for might have been moved, deleted, or never existed
+    in the first place.
+  </p>
+
+  <div class="terminal">
+    <div class="terminal-header">
+      <div class="terminal-button red"></div>
+      <div class="terminal-button yellow"></div>
+      <div class="terminal-button green"></div>
+      <div class="terminal-title">AI-Engineer-Terminal</div>
+    </div>
+    <div class="terminal-content">
+      <span class="terminal-prompt">$ </span>find /ai-engineering/page<br />
+      <span class="terminal-prompt">Error: </span>Path not found. Recalculating
+      routes...<br />
+      <span class="terminal-prompt">$ </span>suggest alternative_paths<br />
+      <span class="terminal-prompt">System: </span>Generating suggestions for
+      navigation<span class="terminal-cursor"></span>
+    </div>
+  </div>
+
+  <h3>Where to next?</h3>
+
+  <div class="navigator-buttons">
+    <a href="/" class="nav-card">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-title">Home</div>
+      <div class="nav-description">Return to main page</div>
+    </a>
+
+    <a href="/PromptEngineering" class="nav-card">
+      <div class="nav-icon">📝</div>
+      <div class="nav-title">Prompt Engineering</div>
+      <div class="nav-description">Start from basics</div>
+    </a>
+
+    <a href="/RAG" class="nav-card">
+      <div class="nav-icon">🔍</div>
+      <div class="nav-title">RAG Systems</div>
+      <div class="nav-description">Knowledge retrieval</div>
+    </a>
+  </div>
+</div>
+{% endblock %}

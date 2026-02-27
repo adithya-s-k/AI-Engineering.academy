@@ -1,0 +1,573 @@
+{#- This file was automatically generated - do not edit -#} {% extends
+"main.html" %} {% block tabs %} {{ super() }}
+<style>
+  /* Main layout adjustments - MODIFIED to ensure full width */
+  .md-header {
+    position: initial;
+  }
+  .md-main__inner {
+    margin: 0;
+    max-width: 100%; /* Ensure full width */
+    padding: 0; /* Remove padding */
+  }
+  .md-content {
+    display: none;
+  }
+  @media screen and (min-width: 60em) {
+    .md-sidebar--secondary {
+      display: none;
+    }
+  }
+  @media screen and (min-width: 76.25em) {
+    .md-sidebar--primary {
+      display: none;
+    }
+  }
+  .mdx-container {
+    width: 100%;
+    padding: 0; /* Remove padding */
+    margin: 0; /* Remove margin */
+  }
+
+  /* Hero section - MODIFIED for full width and height */
+  .mdx-hero {
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: var(--md-typeset-color);
+    width: 100vw; /* Full viewport width */
+    height: 90vh; /* 90% of viewport height */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Vanta.js container - MODIFIED for full coverage */
+  #vanta-bg {
+    position: absolute;
+    z-index: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--md-default-bg-color);
+  }
+
+  .mdx-hero__content {
+    max-width: 50rem;
+    margin: 0 auto;
+    padding: 0 1rem;
+    position: relative;
+    z-index: 1;
+    background-color: rgba(var(--md-default-bg-color-rgb, 255, 255, 255), 0.8);
+    padding: 2rem;
+    border-radius: 14px;
+    backdrop-filter: blur(3px);
+  }
+
+  [data-md-color-scheme="slate"] .mdx-hero__content {
+    background-color: rgba(var(--md-default-bg-color-rgb, 30, 30, 30), 0.7);
+  }
+
+  /* Title animation */
+  .animated-title {
+    display: inline-block;
+    animation: fadeInUp 1.2s ease-out forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .animated-subtitle {
+    display: inline-block;
+    animation: fadeInUp 1.2s ease-out 0.3s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .mdx-hero h1 {
+    margin-bottom: 1.5rem;
+    color: var(--md-primary-color);
+    font-weight: 700;
+    font-size: 2.8rem;
+    letter-spacing: -0.5px;
+  }
+
+  .mdx-hero p {
+    margin: 1.5rem 0;
+    font-size: 1.3rem;
+    line-height: 1.6;
+    font-weight: 500;
+  }
+
+  /* Button styling */
+  .mdx-hero .md-button {
+    margin: 0.5rem 0.5rem;
+    color: var(--md-primary-color);
+    border: 2px solid var(--md-accent-fg-color);
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    animation: fadeInUp 1.2s ease-out 0.6s forwards;
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  .mdx-hero .md-button--primary {
+    background-color: var(--md-primary-color);
+    color: var(--md-primary-bg-color);
+    border-color: var(--md-accent-fg-color);
+  }
+
+  .mdx-hero .md-button:focus,
+  .mdx-hero .md-button:hover {
+    background-color: var(--md-accent-fg-color);
+    color: var(--md-default-bg-color);
+    border-color: var(--md-accent-fg-color);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Learning paths section - MODIFIED for 2x3 grid */
+  .learning-paths {
+    margin: 5rem auto;
+    max-width: 80%; /* Slightly smaller max-width */
+    padding: 0 1rem;
+  }
+
+  .learning-paths-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 5rem;
+    color: var(--md-primary-color);
+    font-weight: 900;
+    padding: 4px;
+  }
+
+  /* MODIFIED for 2x3 grid */
+  .path-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 2rem;
+  }
+
+  .path-card {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--md-default-bg-color);
+    border: 2px solid var(--md-primary-color);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .path-card {
+    background-color: var(--md-code-bg-color, #000000);
+    border-color: var(--md-primary-color);
+  }
+
+  .path-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    background-color: rgba(38, 43, 48, 0.356);
+    border: #ffffff;
+    border-width: 10px;
+  }
+
+  .path-icon {
+    font-size: 2rem; /* Made smaller */
+    margin-bottom: 0.7rem;
+    color: var(--md-primary-color);
+  }
+
+  .path-title {
+    font-size: 1.6rem; /* Made smaller */
+    margin-bottom: 0.4rem;
+    font-weight: 700;
+    color: var(--md-primary-color);
+  }
+
+  .path-description {
+    color: var(--md-typeset-color);
+    margin-bottom: 1rem;
+    line-height: 1.6;
+    font-size: 0.8rem; /* Made smaller */
+  }
+
+  .path-link {
+    color: var(--md-primary-color);
+    font-weight: 600;
+    text-decoration: none;
+    display: inline-block;
+    padding: 0.5rem 0;
+    font-size: 0.95rem; /* Made smaller */
+  }
+
+  .path-link:hover {
+    text-decoration: underline;
+  }
+
+  /* Mind map section - reorganized as a tree with squares */
+  .mind-map-section {
+    margin: 5rem auto;
+    max-width: 1200px;
+    padding: 0 1rem;
+    text-align: center;
+  }
+
+  .mind-map-title {
+    margin-bottom: 3rem;
+    font-size: 2rem;
+    color: var(--md-primary-color);
+    font-weight: 700;
+  }
+
+  .mind-map-container {
+    margin: 0 auto;
+    max-width: 900px;
+    overflow: hidden;
+    border-radius: 8px;
+    border: 2px solid var(--md-primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    background-color: var(--md-default-bg-color);
+    padding: 2rem;
+  }
+
+  [data-md-color-scheme="slate"] .mind-map-container {
+    background-color: var(--md-code-bg-color, #2d2e40);
+    border-color: var(--md-primary-color);
+  }
+
+  /* Call to action section */
+  .cta-section {
+    margin: 5rem auto;
+    max-width: 80%;
+    padding: 3rem;
+    text-align: center;
+    border-radius: 8px;
+    background-color: var(--md-default-bg-color);
+    border: 2px solid var(--md-primary-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  [data-md-color-scheme="slate"] .cta-section {
+    background-color: var(--md-code-bg-color, #2d2e40);
+  }
+
+  .cta-title {
+    font-size: 1.8rem;
+    margin-bottom: 1.5rem;
+    color: var(--md-primary-color);
+    font-weight: 700;
+  }
+
+  .cta-description {
+    margin-bottom: 2rem;
+    color: var(--md-typeset-color);
+    line-height: 1.6;
+    font-size: 1.1rem;
+    font-weight: 500;
+  }
+
+  /* MODIFIED social links for proper white stroke */
+  .social-links {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .social-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background-color: var(--md-primary-color); /* Default background color */
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: #b9b9b9;
+    border-width: 2px;
+  }
+
+  .social-link:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    background-color: var(--md-accent-fg-color);
+  }
+
+  .social-link svg {
+    stroke: white; /* Always white stroke */
+    fill: none;
+  }
+
+  /* Responsive adjustments */
+  @media screen and (max-width: 768px) {
+    .mdx-hero {
+      height: auto;
+      min-height: 90vh;
+      padding: 3rem 0;
+    }
+
+    .mdx-hero h1 {
+      font-size: 2.2rem;
+    }
+
+    .mdx-hero p {
+      font-size: 1.1rem;
+    }
+
+    .path-grid {
+      grid-template-columns: 1fr; /* 1 column on mobile */
+    }
+  }
+</style>
+
+<section class="mdx-container">
+  <div class="md-grid md-typeset" style="max-width: 100%; padding: 0">
+    <div class="mdx-hero">
+      <!-- Vanta.js background container -->
+      <div id="vanta-bg"></div>
+
+      <div class="mdx-hero__content">
+        <h1><span class="animated-title">AI Engineering Academy</span></h1>
+        <p>
+          <span class="animated-subtitle"
+            >Master Applied AI, One Step at a Time</span
+          >
+        </p>
+        <a
+          href="{{ page.next_page.url | url }}"
+          title="{{ page.next_page.title | e }}"
+          class="md-button"
+        >
+          Start Your Journey
+        </a>
+      </div>
+    </div>
+
+    <!-- Learning Paths Section - MODIFIED for 2x3 grid -->
+    <div class="learning-paths">
+      <h1 class="learning-paths-title">Structured Learning Paths</h1>
+      <br />
+      <div class="path-grid">
+        <div class="path-card">
+          <div class="path-icon">📝</div>
+          <h3 class="path-title">Prompt Engineering</h3>
+          <p class="path-description">
+            Master the art of crafting effective prompts that unlock the full
+            potential of AI models.
+          </p>
+          <a href="{{ 'PromptEngineering/' | url }}" class="path-link"
+            >Begin Learning →</a
+          >
+        </div>
+
+        <div class="path-card">
+          <div class="path-icon">🔍</div>
+          <h3 class="path-title">RAG Systems</h3>
+          <p class="path-description">
+            Build systems that enhance AI responses with powerful knowledge
+            retrieval capabilities.
+          </p>
+          <a href="{{ 'RAG/' | url }}" class="path-link">Explore Course →</a>
+        </div>
+
+        <div class="path-card">
+          <div class="path-icon">🧠</div>
+          <h3 class="path-title">Fine-tuning LLMs</h3>
+          <p class="path-description">
+            Customize foundation models to your domain for better accuracy and
+            reduced costs.
+          </p>
+          <a href="{{ 'LLM/' | url }}" class="path-link">Get Started →</a>
+        </div>
+
+        <div class="path-card">
+          <div class="path-icon">🚀</div>
+          <h3 class="path-title">Deployment & Scaling</h3>
+          <p class="path-description">
+            Learn strategies to deploy, optimize, and scale AI systems for
+            real-world applications.
+          </p>
+          <a href="{{ 'Deployment/' | url }}" class="path-link">Deploy Now →</a>
+        </div>
+
+        <div class="path-card">
+          <div class="path-icon">🤖</div>
+          <h3 class="path-title">AI Agents</h3>
+          <p class="path-description">
+            Design autonomous AI systems with reasoning capabilities and tool
+            integration.
+          </p>
+          <a href="{{ 'Agents/' | url }}" class="path-link">Create Agents →</a>
+        </div>
+
+        <div class="path-card">
+          <div class="path-icon">🛠️</div>
+          <h3 class="path-title">Hands-on Projects</h3>
+          <p class="path-description">
+            Apply your knowledge through practical, portfolio-worthy projects
+            that solve real problems.
+          </p>
+          <a href="{{ 'Projects/' | url }}" class="path-link"
+            >Start Building →</a
+          >
+        </div>
+      </div>
+    </div>
+
+    <!-- Call to Action Section -->
+    <div class="cta-section">
+      <h2 class="cta-title">Ready to Master AI Engineering?</h2>
+      <p class="cta-description">
+        Join thousands of students building cutting-edge AI applications and
+        advancing their careers.
+      </p>
+      <a
+        href="{{ page.next_page.url | url }}"
+        title="{{ page.next_page.title | e }}"
+        class="md-button"
+      >
+        Start Your Journey
+      </a>
+
+      <div class="social-links">
+        <a href="#" class="social-link" title="GitHub">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"
+            ></path>
+          </svg>
+        </a>
+        <a href="#" class="social-link" title="Twitter">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"
+            ></path>
+          </svg>
+        </a>
+        <a href="#" class="social-link" title="LinkedIn">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"
+            ></path>
+            <rect x="2" y="9" width="4" height="12"></rect>
+            <circle cx="4" cy="4" r="2"></circle>
+          </svg>
+        </a>
+        <a href="#" class="social-link" title="Discord">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="white"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path
+              d="M21 18V6a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2Z"
+            ></path>
+            <path d="M7 10.5h.01"></path>
+            <path d="M17 10.5h.01"></path>
+            <path d="M12 15h.01"></path>
+            <path d="M7 15h.01"></path>
+            <path d="M17 15h.01"></path>
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vanta.js - Networks Effect -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.21/vanta.net.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Check if we're in dark mode
+    const isDarkMode =
+      document.querySelector("html").getAttribute("data-md-color-scheme") ===
+      "slate";
+
+    // Initialize Vanta.js with appropriate colors
+    VANTA.NET({
+      el: "#vanta-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 200.0,
+      minWidth: 200.0,
+      scale: 1.0,
+      scaleMobile: 1.0,
+      color: 0x00bad6,
+      backgroundColor: 0x1e2129,
+      points: 17,
+      maxDistance: 20.0,
+      spacing: 13.0,
+    });
+
+    // Update Vanta when theme changes
+    const observer = new MutationObserver(function (mutations) {
+      mutations.forEach(function (mutation) {
+        if (mutation.attributeName === "data-md-color-scheme") {
+          // Refresh the page to reinitialize Vanta with new colors
+          window.location.reload();
+        }
+      });
+    });
+
+    observer.observe(document.querySelector("html"), {
+      attributes: true,
+    });
+  });
+</script>
+{% endblock %} {% block content %}{% endblock %} {% block footer %}{% endblock
+%}
